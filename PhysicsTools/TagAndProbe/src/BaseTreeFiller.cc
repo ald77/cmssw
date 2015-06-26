@@ -3,6 +3,7 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 #include "PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include <TList.h>
 #include <TObjString.h>
@@ -51,12 +52,6 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
         tree_->Branch("weight", &weight_, "weight/F");
     }
 
-    storePUweight_ = iConfig.existsAs<edm::InputTag>("PUWeightSrc") ? true: false;
-    if(storePUweight_) {
-      PUweightSrc_   = iConfig.getParameter<edm::InputTag>("PUWeightSrc"); 
-      tree_->Branch("PUweight", &PUweight_, "PUweight/F");
-    }
-
     addRunLumiInfo_ = iConfig.existsAs<bool>("addRunLumiInfo") ? iConfig.getParameter<bool>("addRunLumiInfo") : false;
     if (addRunLumiInfo_) {
          tree_->Branch("run",  &run_,  "run/i");
@@ -66,6 +61,7 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
     addEventVariablesInfo_ = iConfig.existsAs<bool>("addEventVariablesInfo") ? iConfig.getParameter<bool>("addEventVariablesInfo") : false;
     if (addEventVariablesInfo_) {
       recVtxsToken_ = iC.consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertexCollection"));
+      jetToken_ = iC.consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetCollection"));
       beamSpotToken_ = iC.consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpot"));
       //metToken_ = iC.consumes<std::vector<pat::MET>>(iConfig.getParameter<edm::InputTag>("met"));
       //tcmetToken_ = iC.consumes<reco::METCollection>(edm::InputTag("tcMet"));
@@ -86,7 +82,12 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
       tree_->Branch("event_BeamSpot_x"       ,&mBSx_              ,"mBSx/F");
       tree_->Branch("event_BeamSpot_y"       ,&mBSy_              ,"mBSy/F");
       tree_->Branch("event_BeamSpot_z"       ,&mBSz_              ,"mBSz/F");
+      tree_->Branch("event_njets", &mnjets_, "mnjets/F");
+      tree_->Branch("event_HT", &mHT_, "mHT/F");
     }
+
+    jet_pt_cut_ = iConfig.getParameter<double>("jet_pt_cut");
+    jet_eta_cut_ = iConfig.getParameter<double>("jet_eta_cut");
 
     ignoreExceptions_ = iConfig.existsAs<bool>("ignoreExceptions") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
 }
@@ -155,19 +156,6 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
         weight_ = *weight;
     }
 
-    ///// ********** Pileup weight: needed for MC re-weighting for PU ************* 
-    edm::Handle<std::vector<float> > weightPU;
-    if(storePUweight_) {
-      bool isPresent = iEvent.getByLabel(PUweightSrc_, weightPU);
-      if(isPresent) 
-	PUweight_ = (*weightPU).at(0);
-      else 
-	PUweight_ = 1.0;
-      //std::cout<<storePUweight_<<"\t"<<PUweightSrc_<<"\t"<<PUweight_<<std::endl;
-    }
-
-    
-
     if (addEventVariablesInfo_) {
         /// *********** store some event variables: MET, SumET ******
         //////////// Primary vertex //////////////
@@ -191,6 +179,19 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
           }
         }
 
+	// Jet things //
+	mnjets_ = 0.;
+	mHT_ = 0.;
+	edm::Handle<pat::JetCollection> jets;
+	iEvent.getByToken(jetToken_, jets);
+	for(auto jet = jets->begin();
+	    jet != jets->end();
+	    ++jet){
+	  double pt = jet->pt();
+	  if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+	  mnjets_ += 1.;
+	  mHT_ += pt;
+	}
 
         //////////// Beam spot //////////////
         edm::Handle<reco::BeamSpot> beamSpot;

@@ -24,6 +24,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "CommonTools/Utils/interface/StringCutObjectSelector.h"
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include <TTree.h>
 #include <boost/utility.hpp>
@@ -168,13 +169,11 @@ class BaseTreeFiller : boost::noncopyable {
         WeightMode weightMode_;
         edm::EDGetTokenT<double> weightSrcToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
+	edm::EDGetTokenT<pat::JetCollection> jetToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
         edm::EDGetTokenT<reco::CaloMETCollection> metToken_;
         edm::EDGetTokenT<reco::METCollection> tcmetToken_;
         edm::EDGetTokenT<reco::PFMETCollection> pfmetToken_;
-
-	edm::InputTag PUweightSrc_;
-	bool storePUweight_;
 
         /// Ignore exceptions when evaluating variables
         bool ignoreExceptions_;
@@ -192,12 +191,13 @@ class BaseTreeFiller : boost::noncopyable {
         mutable float weight_;
         mutable uint32_t run_, lumi_, mNPV_;
         mutable uint64_t event_;
-	mutable float PUweight_;
 
         mutable float mPVx_,mPVy_,mPVz_,mBSx_,mBSy_,mBSz_;
 
         mutable float mMET_,mSumET_,mMETSign_,mtcMET_,mtcSumET_,
-	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_;
+	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_,mHT_,mnjets_;
+
+	float jet_pt_cut_, jet_eta_cut_;
 };
 
 
