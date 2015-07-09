@@ -1,8 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 import sys
 
-#from PhysicsTools.TagAndProbe.treeMakerOptionsMC_cfi import options
-from PhysicsTools.TagAndProbe.treeMakerOptionsData_cfi import options
+from PhysicsTools.TagAndProbe.treeMakerOptionsMC_cfi import options
+#from PhysicsTools.TagAndProbe.treeMakerOptionsData_cfi import options
 
 process = cms.Process("tnp")
 
@@ -690,19 +690,6 @@ if (options['DOID']):
     process.tree_sequence *= process.GsfElectronMiniToRECO
 
 ##########################################################################
-##        _      _       
-##       | | ___| |_ ___ 
-##    _  | |/ _ \ __/ __|
-##   | |_| |  __/ |_\__ \
-##    \___/ \___|\__|___/
-##########################################################################
-
-process.jets = cms.EDProducer("JetMaker",
-                              jet_src = cms.InputTag("slimmedJets"),
-                              jet_pt_cut = cms.untracked.double(40.),
-                              jet_eta_cut = cms.untracked.double(2.5))
-
-##########################################################################
 ##    ____       _   _     
 ##   |  _ \ __ _| |_| |__  
 ##   | |_) / _` | __| '_ \ 
@@ -727,8 +714,7 @@ process.p = cms.Path(
     process.allTagsAndProbes +
     ####process.pileupReweightingProducer +
     process.mc_sequence +
-    process.tree_sequence +
-    process.jets
+    process.tree_sequence
     )
 
 process.TFileService = cms.Service(
