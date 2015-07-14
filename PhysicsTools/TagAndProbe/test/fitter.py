@@ -20,12 +20,12 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 isMC = True
 InputFileName = "TnPTree.root"
 OutputFilePrefix = "efficiency-data-"
-PDFName = "pdfSignalPlusBackground"
+PDFName = "gaussPlusLinear"
 HLTDef = "passingHLT0"
 
 if isMC:
     InputFileName = "TnPTree.root"
-    PDFName = "pdfSignalPlusBackground"
+    PDFName = "gaussPlusLinear"
     OutputFilePrefix = "efficiency-mc-"
 
 ################################################
@@ -121,6 +121,55 @@ process.GsfElectronToId = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",     
             "efficiency[0.5,0,1]",
             "signalFractionInPassing[1.0]"     
+            ),
+
+                                                         gaussPlusLinear = cms.vstring(
+            "Voigtian::signal(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
+            "RooExponential::backgroundFail(mass, cFail[0,-2,2])",
+            "efficiency[0.95,0,1]",
+            "signalFractionInPassing[0.95]"
+            ),
+                                                         gaussPlusQuadratic = cms.vstring(
+            "Voigtian::signal(mass, mean[91.2, 89.0, 93.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
+            #             "Chebychev::backgroundPass(mass, {cPass1[0,-2,2], cPass2[0,-2,2]})",
+            "Chebychev::backgroundFail(mass, {cFail1[0,-2,2], cFail2[0,-2,2]})",
+            "efficiency[0.95,0,1]", 
+            "signalFractionInPassing[0.95]"
+            ),
+                                                         gaussPlusArgus = cms.vstring(
+            "Voigtian::signal(mass, mean[91.2, 89.0, 93.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            "RooExponential::backgroundPass(mass, cPass[0,-5,5])",
+            "ArgusBG::backgroundFail(mass, cFail1[86.6, 70, 100], cFail2[-2.8, -100, 100])",
+            "efficiency[0.95,0,1]",
+            "signalFractionInPassing[0.95]"
+            ),
+                                                         gaussPlusCMS = cms.vstring(
+            "Voigtian::signal(mass, mean[91.2, 89.0, 93.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            #            "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
+            "RooCMSShape::backgroundPass(mass, alphaPass[60.,30.,90.], betaPass[0.001, 0.,0.1], betaPass, peakPass[90.0])",
+            "RooCMSShape::backgroundFail(mass, alphaFail[60.,30.,90.], betaFail[0.001, 0.,0.1], betaFail, peakFail[90.0])",
+            "efficiency[0.95,0,1]",
+            "signalFractionInPassing[0.95]"
+            ),
+                                                         gaussPlusCubic = cms.vstring(
+            "Voigtian::signal(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            #             "Chebychev::backgroundPass(mass, {cPass1[0,-2,2], cPass2[0,-2,2],cPass3[0,-2,2]})", 
+            #             "Chebychev::backgroundFail(mass, {cFail1[0,-2,2], cFail2[0,-2,2],cFail3[0,-2,2]})",     
+            "Chebychev::backgroundPass(mass, {cPass1[0,-2,2], cPass2[0,-2,2],cPass3[0,-2,2],cPass4[0,-2,2]})", 
+            "Chebychev::backgroundFail(mass, {cFail1[0,-2,2], cFail2[0,-2,2],cFail3[0,-2,2],cFail4[0,-2,2]})",     
+            "efficiency[0.95,0,1]", 
+            "signalFractionInPassing[0.95]" 
+            ),
+                                                         vpvPlusExpo = cms.vstring(
+            "Voigtian::signal1(mass, mean1[90,80,100], width[2.495], sigma1[2,1,3])",
+            "Voigtian::signal2(mass, mean2[90,80,100], width,        sigma2[4,2,10])",
+            "SUM::signal(vFrac[0.8,0,1]*signal1, signal2)",
+            "Exponential::backgroundPass(mass, lp[-0.1,-1,0.1])",
+            "Exponential::backgroundFail(mass, lf[-0.1,-1,0.1])",
+            "efficiency[0.9,0,1]",
+            "signalFractionInPassing[0.9]"
             ),
                                                          ),
 
