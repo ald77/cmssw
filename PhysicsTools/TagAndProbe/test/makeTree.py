@@ -56,6 +56,65 @@ process.source = cms.Source("PoolSource",
 process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
     
 ###################################################################
+##  _____ _           _                     ___           _       _   _             
+## | ____| | ___  ___| |_ _ __ ___  _ __   |_ _|___  ___ | | __ _| |_(_) ___  _ __  
+## |  _| | |/ _ \/ __| __| '__/ _ \| '_ \   | |/ __|/ _ \| |/ _` | __| |/ _ \| '_ \ 
+## | |___| |  __/ (__| |_| | | (_) | | | |  | |\__ \ (_) | | (_| | |_| | (_) | | | |
+## |_____|_|\___|\___|\__|_|  \___/|_| |_| |___|___/\___/|_|\__,_|\__|_|\___/|_| |_|
+###################################################################
+
+process.ElectronIsolation =  cms.EDProducer("CITKPFIsolationSumProducer",
+                                            srcToIsolate = cms.InputTag("slimmedElectrons"),
+                                            srcForIsolationCone = cms.InputTag('packedPFCandidates'),
+                                            isolationConeDefinitions = cms.VPSet(
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.015),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h+'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.0),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h0'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                  coneSize = cms.double(0.3),
+                  VetoConeSizeEndcaps = cms.double(0.08),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('gamma'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                  coneSize = cms.double(0.2),
+                  MinConeSize = cms.double(0.05),
+                  ktScale = cms.double(10.),
+                  VetoConeSizeEndcaps = cms.double(0.015),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h+'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                  coneSize = cms.double(0.2),
+                  MinConeSize = cms.double(0.05),
+                  ktScale = cms.double(10.),
+                  VetoConeSizeEndcaps = cms.double(0.0),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('h0'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                  coneSize = cms.double(0.2),
+                  MinConeSize = cms.double(0.05),
+                  ktScale = cms.double(10.),
+                  VetoConeSizeEndcaps = cms.double(0.08),
+                  VetoConeSizeBarrel = cms.double(0.0),
+                  isolateAgainst = cms.string('gamma'),
+                  miniAODVertexCodes = cms.vuint32(2,3) ),
+        )
+                                            )
+
+###################################################################
+
+###################################################################
 ##    ____      __ _____ _           _                   
 ##   / ___|___ / _| ____| | ___  ___| |_ _ __ ___  _ __  
 ##  | |  _/ __| |_|  _| | |/ _ \/ __| __| '__/ _ \| '_ \ 
@@ -115,6 +174,7 @@ switchOnVIDElectronIdProducer(process, dataFormat)
 
 # define which IDs we want to produce
 my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_V2_cff',
+                 'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_cff',
                  'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV51_cff']
 
 for idmod in my_id_modules:
@@ -127,12 +187,20 @@ process.goodElectronsPROBECutBasedVeto = cms.EDProducer("PatElectronSelectorByVa
                                                         id_cut    = cms.bool(True)
                                                         )
 
+process.goodElectronsPROBECutBasedMiniVeto = process.goodElectronsPROBECutBasedVeto.clone()
+process.goodElectronsPROBECutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-veto")
 process.goodElectronsPROBECutBasedLoose = process.goodElectronsPROBECutBasedVeto.clone()
 process.goodElectronsPROBECutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose")
+process.goodElectronsPROBECutBasedMiniLoose = process.goodElectronsPROBECutBasedVeto.clone()
+process.goodElectronsPROBECutBasedMiniLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-loose")
 process.goodElectronsPROBECutBasedMedium = process.goodElectronsPROBECutBasedVeto.clone()
 process.goodElectronsPROBECutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium")
+process.goodElectronsPROBECutBasedMiniMedium = process.goodElectronsPROBECutBasedVeto.clone()
+process.goodElectronsPROBECutBasedMiniMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-medium")
 process.goodElectronsPROBECutBasedTight = process.goodElectronsPROBECutBasedVeto.clone()
 process.goodElectronsPROBECutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight")
+process.goodElectronsPROBECutBasedMiniTight = process.goodElectronsPROBECutBasedVeto.clone()
+process.goodElectronsPROBECutBasedMiniTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-tight")
 
 process.goodElectronsTAGCutBasedVeto = cms.EDProducer("PatElectronSelectorByValueMap",
                                                    input     = cms.InputTag("goodElectrons"), #options['ELECTRON_COLL']),
@@ -141,12 +209,20 @@ process.goodElectronsTAGCutBasedVeto = cms.EDProducer("PatElectronSelectorByValu
                                                    id_cut    = cms.bool(True)
                                                    )
 
+process.goodElectronsTAGCutBasedMiniVeto = process.goodElectronsTAGCutBasedVeto.clone()
+process.goodElectronsTAGCutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-veto")
 process.goodElectronsTAGCutBasedLoose = process.goodElectronsTAGCutBasedVeto.clone()
 process.goodElectronsTAGCutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-loose")
+process.goodElectronsTAGCutBasedMiniLoose = process.goodElectronsTAGCutBasedVeto.clone()
+process.goodElectronsTAGCutBasedMiniLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-loose")
 process.goodElectronsTAGCutBasedMedium = process.goodElectronsTAGCutBasedVeto.clone()
 process.goodElectronsTAGCutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-medium")
+process.goodElectronsTAGCutBasedMiniMedium = process.goodElectronsTAGCutBasedVeto.clone()
+process.goodElectronsTAGCutBasedMiniMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-medium")
 process.goodElectronsTAGCutBasedTight = process.goodElectronsTAGCutBasedVeto.clone()
 process.goodElectronsTAGCutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-tight")
+process.goodElectronsTAGCutBasedMiniTight = process.goodElectronsTAGCutBasedVeto.clone()
+process.goodElectronsTAGCutBasedMiniTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-tight")
 
 ###################################################################
 ##    _____     _                         __  __       _       _     _             
@@ -209,6 +285,7 @@ process.goodSuperClustersHLT = cms.EDProducer("RecoEcalCandidateTriggerCandProdu
 process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(options['ELECTRON_COLL'])
 process.ele_sequence = cms.Sequence(
     process.goodElectrons +
+    process.ElectronIsolation + 
     process.egmGsfElectronIDSequence +
     process.goodElectronsPROBECutBasedVeto +
     process.goodElectronsPROBECutBasedLoose +
@@ -218,6 +295,14 @@ process.ele_sequence = cms.Sequence(
     process.goodElectronsTAGCutBasedLoose +
     process.goodElectronsTAGCutBasedMedium +
     process.goodElectronsTAGCutBasedTight +
+    process.goodElectronsPROBECutBasedMiniVeto +
+    process.goodElectronsPROBECutBasedMiniLoose +
+    process.goodElectronsPROBECutBasedMiniMedium +
+    process.goodElectronsPROBECutBasedMiniTight +
+    process.goodElectronsTAGCutBasedMiniVeto +
+    process.goodElectronsTAGCutBasedMiniLoose +
+    process.goodElectronsTAGCutBasedMiniMedium +
+    process.goodElectronsTAGCutBasedMiniTight +
     process.goodElectronsTagHLT +
     process.goodElectronsProbeHLT +
     process.goodElectronsProbeMeasureHLT +
@@ -395,17 +480,60 @@ CommonStuffForGsfElectronProbe = cms.PSet(
     addRunLumiInfo   =  cms.bool (True),
     addEventVariablesInfo   =  cms.bool(True),
     vertexCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    jetCollection = cms.InputTag("slimmedJets"),
+    jet_pt_cut = cms.double(40.),
+    jet_eta_cut = cms.double(2.5),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     pairVariables =  cms.PSet(ZVariablesToStore),
     pairFlags     =  cms.PSet(
         mass60to120 = cms.string("60 < mass < 120")
         ),
     tagVariables   =  cms.PSet(TagVariablesToStore),
-    tagFlags       =  cms.PSet(),    
+    tagFlags       =  cms.PSet(
+        passingVeto = cms.InputTag("goodElectronsTAGCutBasedVeto"),
+        passingLoose = cms.InputTag("goodElectronsTAGCutBasedLoose"),
+        passingMedium = cms.InputTag("goodElectronsTAGCutBasedMedium"),
+        passingTight = cms.InputTag("goodElectronsTAGCutBasedTight"),
+        ),    
     )
+
+CommonStuffForGsfElectronProbe = cms.PSet(
+    variables = cms.PSet(ProbeVariablesToStore),
+    ignoreExceptions =  cms.bool (True),
+    addRunLumiInfo   =  cms.bool (True),
+    addEventVariablesInfo   =  cms.bool(True),
+    vertexCollection = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    jetCollection = cms.InputTag("slimmedJets"),
+    jet_pt_cut = cms.double(40.),
+    jet_eta_cut = cms.double(2.5),
+    beamSpot = cms.InputTag("offlineBeamSpot"),
+    pairVariables =  cms.PSet(ZVariablesToStore),
+    pairFlags     =  cms.PSet(
+        mass60to120 = cms.string("60 < mass < 120")
+        ),
+    tagVariables   =  cms.PSet(TagVariablesToStore),
+    tagFlags       =  cms.PSet(
+        passingVeto = cms.InputTag("goodElectronsTAGCutBasedVeto"),
+        passingLoose = cms.InputTag("goodElectronsTAGCutBasedLoose"),
+        passingMedium = cms.InputTag("goodElectronsTAGCutBasedMedium"),
+        passingTight = cms.InputTag("goodElectronsTAGCutBasedTight"),
+        passingHLT = cms.InputTag("goodElectronsTagHLT"),
+        ),    
+    )
+
+CommonStuffForGsfElectronMiniProbe = CommonStuffForGsfElectronProbe.clone()
+CommonStuffForGsfElectronMiniProbe.tagFlags = cms.PSet(
+    passingVeto = cms.InputTag("goodElectronsTAGCutBasedMiniVeto"),
+    passingLoose = cms.InputTag("goodElectronsTAGCutBasedMiniLoose"),
+    passingMedium = cms.InputTag("goodElectronsTAGCutBasedMiniMedium"),
+    passingTight = cms.InputTag("goodElectronsTAGCutBasedMiniTight"),
+    passingHLT = cms.InputTag("goodElectronsTagHLT"),
+)
 
 CommonStuffForSuperClusterProbe = CommonStuffForGsfElectronProbe.clone()
 CommonStuffForSuperClusterProbe.variables = cms.PSet(SCProbeVariablesToStore)
+CommonStuffForSuperClusterMiniProbe = CommonStuffForGsfElectronMiniProbe.clone()
+CommonStuffForSuperClusterMiniProbe.variables = cms.PSet(SCProbeVariablesToStore)
 
 if options['MC_FLAG']:
     mcTruthCommonStuff = cms.PSet(
@@ -485,6 +613,14 @@ process.GsfElectronToRECO = cms.EDAnalyzer("TagProbeFitTreeProducer",
 if (options['MC_FLAG']):
     process.GsfElectronToRECO.probeMatches  = cms.InputTag("McMatchRECO")
 
+process.GsfElectronMiniToRECO = process.GsfElectronToRECO.clone()
+process.GsfElectronMiniToRECO.flags = cms.PSet(
+    passingVeto = cms.InputTag("goodElectronsPROBECutBasedMiniVeto"),
+    passingLoose = cms.InputTag("goodElectronsPROBECutBasedMiniLoose"),
+    passingMedium = cms.InputTag("goodElectronsPROBECutBasedMiniMedium"),
+    passingTight = cms.InputTag("goodElectronsPROBECutBasedMiniTight"),
+)
+
 process.tree_sequence = cms.Sequence()
 if (options['DOTRIGGER']):
     process.tree_sequence *= process.GsfElectronToTrigger
@@ -494,6 +630,7 @@ if (options['DORECO']):
 
 if (options['DOID']):
     process.tree_sequence *= process.GsfElectronToRECO
+    process.tree_sequence *= process.GsfElectronMiniToRECO
 
 ##########################################################################
 ##    ____       _   _     

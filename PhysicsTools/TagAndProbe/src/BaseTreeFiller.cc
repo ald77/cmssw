@@ -3,6 +3,7 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 #include "PhysicsTools/TagAndProbe/interface/ColinsSoperVariables.h"
+#include "DataFormats/PatCandidates/interface/Jet.h" 
 
 #include <TList.h>
 #include <TObjString.h>
@@ -70,6 +71,7 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
       //metToken_ = iC.consumes<std::vector<pat::MET>>(iConfig.getParameter<edm::InputTag>("met"));
       //tcmetToken_ = iC.consumes<reco::METCollection>(edm::InputTag("tcMet"));
       //pfmetToken_ = iC.consumes<reco::PFMETCollection>(edm::InputTag("pfMet"));
+      jetToken_ = iC.consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetCollection"));
       tree_->Branch("event_nPV"        ,&mNPV_                 ,"mNPV/I");
       //tree_->Branch("event_met_calomet"    ,&mMET_                ,"mMET/F");
       //tree_->Branch("event_met_calosumet"  ,&mSumET_              ,"mSumET/F");
@@ -86,7 +88,12 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
       tree_->Branch("event_BeamSpot_x"       ,&mBSx_              ,"mBSx/F");
       tree_->Branch("event_BeamSpot_y"       ,&mBSy_              ,"mBSy/F");
       tree_->Branch("event_BeamSpot_z"       ,&mBSz_              ,"mBSz/F");
+      tree_->Branch("event_njets", &mnjets_, "mnjets/F");
+      tree_->Branch("event_HT", &mHT_, "mHT/F");
     }
+
+    jet_pt_cut_ = iConfig.getParameter<double>("jet_pt_cut");
+    jet_eta_cut_ = iConfig.getParameter<double>("jet_eta_cut");
 
     ignoreExceptions_ = iConfig.existsAs<bool>("ignoreExceptions") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
 }
@@ -191,6 +198,19 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
           }
         }
 
+	// Jet things //
+	mnjets_ = 0.;
+	mHT_ = 0.;
+	edm::Handle<pat::JetCollection> jets;
+	iEvent.getByToken(jetToken_, jets);
+	for(auto jet = jets->begin();
+	    jet != jets->end();
+	    ++jet){
+	  double pt = jet->pt();
+	  if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+	  mnjets_ += 1.;
+	  mHT_ += pt;
+	}
 
         //////////// Beam spot //////////////
         edm::Handle<reco::BeamSpot> beamSpot;
