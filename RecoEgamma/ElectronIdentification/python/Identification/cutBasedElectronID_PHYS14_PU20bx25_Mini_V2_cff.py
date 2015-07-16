@@ -169,3 +169,149 @@ central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalo
                              '22a0fa6c9a9c1e6919ae8323c39338cf')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_tight.idName,
                              '425480c6541a733d4fcda96ebd2af473')
+
+# Veto working point Barrel and Endcap (no iso)
+idName = "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-veto"
+WP_Veto_NoIso_EB = EleWorkingPoint_V2(
+    idName   , # idName
+    0.013625 , # dEtaInCut
+    0.230374 , # dPhiInCut
+    0.011586 , # full5x5_sigmaIEtaIEtaCut
+    0.181130 , # hOverECut
+    0.094095 , # dxyCut
+    0.713070 , # dzCut
+    0.295751 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    2          # missingHitsCut
+    )
+
+WP_Veto_NoIso_EE = EleWorkingPoint_V2(
+    idName   , # idName
+    0.011932 , # dEtaInCut
+    0.255450 , # dPhiInCut
+    0.031849 , # full5x5_sigmaIEtaIEtaCut
+    0.223870 , # hOverECut
+    0.342293 , # dxyCut
+    0.953461 , # dzCut
+    0.155501 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    3          # missingHitsCut
+    )
+
+# Loose working point Barrel and Endcap (no iso)
+idName = "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-loose"
+WP_Loose_NoIso_EB = EleWorkingPoint_V2(
+    idName   , # idName
+    0.009277 , # dEtaInCut
+    0.094739 , # dPhiInCut
+    0.010331 , # full5x5_sigmaIEtaIEtaCut
+    0.093068 , # hOverECut
+    0.035904 , # dxyCut
+    0.075496 , # dzCut
+    0.189968 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+WP_Loose_NoIso_EE = EleWorkingPoint_V2(
+    idName   , # idName
+    0.009833 , # dEtaInCut
+    0.149934 , # dPhiInCut
+    0.031838 , # full5x5_sigmaIEtaIEtaCut
+    0.115754 , # hOverECut
+    0.099266 , # dxyCut
+    0.197897 , # dzCut
+    0.140662 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+# Medium working point Barrel and Endcap (no iso)
+idName = "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-medium"
+WP_Medium_NoIso_EB = EleWorkingPoint_V2(
+    idName   , # idName
+    0.008925 , # dEtaInCut
+    0.035973 , # dPhiInCut
+    0.009996 , # full5x5_sigmaIEtaIEtaCut
+    0.050537 , # hOverECut
+    0.012235 , # dxyCut
+    0.042020 , # dzCut
+    0.091942 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+WP_Medium_NoIso_EE = EleWorkingPoint_V2(
+    idName   , # idName
+    0.007429 , # dEtaInCut
+    0.067879 , # dPhiInCut
+    0.030135 , # full5x5_sigmaIEtaIEtaCut
+    0.086782 , # hOverECut
+    0.036719 , # dxyCut
+    0.138142 , # dzCut
+    0.100683 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+# Tight working point Barrel and Endcap (no iso)
+idName = "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-tight"
+WP_Tight_NoIso_EB = EleWorkingPoint_V2(
+    idName   , # idName
+    0.006046 , # dEtaInCut
+    0.028092 , # dPhiInCut
+    0.009947 , # full5x5_sigmaIEtaIEtaCut
+    0.045772 , # hOverECut
+    0.008790 , # dxyCut
+    0.021226 , # dzCut
+    0.020118 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+WP_Tight_NoIso_EE = EleWorkingPoint_V2(
+    idName   , # idName
+    0.007057 , # dEtaInCut
+    0.030159 , # dPhiInCut
+    0.028237 , # full5x5_sigmaIEtaIEtaCut
+    0.067778 , # hOverECut
+    0.027984 , # dxyCut
+    0.133431 , # dzCut
+    0.098919 , # absEInverseMinusPInverseCut
+    9999. , # relCombIsolationWithEALowPtCut
+    9999. , # relCombIsolationWithEAHighPtCut
+    # conversion veto cut needs no parameters, so not mentioned
+    1          # missingHitsCut
+    )
+
+#
+# Set up VID configuration for all cuts and working points
+#
+
+cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_veto = configureVIDCutBasedEleID_Mini_V2(WP_Veto_NoIso_EB, WP_Veto_NoIso_EE, isoInputs)
+cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_loose = configureVIDCutBasedEleID_Mini_V2(WP_Loose_NoIso_EB, WP_Loose_NoIso_EE, isoInputs)
+cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_medium = configureVIDCutBasedEleID_Mini_V2(WP_Medium_NoIso_EB, WP_Medium_NoIso_EE, isoInputs)
+cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_tight = configureVIDCutBasedEleID_Mini_V2(WP_Tight_NoIso_EB, WP_Tight_NoIso_EE, isoInputs)
+
+central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_veto.idName,
+                             '348179077752e2264dbb31ee53ea9b2b')
+central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_loose.idName,
+                             '63f5607f2a5661f238668ee7ba35cba0')
+central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_medium.idName,
+                             'c52c6050af313ee34bb9caadc5c823ff')
+central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_tight.idName,
+                             '4fbec0795eebf9a22714768f32de8ae0')
