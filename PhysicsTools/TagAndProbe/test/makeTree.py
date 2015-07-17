@@ -240,20 +240,21 @@ process.goodElectronsTagHLT = cms.EDProducer("PatElectronTriggerCandProducer",
                                              )
 
 process.goodElectronsProbeVetoMini = process.goodElectronsTagHLT.clone()
+process.goodElectronsProbeVetoMini.isAND = cms.bool(False)
 process.goodElectronsProbeVetoMini.inputs = cms.InputTag("goodElectronsPROBECutBasedMiniVeto");
-process.goodElectronsProbeVetoNoIso = process.goodElectronsTagHLT.clone()
+process.goodElectronsProbeVetoNoIso = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeVetoNoIso.inputs = cms.InputTag("goodElectronsPROBECutBasedNoIsoVeto");
 process.goodElectronsProbeLooseMini = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeLooseMini.inputs = cms.InputTag("goodElectronsPROBECutBasedMiniLoose");
-process.goodElectronsProbeLooseNoIso = process.goodElectronsTagHLT.clone()
+process.goodElectronsProbeLooseNoIso = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeLooseNoIso.inputs = cms.InputTag("goodElectronsPROBECutBasedNoIsoLoose");
 process.goodElectronsProbeMediumMini = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeMediumMini.inputs = cms.InputTag("goodElectronsPROBECutBasedMiniMedium");
-process.goodElectronsProbeMediumNoIso = process.goodElectronsTagHLT.clone()
+process.goodElectronsProbeMediumNoIso = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeMediumNoIso.inputs = cms.InputTag("goodElectronsPROBECutBasedNoIsoMedium");
 process.goodElectronsProbeTightMini = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeTightMini.inputs = cms.InputTag("goodElectronsPROBECutBasedMiniTight");
-process.goodElectronsProbeTightNoIso = process.goodElectronsTagHLT.clone()
+process.goodElectronsProbeTightNoIso = process.goodElectronsProbeVetoMini.clone()
 process.goodElectronsProbeTightNoIso.inputs = cms.InputTag("goodElectronsPROBECutBasedNoIsoTight");
 
 process.goodElectronsProbeHLT = cms.EDProducer("PatElectronTriggerCandProducer",
@@ -262,7 +263,7 @@ process.goodElectronsProbeHLT = cms.EDProducer("PatElectronTriggerCandProducer",
                                                bits        = cms.InputTag('TriggerResults::HLT'),
                                                objects     = cms.InputTag('selectedPatTrigger'),
                                                dR          = cms.double(0.3),
-                                               isAND       = cms.bool(True)
+                                               isAND       = cms.bool(False)
                                                )
 
 process.goodElectronsProbeMeasureHLT = cms.EDProducer("PatElectronTriggerCandProducer",
@@ -271,7 +272,7 @@ process.goodElectronsProbeMeasureHLT = cms.EDProducer("PatElectronTriggerCandPro
                                                       bits        = cms.InputTag('TriggerResults::HLT'),
                                                       objects     = cms.InputTag('selectedPatTrigger'),
                                                       dR          = cms.double(0.3),
-                                                      isAND       = cms.bool(True)
+                                                      isAND       = cms.bool(False)
                                                       )
 
 process.goodElectronsMeasureHLT = cms.EDProducer("PatElectronTriggerCandProducer",
@@ -289,7 +290,7 @@ process.goodSuperClustersHLT = cms.EDProducer("RecoEcalCandidateTriggerCandProdu
                                               bits         = cms.InputTag('TriggerResults::HLT'),
                                               objects      = cms.InputTag('selectedPatTrigger'),
                                               dR           = cms.double(0.3),
-                                              isAND        = cms.bool(True)
+                                              isAND        = cms.bool(False)
                                               )
 
 process.egmGsfElectronIDs.physicsObjectSrc = cms.InputTag(options['ELECTRON_COLL'])
@@ -358,17 +359,17 @@ process.tagTightRECO = cms.EDProducer("CandViewShallowCloneCombiner",
                                     )
 
 process.tagVetoMiniIso = cms.EDProducer("CandViewShallowCloneCombiner",
-                                         decay = cms.string("goodElectronsTagHLT@+ goodElectronsProbeVetoNoIso@-"), 
+                                         decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoVeto@-"), 
                                          checkCharge = cms.bool(True),
                                          cut = cms.string("40<mass<1000"),
                                          )
 
 process.tagLooseMiniIso = process.tagVetoMiniIso.clone()
-process.tagLooseMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsProbeLooseNoIso@-")
+process.tagLooseMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoLoose@-")
 process.tagMediumMiniIso = process.tagVetoMiniIso.clone()
-process.tagMediumMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsProbeMediumNoIso@-")
+process.tagMediumMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoMedium@-")
 process.tagTightMiniIso = process.tagVetoMiniIso.clone()
-process.tagTightMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsProbeTightNoIso@-")
+process.tagTightMiniIso.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoTight@-")
 
 process.allTagsAndProbes = cms.Sequence()
 
