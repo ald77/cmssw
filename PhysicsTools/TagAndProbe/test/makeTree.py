@@ -28,7 +28,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 
 process.load("TrackingTools/TransientTrack/TransientTrackBuilder_cfi")
 process.load("Configuration.Geometry.GeometryIdeal_cff")
-process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
+process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
 process.GlobalTag.globaltag = options['GLOBALTAG']
 
 process.load("Configuration.StandardSequences.MagneticField_cff")
@@ -49,7 +49,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 ###################################################################
 
 process.source = cms.Source("PoolSource",
-                            fileNames = cms.untracked.vstring(options['INPUT_FILE_NAME']),
+                            fileNames = options['INPUT_FILE_NAME'],
                             eventsToProcess = options['EVENTSToPROCESS']
                             )
 
