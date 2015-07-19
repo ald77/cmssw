@@ -358,6 +358,12 @@ process.tagTightRECO = cms.EDProducer("CandViewShallowCloneCombiner",
                                       cut = cms.string("40<mass<1000"),
                                     )
 
+process.tagIDNoIso = cms.EDProducer("CandViewShallowCloneCombiner",
+                                    decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-"),
+                                    checkCharge = cms.bool(True),
+                                    cut = cms.string("40<mass<1000"),
+                                    )
+
 process.tagVetoMiniIso = cms.EDProducer("CandViewShallowCloneCombiner",
                                          decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoVeto@-"), 
                                          checkCharge = cms.bool(True),
@@ -381,6 +387,7 @@ if (options['DORECO']):
 
 if (options['DOID']):
     process.allTagsAndProbes *= process.tagTightRECO
+    process.allTagsAndProbes *= process.tagIDNoIso
     process.allTagsAndProbes *= process.tagVetoMiniIso
     process.allTagsAndProbes *= process.tagLooseMiniIso
     process.allTagsAndProbes *= process.tagMediumMiniIso
@@ -628,6 +635,20 @@ process.TightElectronToMiniIso = cms.EDAnalyzer("TagProbeFitTreeProducer",
                                                 PUWeightSRC = cms.InputTag("pileupReweightingProducer","pileupWeights")
                                                 )
 
+process.GsfElectronToID = cms.EDAnalyzer("TagProbeFitTreeProducer",
+                                         mcTruthCommonStuff, CommonStuffForGsfElectronProbe,
+                                         tagProbePairs = cms.InputTag("tagIDNoIso"),
+                                         arbitration = cms.string("None"),
+                                         flags = cms.PSet(
+        passingVeto = cms.InputTag("goodElectronsPROBECutBasedNoIsoVeto"),
+        passingLoose = cms.InputTag("goodElectronsPROBECutBasedNoIsoLoose"),
+        passingMedium = cms.InputTag("goodElectronsPROBECutBasedNoIsoMedium"),
+        passingTight = cms.InputTag("goodElectronsPROBECutBasedNoIsoTight"),
+        ),
+                                         allProbes = cms.InputTag("goodElectronsProbeHLT"),
+                                         PUWeightSrc = cms.InputTag("pileupReweightProducer","pileupWeights")
+                                         )
+
 process.GsfElectronToRECO = cms.EDAnalyzer("TagProbeFitTreeProducer",
                                            mcTruthCommonStuff, CommonStuffForGsfElectronProbe,
                                            tagProbePairs = cms.InputTag("tagTightRECO"),
@@ -644,6 +665,7 @@ process.GsfElectronToRECO = cms.EDAnalyzer("TagProbeFitTreeProducer",
 
 if (options['MC_FLAG']):
     process.GsfElectronToRECO.probeMatches  = cms.InputTag("McMatchRECO")
+    process.GsfElectronToID.probeMatches  = cms.InputTag("McMatchRECO")
     process.VetoElectronToMiniIso.probeMatches  = cms.InputTag("McMatchRECO")
     process.LooseElectronToMiniIso.probeMatches  = cms.InputTag("McMatchRECO")
     process.MediumElectronToMiniIso.probeMatches  = cms.InputTag("McMatchRECO")
@@ -666,6 +688,7 @@ if (options['DORECO']):
 
 if (options['DOID']):
     process.tree_sequence *= process.GsfElectronToRECO
+    process.tree_sequence *= process.GsfElectronToID
     process.tree_sequence *= process.GsfElectronMiniToRECO
     process.tree_sequence *= process.VetoElectronToMiniIso
     process.tree_sequence *= process.LooseElectronToMiniIso
