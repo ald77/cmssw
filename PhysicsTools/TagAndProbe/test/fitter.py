@@ -42,7 +42,7 @@ EfficiencyBinningSpecification = cms.PSet(
     BinnedVariables = cms.PSet(EfficiencyBins),
     #first string is the default followed by binRegExp - PDFname pairs
     BinToPDFmap = cms.vstring(PDFName)
-)
+    )
 
 #### For MC truth: do truth matching
 EfficiencyBinningSpecificationMC = cms.PSet(
@@ -51,18 +51,40 @@ EfficiencyBinningSpecificationMC = cms.PSet(
                                mcTrue = cms.vstring("true")
                                ),
     BinToPDFmap = cms.vstring(PDFName)  
-)
+    )
 
 ############################################################################################
 
-if isMC:
-    mcTruthModules = cms.PSet(
-        MCtruth_Tight = cms.PSet(EfficiencyBinningSpecificationMC,
-                                  EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
-                                  ),
-        )
-else:
-    mcTruthModules = cms.PSet()
+MCtruth_Veto = cms.PSet(EfficiencyBinningSpecificationMC,
+                        EfficiencyCategoryAndState = cms.vstring("passingVeto","pass"),
+                        )
+MCtruth_Loose = cms.PSet(EfficiencyBinningSpecificationMC,
+                         EfficiencyCategoryAndState = cms.vstring("passingLoose","pass"),
+                         )
+MCtruth_Medium = cms.PSet(EfficiencyBinningSpecificationMC,
+                          EfficiencyCategoryAndState = cms.vstring("passingMedium","pass"),
+                          )
+MCtruth_Tight = cms.PSet(EfficiencyBinningSpecificationMC,
+                         EfficiencyCategoryAndState = cms.vstring("passingTight","pass"),
+                         )
+Eff_Veto = cms.PSet(EfficiencyBinningSpecification,
+                      EfficiencyCategoryAndState = cms.vstring("passingVeto","pass"),
+                      )
+Eff_Loose = cms.PSet(EfficiencyBinningSpecification,
+                     EfficiencyCategoryAndState = cms.vstring("passingLoose","pass"),
+                     )
+Eff_Medium = cms.PSet(EfficiencyBinningSpecification,
+                      EfficiencyCategoryAndState = cms.vstring("passingMedium","pass"),
+                      )
+Eff_Tight = cms.PSet(EfficiencyBinningSpecification,
+                     EfficiencyCategoryAndState = cms.vstring("passingTight","pass"),
+                     )
+
+if not isMC:
+    MCtruth_Veto = cms.PSet()
+    MCtruth_Loose = cms.PSet()
+    MCtruth_Medium = cms.PSet()
+    MCtruth_Tight = cms.PSet()
 
 ############################################################################################
 ############################################################################################
@@ -82,7 +104,7 @@ process.GsfElectronToId = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
                                          binsForFit = cms.uint32(30),
                                          #WeightVariable = cms.string("weight"),
                                          #fixVars = cms.vstring("mean"),
-                                                 
+                                         
                                          # defines all the real variables of the probes available in the input tree and intended for use in the efficiencies
                                          Variables = cms.PSet(mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
                                                               probe_sc_et = cms.vstring("Probe E_{T}", "0", "1000", "GeV/c"),
@@ -163,14 +185,108 @@ process.GsfElectronToId = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
 
                                          # defines a set of efficiency calculations, what PDF to use for fitting and how to bin the data;
                                          # there will be a separate output directory for each calculation that includes a simultaneous fit, side band subtraction and counting. 
-                                         Efficiencies = cms.PSet(mcTruthModules,
-                                                                 #the name of the parameter set becomes the name of the directory
-                                                                 Tight = cms.PSet(EfficiencyBinningSpecification,
-                                                                                   EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
-                                                                                   ),
-                                                                 )
+                                         Efficiencies = cms.PSet(
+        TruthVeto = MCtruth_Veto.clone(),
+        Veto = Eff_Veto.clone()
+        )
                                          )
 
+process.GsfElectronToVetoId = process.GsfElectronToId.clone()
+process.GsfElectronToVetoId.InputDirectoryName = cms.string("GsfElectronToID")
+process.GsfElectronToVetoId.OutputFileName = cms.string(OutputFilePrefix+"GsfElectronToVetoId.root")
+process.GsfElectronToVetoId.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                  passingVeto = cms.vstring("passingVeto","dummy[pass=1,fail=0]"),
+                                                  )
+process.GsfElectronToVetoId.Efficiencies = cms.PSet(
+    TruthVeto = MCtruth_Veto.clone(),
+    Veto = Eff_Veto.clone()
+    )
+
+process.GsfElectronToLooseId = process.GsfElectronToId.clone()
+process.GsfElectronToLooseId.InputDirectoryName = cms.string("GsfElectronToID")
+process.GsfElectronToLooseId.OutputFileName = cms.string(OutputFilePrefix+"GsfElectronToLooseId.root")
+process.GsfElectronToLooseId.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                  passingLoose = cms.vstring("passingLoose","dummy[pass=1,fail=0]"),
+                                                  )
+process.GsfElectronToLooseId.Efficiencies = cms.PSet(
+    TruthLoose = MCtruth_Loose.clone(),
+    Loose = Eff_Loose.clone()
+    )
+
+process.GsfElectronToMediumId = process.GsfElectronToId.clone()
+process.GsfElectronToMediumId.InputDirectoryName = cms.string("GsfElectronToID")
+process.GsfElectronToMediumId.OutputFileName = cms.string(OutputFilePrefix+"GsfElectronToMediumId.root")
+process.GsfElectronToMediumId.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                    passingMedium = cms.vstring("passingMedium","dummy[pass=1,fail=0]"),
+                                                    )
+process.GsfElectronToMediumId.Efficiencies = cms.PSet(
+    TruthMedium = MCtruth_Medium.clone(),
+    Medium = Eff_Medium.clone()
+    )
+
+process.GsfElectronToTightId = process.GsfElectronToId.clone()
+process.GsfElectronToTightId.InputDirectoryName = cms.string("GsfElectronToID")
+process.GsfElectronToTightId.OutputFileName = cms.string(OutputFilePrefix+"GsfElectronToTightId.root")
+process.GsfElectronToTightId.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                   passingTight = cms.vstring("passingTight","dummy[pass=1,fail=0]"),
+                                                   )
+process.GsfElectronToTightId.Efficiencies = cms.PSet(
+    TruthTight = MCtruth_Tight.clone(),
+    Tight = Eff_Tight.clone()
+    )
+
+process.VetoElectronToMiniIso = process.GsfElectronToId.clone()
+process.VetoElectronToMiniIso.InputDirectoryName = cms.string("VetoElectronToMiniIso")
+process.VetoElectronToMiniIso.OutputFileName = cms.string(OutputFilePrefix+"VetoElectronToMiniIso.root")
+process.VetoElectronToMiniIso.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                    passingVeto = cms.vstring("passingVeto","dummy[pass=1,fail=0]"),
+                                                    )
+process.VetoElectronToMiniIso.Efficiencies = cms.PSet(
+    TruthVeto = MCtruth_Veto.clone(),
+    Veto = Eff_Veto.clone()
+    )
+
+process.LooseElectronToMiniIso = process.GsfElectronToId.clone()
+process.LooseElectronToMiniIso.InputDirectoryName = cms.string("LooseElectronToMiniIso")
+process.LooseElectronToMiniIso.OutputFileName = cms.string(OutputFilePrefix+"LooseElectronToMiniIso.root")
+process.LooseElectronToMiniIso.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                     passingLoose = cms.vstring("passingLoose","dummy[pass=1,fail=0]"),
+                                                     )
+process.LooseElectronToMiniIso.Efficiencies = cms.PSet(
+    TruthLoose = MCtruth_Loose.clone(),
+    Loose = Eff_Loose.clone()
+    )
+
+process.MediumElectronToMiniIso = process.GsfElectronToId.clone()
+process.MediumElectronToMiniIso.InputDirectoryName = cms.string("MediumElectronToMiniIso")
+process.MediumElectronToMiniIso.OutputFileName = cms.string(OutputFilePrefix+"MediumElectronToMiniIso.root")
+process.MediumElectronToMiniIso.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                      passingMedium = cms.vstring("passingMedium","dummy[pass=1,fail=0]"),
+                                                      )
+process.MediumElectronToMiniIso.Efficiencies = cms.PSet(
+    TruthMedium = MCtruth_Medium.clone(),
+    Medium = Eff_Medium.clone()
+    )
+
+process.TightElectronToMiniIso = process.GsfElectronToId.clone()
+process.TightElectronToMiniIso.InputDirectoryName = cms.string("TightElectronToMiniIso")
+process.TightElectronToMiniIso.OutputFileName = cms.string(OutputFilePrefix+"TightElectronToMiniIso.root")
+process.TightElectronToMiniIso.Categories = cms.PSet(mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+                                                     passingTight = cms.vstring("passingTight","dummy[pass=1,fail=0]"),
+                                                     )
+process.TightElectronToMiniIso.Efficiencies = cms.PSet(
+    TruthTight = MCtruth_Tight.clone(),
+    Tight = Eff_Tight.clone()
+    )
+
 process.fit = cms.Path(
-    process.GsfElectronToId  
+#    process.GsfElectronToId  +
+    process.GsfElectronToVetoId + 
+    process.GsfElectronToLooseId + 
+    process.GsfElectronToMediumId + 
+    process.GsfElectronToTightId + 
+    process.VetoElectronToMiniIso +
+    process.LooseElectronToMiniIso +
+    process.MediumElectronToMiniIso +
+    process.TightElectronToMiniIso
     )
