@@ -48,10 +48,21 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 ##  
 ###################################################################
 
-process.source = cms.Source("PoolSource",
-                            fileNames = options['INPUT_FILE_NAME'],
-                            eventsToProcess = options['EVENTSToPROCESS']
-                            )
+if options['MC_FLAG']:
+    process.source = cms.Source("PoolSource",
+                                fileNames = options['INPUT_FILE_NAME'],
+                                eventsToProcess = options['EVENTSToPROCESS']
+                                )
+else:
+    import FWCore.PythonUtilities.LumiList as LumiList
+    import FWCore.ParameterSet.Types as CfgTypes
+    JSONfile = 'json_DCSONLY_Run2015B.txt'
+    myLumis = LumiList.LumiList(filename = JSONfile).getCMSSWString().split(',')
+    process.source = cms.Source("PoolSource",
+                                fileNames = options['INPUT_FILE_NAME'],
+                                lumisToProcess = CfgTypes.untracked(CfgTypes.VLuminosityBlockRange())
+                                )
+    process.source.lumisToProcess.extend(myLumis)
 
 process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
     
