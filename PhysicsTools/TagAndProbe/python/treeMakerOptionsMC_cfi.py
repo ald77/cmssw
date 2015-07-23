@@ -25,3 +25,6 @@ options['DORECO']                  = cms.bool(True)
 options['DOID']                    = cms.bool(True)
 options['OUTPUTEDMFILENAME']       = 'edmFile.root'
 options['DEBUG']                   = cms.bool(False)
+
+import PhysicsTools.TagAndProbe.treeMakerOptionsAdam_cfi as adam
+adam.AdjustOptions(options)
