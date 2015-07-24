@@ -539,3 +539,6 @@ else:
 process.TFileService = cms.Service(
     "TFileService", fileName = cms.string(options['OUTPUT_FILE_NAME'])
     )
+
+import PhysicsTools.TagAndProbe.makeTreeAdam_cfi as adam
+adam.AddMiniIso(process, options)
