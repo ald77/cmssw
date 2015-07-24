@@ -288,3 +288,107 @@ def configureVIDCutBasedEleID_V2( wpEB, wpEE, isoInputs ):
     #
     return parameterSet
 
+def configureVIDCutBasedEleID_Mini_V2( wpEB, wpEE, isoInputs ):
+    """
+    This function configures the full cms.PSet for a VID ID and returns it.
+    The inputs: two objects of the type WorkingPoint_V2, one
+    containing the cuts for the Barrel (EB) and the other one for the Endcap (EE).
+    The third argument is an object that contains information necessary
+    for isolation calculations.
+    """
+    # print "VID: Configuring cut set %s" % wpEB.idName
+    parameterSet =  cms.PSet(
+        #
+        idName = cms.string( wpEB.idName ), # same name stored in the _EB and _EE objects
+        cutFlow = cms.VPSet(
+            cms.PSet( cutName = cms.string("MinPtCut"),
+                      minPt = cms.double(5.0),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)                ),
+            cms.PSet( cutName = cms.string("GsfEleSCEtaMultiRangeCut"),
+                      useAbsEta = cms.bool(True),
+                      allowedEtaRanges = cms.VPSet( 
+                    cms.PSet( minEta = cms.double(0.0), 
+                              maxEta = cms.double(ebCutOff) ),
+                    cms.PSet( minEta = cms.double(ebCutOff), 
+                              maxEta = cms.double(2.5) )
+                    ),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleDEtaInCut'),
+                      dEtaInCutValueEB = cms.double( wpEB.dEtaInCut ),
+                      dEtaInCutValueEE = cms.double( wpEE.dEtaInCut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleDPhiInCut'),
+                      dPhiInCutValueEB = cms.double( wpEB.dPhiInCut ),
+                      dPhiInCutValueEE = cms.double( wpEE.dPhiInCut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleFull5x5SigmaIEtaIEtaCut'),
+                      full5x5SigmaIEtaIEtaCutValueEB = cms.double( wpEB.full5x5_sigmaIEtaIEtaCut ),
+                      full5x5SigmaIEtaIEtaCutValueEE = cms.double( wpEE.full5x5_sigmaIEtaIEtaCut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleHadronicOverEMCut'),
+                      hadronicOverEMCutValueEB = cms.double( wpEB.hOverECut ),
+                      hadronicOverEMCutValueEE = cms.double( wpEE.hOverECut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleDxyCut'),
+                      dxyCutValueEB = cms.double( wpEB.dxyCut ),
+                      dxyCutValueEE = cms.double( wpEE.dxyCut ),
+                      vertexSrc        = cms.InputTag("offlinePrimaryVertices"),
+                      vertexSrcMiniAOD = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(True),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleDzCut'),
+                      dzCutValueEB = cms.double( wpEB.dzCut ),
+                      dzCutValueEE = cms.double( wpEE.dzCut ),
+                      vertexSrc        = cms.InputTag("offlinePrimaryVertices"),
+                      vertexSrcMiniAOD = cms.InputTag("offlineSlimmedPrimaryVertices"),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(True),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleEInverseMinusPInverseCut'),
+                      eInverseMinusPInverseCutValueEB = cms.double( wpEB.absEInverseMinusPInverseCut ),
+                      eInverseMinusPInverseCutValueEE = cms.double( wpEE.absEInverseMinusPInverseCut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleEffAreaMiniIsoCut'),
+                      isoCutEBLowPt  = cms.double( wpEB.relCombIsolationWithEALowPtCut  ),
+                      isoCutEBHighPt = cms.double( wpEB.relCombIsolationWithEAHighPtCut ),
+                      isoCutEELowPt  = cms.double( wpEE.relCombIsolationWithEALowPtCut  ),
+                      isoCutEEHighPt = cms.double( wpEE.relCombIsolationWithEAHighPtCut ),
+                      isRelativeIso = cms.bool(True),
+                      ptCutOff = cms.double(20.0),          # high pT above this value, low pT below
+                      barrelCutOff = cms.double(ebCutOff),
+                      rho = cms.InputTag("fixedGridRhoFastjetAll"),
+                      effAreasConfigFile = cms.FileInPath( isoInputs.neuHadAndPhoIsolationEffAreas ),
+                      chadIso = cms.InputTag('ElectronIsolation','h+-DR020-BarVeto000-EndVeto001-kt1000-Min005'),
+                      nhadIso = cms.InputTag('ElectronIsolation','h0-DR020-BarVeto000-EndVeto000-kt1000-Min005'),
+                      phoIso = cms.InputTag('ElectronIsolation','gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005'),
+                      needsAdditionalProducts = cms.bool(True),
+                      isIgnored = cms.bool(False) ),
+            cms.PSet( cutName = cms.string('GsfEleConversionVetoCut'),
+                      conversionSrc        = cms.InputTag('allConversions'),
+                      conversionSrcMiniAOD = cms.InputTag('reducedEgamma:reducedConversions'),
+                      beamspotSrc = cms.InputTag('offlineBeamSpot'),
+                      needsAdditionalProducts = cms.bool(True),
+                      isIgnored = cms.bool(False)),
+            cms.PSet( cutName = cms.string('GsfEleMissingHitsCut'),
+                      maxMissingHitsEB = cms.uint32( wpEB.missingHitsCut ),
+                      maxMissingHitsEE = cms.uint32( wpEE.missingHitsCut ),
+                      barrelCutOff = cms.double(ebCutOff),
+                      needsAdditionalProducts = cms.bool(False),
+                      isIgnored = cms.bool(False) ),
+            )
+        )
+    #
+    return parameterSet
