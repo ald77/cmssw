@@ -243,3 +243,6 @@ process.TFileService = cms.Service(
     "TFileService", fileName = cms.string(options['OUTPUT_FILE_NAME']),
     closeFileFast = cms.untracked.bool(True)
     )
+
+import PhysicsTools.TagAndProbe.makeTreeAdam_cfi as adam
+adam.AddMiniIso(process, options)
