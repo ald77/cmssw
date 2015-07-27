@@ -39,14 +39,6 @@ mcVars.BinnedVariables = measBinnedVariables
 dataVars = mcVars.clone()
 dataVars.UnbinnedVariables = dataUnbinnedVariables
 
-print "TRUE"
-print trueVars
-print "MC"
-print mcVars
-print "DATA"
-print dataVars
-print "END"
-
 trueVeto = cms.PSet(trueVars, EfficiencyCategoryAndState = cms.vstring("passingVeto","pass"))
 trueLoose = cms.PSet(trueVars, EfficiencyCategoryAndState = cms.vstring("passingLoose","pass"))
 trueMedium = cms.PSet(trueVars, EfficiencyCategoryAndState = cms.vstring("passingMedium","pass"))
@@ -196,5 +188,3 @@ process.fit = cms.Path(
     process.dataTightElectronToMiniIso +
     process.mcTightElectronToMiniIso
 )
-print process.mcGsfElectronToId.Variables
-print process.mcGsfElectronToId.Efficiencies
