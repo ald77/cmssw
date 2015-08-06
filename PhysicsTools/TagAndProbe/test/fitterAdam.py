@@ -8,15 +8,15 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.destinations = ['cout','cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
-pdfName = "gaussPlusLinear"
+pdfName = "pdfSignalPlusBackground"
 
 measBinnedVariables = cms.PSet(
-    probe_sc_et = cms.vdouble(20., 1000.),
-    probe_sc_abseta = cms.vdouble(0., 1.5, 2.5),
+    probe_sc_et = cms.vdouble(10., 20., 30., 40., 50., 200.),
+    probe_sc_abseta = cms.vdouble(0., 1.442, 1.556, 2.5),
 )
 dataVariables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", " GeV/c^{2}"),
-    probe_sc_et = cms.vstring("Probe E_{T}", "0", "1000", "GeV/c"),
+    probe_sc_et = cms.vstring("Probe E_{T}", "0", "200", "GeV/c"),
     probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""),
     )
 
@@ -66,7 +66,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"),
     OutputFileName = cms.string("eff_data_id.root"),
-    NumCPU = cms.uint32(1),
+    NumCPU = cms.uint32(4),
     SaveWorkspace = cms.bool(False),
     doCutAndCount = cms.bool(False),
     floatShapeParameters = cms.bool(True),
@@ -89,14 +89,14 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "FCONV::signalPass(mass, signalPhy, signalResPass)",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",
             "efficiency[0.5,0,1]",
-            "signalFractionInPassing[1.0]",
+            "signalFractionInPassing[0.9,0.,1.]",
             ),
         gaussPlusLinear = cms.vstring(
             "Voigtian::signal(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
             "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
             "RooExponential::backgroundFail(mass, cFail[0,-2,2])",
             "efficiency[0.95,0,1]",
-            "signalFractionInPassing[0.95]"
+            "signalFractionInPassing[0.9,0.,1.]"
             ),
         ),
     Efficiencies = cms.PSet(
