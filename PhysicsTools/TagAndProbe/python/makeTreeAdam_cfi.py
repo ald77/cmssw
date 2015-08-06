@@ -107,23 +107,6 @@ def AddMiniIso(process, options):
     process.allTagsAndProbes *= process.tagTightMiniMedium
     process.allTagsAndProbes *= process.tagTightMiniTight
 
-    process.goodElectronsPROBECutBasedMiniVeto = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-veto")
-    process.goodElectronsPROBECutBasedNoIsoVeto = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedNoIsoVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-veto")
-    process.goodElectronsPROBECutBasedMiniLoose = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedMiniLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-loose")
-    process.goodElectronsPROBECutBasedNoIsoLoose = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedNoIsoLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-loose")
-    process.goodElectronsPROBECutBasedMiniMedium = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedMiniMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-medium")
-    process.goodElectronsPROBECutBasedNoIsoMedium = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedNoIsoMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-medium")
-    process.goodElectronsPROBECutBasedMiniTight = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedMiniTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-tight")
-    process.goodElectronsPROBECutBasedNoIsoTight = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedNoIsoTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-tight")
-
     process.GsfElectronToID = process.GsfElectronToRECO.clone()
     process.GsfElectronToID.tagProbePairs = cms.InputTag("tagTightID")
     process.GsfElectronToID.flags = cms.PSet(
@@ -133,43 +116,47 @@ def AddMiniIso(process, options):
         passingTight = cms.InputTag("goodElectronsPROBECutBasedNoIsoTight"),
         )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
-    process.VetoElectronToMiniIso = process.GsfElectronToRECO.clone()
-    process.VetoElectronToMiniIso.tagProbePairs = cms.InputTag("tagTightMiniVeto")
-    process.VetoElectronToMiniIso.flags = cms.PSet(
-        passingVeto = cms.InputTag("goodElectronsPROBECutBasedMiniVeto")
+    process.VetoElectronToIso = process.GsfElectronToRECO.clone()
+    process.VetoElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniVeto")
+    process.VetoElectronToIso.flags = cms.PSet(
+        passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniVeto"),
+        passingStandard = cms.InputTag("goodElectronsPROBECutBasedVeto"),
         )
-    process.VetoElectronToMiniIso.allProbes = cms.InputTag("goodElectronsProbeVetoNoIso")
-    process.LooseElectronToMiniIso = process.GsfElectronToRECO.clone()
-    process.LooseElectronToMiniIso.tagProbePairs = cms.InputTag("tagTightMiniLoose")
-    process.LooseElectronToMiniIso.flags = cms.PSet(
-        passingLoose = cms.InputTag("goodElectronsPROBECutBasedMiniLoose")
+    process.VetoElectronToIso.allProbes = cms.InputTag("goodElectronsProbeVetoNoIso")
+    process.LooseElectronToIso = process.GsfElectronToRECO.clone()
+    process.LooseElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniLoose")
+    process.LooseElectronToIso.flags = cms.PSet(
+        passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniLoose"),
+        passingStandard = cms.InputTag("goodElectronsPROBECutBasedLoose"),
         )
-    process.LooseElectronToMiniIso.allProbes = cms.InputTag("goodElectronsProbeLooseNoIso")
-    process.MediumElectronToMiniIso = process.GsfElectronToRECO.clone()
-    process.MediumElectronToMiniIso.tagProbePairs = cms.InputTag("tagTightMiniMedium")
-    process.MediumElectronToMiniIso.flags = cms.PSet(
-        passingMedium = cms.InputTag("goodElectronsPROBECutBasedMiniMedium")
+    process.LooseElectronToIso.allProbes = cms.InputTag("goodElectronsProbeLooseNoIso")
+    process.MediumElectronToIso = process.GsfElectronToRECO.clone()
+    process.MediumElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMedium")
+    process.MediumElectronToIso.flags = cms.PSet(
+        passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniMedium"),
+        passingStandard = cms.InputTag("goodElectronsPROBECutBasedMedium"),
         )
-    process.MediumElectronToMiniIso.allProbes = cms.InputTag("goodElectronsProbeMediumNoIso")
-    process.TightElectronToMiniIso = process.GsfElectronToRECO.clone()
-    process.TightElectronToMiniIso.tagProbePairs = cms.InputTag("tagTightMiniTight")
-    process.TightElectronToMiniIso.flags = cms.PSet(
-        passingTight = cms.InputTag("goodElectronsPROBECutBasedMiniTight")
+    process.MediumElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMediumNoIso")
+    process.TightElectronToIso = process.GsfElectronToRECO.clone()
+    process.TightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniTight")
+    process.TightElectronToIso.flags = cms.PSet(
+        passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniTight"),
+        passingStandard = cms.InputTag("goodElectronsPROBECutBasedTight"),
         )
-    process.TightElectronToMiniIso.allProbes = cms.InputTag("goodElectronsProbeTightNoIso")
+    process.TightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeTightNoIso")
 
     if options["MC_FLAG"]:
         process.GsfElectronToID.probeMatches = cms.InputTag("McMatchRECO")
-        process.VetoElectronToMiniIso.probeMatches = cms.InputTag("McMatchRECO")
-        process.LooseElectronToMiniIso.probeMatches = cms.InputTag("McMatchRECO")
-        process.MediumElectronToMiniIso.probeMatches = cms.InputTag("McMatchRECO")
-        process.TightElectronToMiniIso.probeMatches = cms.InputTag("McMatchRECO")
+        process.VetoElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
+        process.LooseElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
+        process.MediumElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
+        process.TightElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
 
     process.tree_sequence *= process.GsfElectronToID
-    process.tree_sequence *= process.VetoElectronToMiniIso
-    process.tree_sequence *= process.LooseElectronToMiniIso
-    process.tree_sequence *= process.MediumElectronToMiniIso
-    process.tree_sequence *= process.TightElectronToMiniIso
+    process.tree_sequence *= process.VetoElectronToIso
+    process.tree_sequence *= process.LooseElectronToIso
+    process.tree_sequence *= process.MediumElectronToIso
+    process.tree_sequence *= process.TightElectronToIso
 
     #Probably a better way to do this, but just copy for now to refresh paths and insert ElectronIsolation
     if (options['MC_FLAG']):
