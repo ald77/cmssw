@@ -52,7 +52,7 @@ dataLoose = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passing
 dataMedium = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passingMedium","pass"))
 dataTight = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passingTight","pass"))
 
-mcVariables = cms.PSet(dataVariables, PUweight = cms.vstring("PU weight", "0", "10", ""))
+mcVariables = cms.PSet(dataVariables, PUweight = cms.vstring("PU weight", "0", "100", ""))
 
 catMCTrue = cms.vstring("MC true", "dummy[true=1,false=0]")
 catVeto = cms.vstring("passingVeto", "dummy[pass=1,fail=0]")
