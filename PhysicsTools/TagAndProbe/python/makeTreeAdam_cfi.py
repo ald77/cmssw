@@ -182,6 +182,19 @@ def AddMiniIso(process, options):
             process.allTagsAndProbes +
             process.pileupReweightingProducer +
             process.mc_sequence +
+            process.eleVarHelper +
+            process.tree_sequence
+            )
+    elif hasattr(process, 'eleVarHelper'):
+        process.p = cms.Path(
+            process.hltHighLevel +
+            process.ElectronIsolation +
+            process.ele_sequence + 
+            process.sc_sequence +
+            ####process.GsfDRToNearestTau+
+            process.allTagsAndProbes +
+            process.mc_sequence +
+            process.eleVarHelper +
             process.tree_sequence
             )
     else:
