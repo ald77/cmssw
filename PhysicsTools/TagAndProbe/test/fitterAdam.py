@@ -1,4 +1,65 @@
 import FWCore.ParameterSet.Config as cms
+from FWCore.ParameterSet.VarParsing import VarParsing
+
+options = VarParsing('analysis')
+
+options.register(
+    "pdfName",
+    "pdfSignalPlusBackground",
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.string,
+    "Fit shape"
+    )
+
+options.register(
+    "noData",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Don't compute data efficiencies"
+    )
+
+options.register(
+    "noMC",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Don't compute MC efficiencies"
+    )
+
+options.register(
+    "noID",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Don't compute efficiencies for Gsf->ID"
+    )
+
+options.register(
+    "noIso",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Don't compute efficiencies for ID->ID+Iso"
+    )
+
+options.register(
+    "noStandard",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Don't compute efficiencies for ID->ID+Standard Iso"
+    )
+
+options.register(
+    "doUnmatched",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Compute MC efficiencies without truth-matching"
+    )
+
+options.parseArguments()
 
 process = cms.Process("TagProbe")
 process.source = cms.Source("EmptySource")
@@ -7,9 +68,6 @@ process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(1))
 process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.destinations = ['cout','cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
-
-pdfName = "pdfSignalPlusBackground"
-pdfName = "gaussPlusLinear"
 
 measBinnedVariables = cms.PSet(
     probe_sc_et = cms.vdouble(10., 20., 30., 40., 50., 200.),
@@ -32,7 +90,7 @@ mcUnbinnedVariables = cms.vstring("mass","PUweight")
 trueVars = cms.PSet(
     BinnedVariables = trueBinnedVariables,
     UnbinnedVariables = mcUnbinnedVariables,
-    BinToPDFmap = cms.vstring(pdfName),
+    BinToPDFmap = cms.vstring(options.pdfName),
     )
 mcVars = trueVars.clone()
 mcVars.BinnedVariables = measBinnedVariables
@@ -68,6 +126,60 @@ catTight = cms.vstring("passingTight", "dummy[pass=1,fail=0]")
 catStandard = cms.vstring("passingStandard", "dummy[pass=1,fail=0]")
 catMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]")
 
+dataIsoCats = cms.PSet(passingStandard = catStandard, passingMini = catMini)
+mcIsoCats = cms.PSet(dataIsoCats, mcTrue = catMCTrue)
+dataIsoEffs = cms.PSet(Standard = dataStandard, Mini = dataMini)
+mcIsoEffs = cms.PSet(
+    MCtruth_Standard = trueStandard,
+    MCtruth_Mini = trueMini,
+    Standard = mcStandard,
+    Mini = mcMini
+    )
+dataIDCats = cms.PSet(
+    Veto = catVeto,
+    Loose = catLoose,
+    Medium = catMedium,
+    Tight = catTight
+    )
+mcIDCats = cms.PSet(dataIDCats, mcTrue = catMCTrue)
+dataIDEffs = cms.PSet(
+    Veto = dataVeto,
+    Loose = dataLoose,
+    Medium = dataMedium,
+    Tight = dataTight
+    )
+mcIDEffs = cms.PSet(
+    MCtruth_Veto = trueVeto,
+    MCtruth_Loose = trueLoose,
+    MCtruth_Medium = trueMedium,
+    MCtruth_Tight = trueTight,
+    Veto = mcVeto,
+    Loose = mcLoose,
+    Medium = mcMedium,
+    Tight = mcTight
+    )
+
+if options.noStandard:
+    delattr(dataIsoCats, "passingStandard")
+    delattr(dataIsoEffs, "Standard")
+    delattr(mcIsoCats, "passingStandard")
+    delattr(mcIsoEffs, "Standard")
+    delattr(mcIsoEffs, "MCtruth_Standard")
+
+if not options.doUnmatched:
+    if hasattr(mcIsoEffs, "Standard"):
+        delattr(mcIsoEffs, "Standard")
+    if hasattr(mcIsoEffs, "Mini"):
+        delattr(mcIsoEffs, "Mini")
+    if hasattr(mcIDEffs, "Veto"):
+        delattr(mcIDEffs, "Veto")
+    if hasattr(mcIDEffs, "Loose"):
+        delattr(mcIDEffs, "Loose")
+    if hasattr(mcIDEffs, "Medium"):
+        delattr(mcIDEffs, "Medium")
+    if hasattr(mcIDEffs, "Tight"):
+        delattr(mcIDEffs, "Tight")
+
 process.dataGsfElectronToId = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
     InputFileNames = cms.vstring("TnPTree_data.root"),
@@ -81,12 +193,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
     binnedFit = cms.bool(True),
     binsForFit = cms.uint32(60),
     Variables = dataVariables,
-    Categories = cms.PSet(
-        passingVeto = catVeto,
-        passingLoose = catLoose,
-        passingMedium = catMedium,
-        passingTight = catTight,
-        ),
+    Categories = cms.PSet(dataIDCats),
     PDFs = cms.PSet(
         pdfSignalPlusBackground = cms.vstring(
             "RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])",
@@ -107,11 +214,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "signalFractionInPassing[0.9,0.,1.]"
             ),
         ),
-    Efficiencies = cms.PSet(
-        Veto = dataVeto,
-        Loose = dataLoose,
-        Medium = dataMedium,
-        Tight = dataTight),
+    Efficiencies = cms.PSet(dataIDEffs),
     )
 
 process.mcGsfElectronToId = process.dataGsfElectronToId.clone()
@@ -119,141 +222,74 @@ process.mcGsfElectronToId.InputFileNames = cms.vstring("TnPTree_mc.root")
 process.mcGsfElectronToId.OutputFileName = cms.string("eff_mc_id.root")
 process.mcGsfElectronToId.WeightVariable = cms.string("PUweight")
 process.mcGsfElectronToId.Variables = mcVariables
-process.mcGsfElectronToId.Categories = cms.PSet(
-    mcTrue = catMCTrue,
-    passingVeto = catVeto,
-    passingLoose = catLoose,
-    passingMedium = catMedium,
-    passingTight = catTight,
-    )
-process.mcGsfElectronToId.Efficiencies = cms.PSet(
-    MCtruth_Veto = trueVeto,
-    MCtruth_Loose = trueLoose,
-    MCtruth_Medium = trueMedium,
-    MCtruth_Tight = trueTight,
-    Veto = mcVeto,
-    Loose = mcLoose,
-    Medium = mcMedium,
-    Tight = mcTight
-    )
+process.mcGsfElectronToId.Categories = cms.PSet(mcIDCats)
+process.mcGsfElectronToId.Efficiencies = cms.PSet(mcIDEffs)
 
-process.dataVetoElectronToMiniIso = process.dataGsfElectronToId.clone()
-process.dataVetoElectronToMiniIso.InputDirectoryName = cms.string("VetoElectronToMiniIso")
-process.dataVetoElectronToMiniIso.OutputFileName = cms.string("eff_data_veto.root")
-process.dataVetoElectronToMiniIso.Categories = cms.PSet(
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.dataVetoElectronToMiniIso.Efficiencies = cms.PSet(
-    Standard = dataStandard,
-    Mini = dataMini,
-    )
+process.dataVetoElectronToIso = process.dataGsfElectronToId.clone()
+process.dataVetoElectronToIso.InputDirectoryName = cms.string("VetoElectronToIso")
+process.dataVetoElectronToIso.OutputFileName = cms.string("eff_data_veto.root")
+process.dataVetoElectronToIso.Categories = cms.PSet(dataIsoCats)
+process.dataVetoElectronToIso.Efficiencies = cms.PSet(dataIsoEffs)
 
-process.mcVetoElectronToMiniIso = process.mcGsfElectronToId.clone()
-process.mcVetoElectronToMiniIso.InputDirectoryName = cms.string("VetoElectronToMiniIso")
-process.mcVetoElectronToMiniIso.OutputFileName = cms.string("eff_mc_veto.root")
-process.mcVetoElectronToMiniIso.Categories = cms.PSet(
-    mcTrue = catMCTrue,
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.mcVetoElectronToMiniIso.Efficiencies = cms.PSet(
-    MCtruth_Standard = trueStandard,
-    Standard = mcStandard,
-    MCtruth_Mini = trueMini,
-    Mini = mcMini,
-    )
+process.mcVetoElectronToIso = process.mcGsfElectronToId.clone()
+process.mcVetoElectronToIso.InputDirectoryName = cms.string("VetoElectronToIso")
+process.mcVetoElectronToIso.OutputFileName = cms.string("eff_mc_veto.root")
+process.mcVetoElectronToIso.Categories = cms.PSet(mcIsoCats)
+process.mcVetoElectronToIso.Efficiencies = cms.PSet(mcIsoEffs)
 
-process.dataLooseElectronToMiniIso = process.dataGsfElectronToId.clone()
-process.dataLooseElectronToMiniIso.InputDirectoryName = cms.string("LooseElectronToMiniIso")
-process.dataLooseElectronToMiniIso.OutputFileName = cms.string("eff_data_loose.root")
-process.dataLooseElectronToMiniIso.Categories = cms.PSet(
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.dataLooseElectronToMiniIso.Efficiencies = cms.PSet(
-    Standard = dataStandard,
-    Mini = dataMini,
-    )
+process.dataLooseElectronToIso = process.dataGsfElectronToId.clone()
+process.dataLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
+process.dataLooseElectronToIso.OutputFileName = cms.string("eff_data_loose.root")
+process.dataLooseElectronToIso.Categories = cms.PSet(dataIsoCats)
+process.dataLooseElectronToIso.Efficiencies = cms.PSet(dataIsoEffs)
 
-process.mcLooseElectronToMiniIso = process.mcGsfElectronToId.clone()
-process.mcLooseElectronToMiniIso.InputDirectoryName = cms.string("LooseElectronToMiniIso")
-process.mcLooseElectronToMiniIso.OutputFileName = cms.string("eff_mc_loose.root")
-process.mcLooseElectronToMiniIso.Categories = cms.PSet(
-    mcTrue = catMCTrue,
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.mcLooseElectronToMiniIso.Efficiencies = cms.PSet(
-    MCtruth_Standard = trueStandard,
-    Standard = mcStandard,
-    MCtruth_Mini = trueMini,
-    Mini = mcMini,
-    )
+process.mcLooseElectronToIso = process.mcGsfElectronToId.clone()
+process.mcLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
+process.mcLooseElectronToIso.OutputFileName = cms.string("eff_mc_loose.root")
+process.mcLooseElectronToIso.Categories = cms.PSet(mcIsoCats)
+process.mcLooseElectronToIso.Efficiencies = cms.PSet(mcIsoEffs)
 
-process.dataMediumElectronToMiniIso = process.dataGsfElectronToId.clone()
-process.dataMediumElectronToMiniIso.InputDirectoryName = cms.string("MediumElectronToMiniIso")
-process.dataMediumElectronToMiniIso.OutputFileName = cms.string("eff_data_medium.root")
-process.dataMediumElectronToMiniIso.Categories = cms.PSet(
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.dataMediumElectronToMiniIso.Efficiencies = cms.PSet(
-    Standard = dataStandard,
-    Mini = dataMini,
-    )
+process.dataMediumElectronToIso = process.dataGsfElectronToId.clone()
+process.dataMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
+process.dataMediumElectronToIso.OutputFileName = cms.string("eff_data_medium.root")
+process.dataMediumElectronToIso.Categories = cms.PSet(dataIsoCats)
+process.dataMediumElectronToIso.Efficiencies = cms.PSet(dataIsoEffs)
 
-process.mcMediumElectronToMiniIso = process.mcGsfElectronToId.clone()
-process.mcMediumElectronToMiniIso.InputDirectoryName = cms.string("MediumElectronToMiniIso")
-process.mcMediumElectronToMiniIso.OutputFileName = cms.string("eff_mc_medium.root")
-process.mcMediumElectronToMiniIso.Categories = cms.PSet(
-    mcTrue = catMCTrue,
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.mcMediumElectronToMiniIso.Efficiencies = cms.PSet(
-    MCtruth_Standard = trueStandard,
-    Standard = mcStandard,
-    MCtruth_Mini = trueMini,
-    Mini = mcMini,
-    )
+process.mcMediumElectronToIso = process.mcGsfElectronToId.clone()
+process.mcMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
+process.mcMediumElectronToIso.OutputFileName = cms.string("eff_mc_medium.root")
+process.mcMediumElectronToIso.Categories = cms.PSet(mcIsoCats)
+process.mcMediumElectronToIso.Efficiencies = cms.PSet(mcIsoEffs)
 
-process.dataTightElectronToMiniIso = process.dataGsfElectronToId.clone()
-process.dataTightElectronToMiniIso.InputDirectoryName = cms.string("TightElectronToMiniIso")
-process.dataTightElectronToMiniIso.OutputFileName = cms.string("eff_data_tight.root")
-process.dataTightElectronToMiniIso.Categories = cms.PSet(
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.dataTightElectronToMiniIso.Efficiencies = cms.PSet(
-    Standard = dataStandard,
-    Mini = dataMini,
-    )
+process.dataTightElectronToIso = process.dataGsfElectronToId.clone()
+process.dataTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
+process.dataTightElectronToIso.OutputFileName = cms.string("eff_data_tight.root")
+process.dataTightElectronToIso.Categories = cms.PSet(dataIsoCats)
+process.dataTightElectronToIso.Efficiencies = cms.PSet(dataIsoEffs)
 
-process.mcTightElectronToMiniIso = process.mcGsfElectronToId.clone()
-process.mcTightElectronToMiniIso.InputDirectoryName = cms.string("TightElectronToMiniIso")
-process.mcTightElectronToMiniIso.OutputFileName = cms.string("eff_mc_tight.root")
-process.mcTightElectronToMiniIso.Categories = cms.PSet(
-    mcTrue = catMCTrue,
-    passingStandard = catStandard,
-    passingMini = catMini,
-    )
-process.mcTightElectronToMiniIso.Efficiencies = cms.PSet(
-    MCtruth_Standard = trueStandard,
-    Standard = mcStandard,
-    MCtruth_Mini = trueMini,
-    Mini = mcMini,
-    )
+process.mcTightElectronToIso = process.mcGsfElectronToId.clone()
+process.mcTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
+process.mcTightElectronToIso.OutputFileName = cms.string("eff_mc_tight.root")
+process.mcTightElectronToIso.Categories = cms.PSet(mcIsoCats)
+process.mcTightElectronToIso.Efficiencies = cms.PSet(mcIsoEffs)
 
-process.fit = cms.Path(
-    process.dataGsfElectronToId +
-    process.mcGsfElectronToId +
-    process.dataVetoElectronToMiniIso +
-    process.mcVetoElectronToMiniIso +
-    process.dataLooseElectronToMiniIso +
-    process.mcLooseElectronToMiniIso +
-    process.dataMediumElectronToMiniIso +
-    process.mcMediumElectronToMiniIso +
-    process.dataTightElectronToMiniIso +
-    process.mcTightElectronToMiniIso
-    )
+process.data_seq = cms.Sequence()
+process.mc_seq = cms.Sequence()
+if not options.noID:
+    process.data_seq += process.dataGsfElectronToId
+    process.mc_seq += process.mcGsfElectronToId
+if not options.noIso:
+    process.data_seq += process.dataVetoElectronToIso
+    process.data_seq += process.dataLooseElectronToIso
+    process.data_seq += process.dataMediumElectronToIso
+    process.data_seq += process.dataTightElectronToIso
+    process.mc_seq += process.mcVetoElectronToIso
+    process.mc_seq += process.mcLooseElectronToIso
+    process.mc_seq += process.mcMediumElectronToIso
+    process.mc_seq += process.mcTightElectronToIso
+
+process.fit = cms.Path()
+if not options.noData:
+    process.fit += process.data_seq
+if not options.noMC:
+    process.fit += process.mc_seq
