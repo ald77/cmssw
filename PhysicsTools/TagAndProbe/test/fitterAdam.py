@@ -136,10 +136,10 @@ mcIsoEffs = cms.PSet(
     Mini = mcMini
     )
 dataIDCats = cms.PSet(
-    Veto = catVeto,
-    Loose = catLoose,
-    Medium = catMedium,
-    Tight = catTight
+    passingVeto = catVeto,
+    passingLoose = catLoose,
+    passingMedium = catMedium,
+    passingTight = catTight
     )
 mcIDCats = cms.PSet(dataIDCats, mcTrue = catMCTrue)
 dataIDEffs = cms.PSet(
