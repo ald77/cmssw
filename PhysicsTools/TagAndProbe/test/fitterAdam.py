@@ -206,6 +206,39 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "efficiency[0.5,0,1]",
             "signalFractionInPassing[0.9,0.,1.]",
             ),
+        ZCB = cms.vstring(
+            "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
+            "RooCBShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,5.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])",
+            "ZGeneratorLineShape::signalPhy(mass)",
+            "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
+            "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])",
+            "FCONV::signalPass(mass, signalPhy, signalResPass)",
+            "FCONV::signalFail(mass, signalPhy, signalResFail)",
+            "efficiency[0.5,0,1]",
+            "signalFractionInPassing[0.9,0.,1.]",
+            ),
+        voigtCB = cms.vstring(
+            "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
+            "RooCBShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,5.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])",
+            "Voigtian::signalPhy(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
+            "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
+            "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])",
+            "FCONV::signalPass(mass, signalPhy, signalResPass)",
+            "FCONV::signalFail(mass, signalPhy, signalResFail)",
+            "efficiency[0.5,0,1]",
+            "signalFractionInPassing[0.9,0.,1.]",
+            ),
+        BWCB = cms.vstring(
+            "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
+            "RooCBShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,5.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])",
+            "RooBreitWigner::signalPhy(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0])",
+            "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
+            "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])",
+            "FCONV::signalPass(mass, signalPhy, signalResPass)",
+            "FCONV::signalFail(mass, signalPhy, signalResFail)",
+            "efficiency[0.5,0,1]",
+            "signalFractionInPassing[0.9,0.,1.]",
+            ),
         gaussPlusLinear = cms.vstring(
             "Voigtian::signal(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
             "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
@@ -293,3 +326,5 @@ if not options.noData:
     process.fit += process.data_seq
 if not options.noMC:
     process.fit += process.mc_seq
+
+process.Timing = cms.Service("Timing")
