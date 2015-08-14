@@ -34,6 +34,13 @@ def AddMiniIso(process, options):
             )
                                                 )
 
+    MiniIsoProbeVars = cms.PSet(process.GsfElectronToRECO.variables,
+                                probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+                                probe_Ele_phoMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+                                probe_Ele_neuMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+                                )
+
+
     setupAllVIDIdsInModule(process,
                            'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_cff',
                            setupVIDElectronSelection)
@@ -108,6 +115,7 @@ def AddMiniIso(process, options):
     process.allTagsAndProbes *= process.tagTightMiniTight
 
     process.GsfElectronToID = process.GsfElectronToRECO.clone()
+    process.GsfElectronToID.variables = MiniIsoProbeVars
     process.GsfElectronToID.tagProbePairs = cms.InputTag("tagTightID")
     process.GsfElectronToID.flags = cms.PSet(
         passingVeto = cms.InputTag("goodElectronsPROBECutBasedNoIsoVeto"),
@@ -117,6 +125,7 @@ def AddMiniIso(process, options):
         )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.VetoElectronToIso = process.GsfElectronToRECO.clone()
+    process.VetoElectronToIso.variables = MiniIsoProbeVars
     process.VetoElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniVeto")
     process.VetoElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniVeto"),
@@ -124,6 +133,7 @@ def AddMiniIso(process, options):
         )
     process.VetoElectronToIso.allProbes = cms.InputTag("goodElectronsProbeVetoNoIso")
     process.LooseElectronToIso = process.GsfElectronToRECO.clone()
+    process.LooseElectronToIso.variables = MiniIsoProbeVars
     process.LooseElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniLoose")
     process.LooseElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniLoose"),
@@ -131,6 +141,7 @@ def AddMiniIso(process, options):
         )
     process.LooseElectronToIso.allProbes = cms.InputTag("goodElectronsProbeLooseNoIso")
     process.MediumElectronToIso = process.GsfElectronToRECO.clone()
+    process.MediumElectronToIso.variables = MiniIsoProbeVars
     process.MediumElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMedium")
     process.MediumElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniMedium"),
@@ -138,6 +149,7 @@ def AddMiniIso(process, options):
         )
     process.MediumElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMediumNoIso")
     process.TightElectronToIso = process.GsfElectronToRECO.clone()
+    process.TightElectronToIso.variables = MiniIsoProbeVars
     process.TightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniTight")
     process.TightElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniTight"),
