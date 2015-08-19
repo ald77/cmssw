@@ -11,9 +11,9 @@ options['ELECTRON_CUTS']           = "(abs(superCluster.eta)<2.5) && (ecalEnergy
 options['ELECTRON_TAG_CUTS']       = "(abs(superCluster.eta)<=2.5) && !(1.4442<=abs(superCluster.eta)<=1.566) && pt >= 25.0"
 options['SUPERCLUSTER_COLL']       = "reducedEgamma:reducedSuperClusters"
 options['SUPERCLUSTER_CUTS']       = "abs(eta)<2.5 && !(1.4442< abs(eta) <1.566) && et>10.0"
-options['TnPPATHS']                = cms.vstring()#HLT_Ele20WP60_Ele8_Mass55_v*", "HLT_Ele25WP60_SC4_Mass55_v*")
-options['TnPHLTTagFilters']        = cms.vstring()#hltEle20WP60Ele8TrackIsoFilter", "hltEle25WP60SC4TrackIsoFilter")
-options['TnPHLTProbeFilters']      = cms.vstring()#hltEle20WP60Ele8PixelMatchUnseededFilter", "hltEle25WP60SC4EtUnseededFilter")
+options['TnPPATHS']                = cms.vstring("HLT_Ele27_eta2p1_WP75_Gsf_v*")#HLT_Ele20WP60_Ele8_Mass55_v*", "HLT_Ele25WP60_SC4_Mass55_v*")
+options['TnPHLTTagFilters']        = cms.vstring("hltEle27WP75GsfTrackIsoFilter")#hltEle20WP60Ele8TrackIsoFilter", "hltEle25WP60SC4TrackIsoFilter")
+options['TnPHLTProbeFilters']      = cms.vstring("*")#hltEle20WP60Ele8PixelMatchUnseededFilter", "hltEle25WP60SC4EtUnseededFilter")
 options['HLTPathToMeasure']        = cms.vstring("HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v15")
 options['HLTFILTERTOMEASURE']      = cms.vstring("hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter")
 options['GLOBALTAG']               = 'MCRUN2_74_V9A'
