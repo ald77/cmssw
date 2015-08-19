@@ -114,6 +114,11 @@ def AddMiniIso(process, options):
     process.allTagsAndProbes *= process.tagTightMiniMedium
     process.allTagsAndProbes *= process.tagTightMiniTight
 
+    process.GsfElectronToRECO.jetCollection = cms.InputTag("slimmedJets")
+    process.GsfElectronToRECO.jet_pt_cut = cms.double(30.)
+    process.GsfElectronToRECO.jet_eta_cut = cms.double(2.5)
+    process.GsfElectronToRECO.match_delta_r = cms.double(0.3)
+
     process.GsfElectronToID = process.GsfElectronToRECO.clone()
     process.GsfElectronToID.variables = MiniIsoProbeVars
     process.GsfElectronToID.tagProbePairs = cms.InputTag("tagTightID")
