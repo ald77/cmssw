@@ -11,7 +11,7 @@ options['ELECTRON_CUTS']       = "(abs(superCluster.eta)<2.5) && (ecalEnergy*sin
 options['ELECTRON_TAG_CUTS']   = "(abs(superCluster.eta)<=2.5) && !(1.4442<=abs(superCluster.eta)<=1.566) && pt >= 25.0"
 options['SUPERCLUSTER_COLL']   = "reducedEgamma:reducedSuperClusters"
 options['SUPERCLUSTER_CUTS']   = "abs(eta)<2.5 && !(1.4442< abs(eta) <1.566) && et>10.0"
-options['TnPPATHS']            = ["HLT_Ele27_eta2p1_WPLoose_Gsf_v1",]
+options['TnPPATHS']            = ["HLT_Ele27_eta2p1_WPLoose_Gsf_v*",]
 options['TnPHLTTagFilters']    = ["hltEle27WPLooseGsfTrackIsoFilter",]
 options['TnPHLTProbeFilters']  = ["*"]
 options['HLTPathToMeasure']    = "HLT_Ele17_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_Ele8_CaloIdT_CaloIsoVL_TrkIdVL_TrkIsoVL_v15"
