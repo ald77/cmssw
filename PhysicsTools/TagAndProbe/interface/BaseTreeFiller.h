@@ -28,6 +28,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "CommonTools/Utils/interface/StringCutObjectSelector.h"
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include <TTree.h>
 #include <boost/utility.hpp>
@@ -172,6 +173,8 @@ class BaseTreeFiller : boost::noncopyable {
         WeightMode weightMode_;
         edm::EDGetTokenT<GenEventInfoProduct> weightSrcToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
+	edm::EDGetTokenT<pat::JetCollection> jetsToken_;
+        edm::EDGetTokenT<reco::CandidateView> probesToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
         edm::EDGetTokenT<reco::CaloMETCollection> metToken_;
         edm::EDGetTokenT<reco::METCollection> tcmetToken_;
@@ -188,6 +191,7 @@ class BaseTreeFiller : boost::noncopyable {
 
         /// Add branches with event variables: met, sum ET, .. etc.
 	bool addEventVariablesInfo_;
+	bool addJetVariablesInfo_;
 	bool saveBeamSpot_;
         void addBranches_(TTree *tree, const edm::ParameterSet &iConfig, edm::ConsumesCollector & iC, const std::string &branchNamePrefix="") ;
 
@@ -202,6 +206,8 @@ class BaseTreeFiller : boost::noncopyable {
 
         mutable float mMET_,mSumET_,mMETSign_,mtcMET_,mtcSumET_,
 	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_;
+        mutable float mht_, mnjets_;
+        float jet_pt_cut_, jet_eta_cut_, match_delta_r_;
 };
 
 
