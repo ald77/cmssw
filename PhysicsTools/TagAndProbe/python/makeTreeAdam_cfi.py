@@ -59,7 +59,8 @@ def AddMiniIso(process, options):
                                 probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
                                 probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
                                 probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR040-BarVeto030-EndVeto030"),
-                                probe_Ele_Act = cms.InputTag("activity"),
+                                probe_Ele_Act = cms.InputTag("activity:activity"),
+                                probe_Ele_Mini = cms.InputTag("miniiso:activity"),
                                 )
 
     setupAllVIDIdsInModule(process,
@@ -75,7 +76,7 @@ def AddMiniIso(process, options):
     
     process.activity = cms.EDProducer("ActivityProducer",
                                       effAreasConfigFile = activity_pset.effAreasConfigFile,
-                                      probes = cms.InputTag("goodElectronsProbeHLT"),
+                                      probes = cms.InputTag("slimmedElectrons"),
                                       rho = activity_pset.rho,
                                       chadIso = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
                                       nhadIso = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
@@ -85,7 +86,7 @@ def AddMiniIso(process, options):
 
     process.miniiso =  cms.EDProducer("ActivityProducer",
                                       effAreasConfigFile = activity_pset.effAreasConfigFile,
-                                      probes = cms.InputTag("goodElectronsProbeHLT"),
+                                      probes = cms.InputTag("slimmedElectrons"),
                                       rho = activity_pset.rho,
                                       chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
                                       nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
@@ -235,6 +236,8 @@ def AddMiniIso(process, options):
             process.pileupReweightingProducer +
             process.mc_sequence +
             process.eleVarHelper +
+            process.activity +
+            process.miniiso +
             process.tree_sequence
             )
     elif hasattr(process, 'eleVarHelper'):
@@ -247,6 +250,8 @@ def AddMiniIso(process, options):
             process.allTagsAndProbes +
             process.mc_sequence +
             process.eleVarHelper +
+            process.activity +
+            process.miniiso +
             process.tree_sequence
             )
     else:
@@ -258,5 +263,7 @@ def AddMiniIso(process, options):
             ####process.GsfDRToNearestTau+
             process.allTagsAndProbes +
             process.mc_sequence +
+            process.activity +
+            process.miniiso +
             process.tree_sequence
             )
