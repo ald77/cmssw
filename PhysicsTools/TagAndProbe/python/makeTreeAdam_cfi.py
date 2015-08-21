@@ -31,19 +31,67 @@ def AddMiniIso(process, options):
                       VetoConeSizeBarrel = cms.double(0.0),
                       isolateAgainst = cms.string('gamma'),
                       miniAODVertexCodes = cms.vuint32(2,3) ),
+            cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                      coneSize = cms.double(0.4),
+                      VetoConeSizeEndcaps = cms.double(0.3),
+                      VetoConeSizeBarrel = cms.double(0.3),
+                      isolateAgainst = cms.string('h+'),
+                      miniAODVertexCodes = cms.vuint32(2,3) ),
+            cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                      coneSize = cms.double(0.4),
+                      VetoConeSizeEndcaps = cms.double(0.3),
+                      VetoConeSizeBarrel = cms.double(0.3),
+                      isolateAgainst = cms.string('h0'),
+                      miniAODVertexCodes = cms.vuint32(2,3) ),
+            cms.PSet( isolationAlgo = cms.string('ElectronPFIsolationWithConeVeto'),
+                      coneSize = cms.double(0.4),
+                      VetoConeSizeEndcaps = cms.double(0.3),
+                      VetoConeSizeBarrel = cms.double(0.3),
+                      isolateAgainst = cms.string('gamma'),
+                      miniAODVertexCodes = cms.vuint32(2,3) ),
             )
                                                 )
 
     MiniIsoProbeVars = cms.PSet(process.GsfElectronToRECO.variables,
                                 probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
-                                probe_Ele_phoMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
-                                probe_Ele_neuMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+                                probe_Ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+                                probe_Ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+                                probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
+                                probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
+                                probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR040-BarVeto030-EndVeto030"),
+                                probe_Ele_Act = cms.InputTag("activity"),
                                 )
-
 
     setupAllVIDIdsInModule(process,
                            'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_cff',
                            setupVIDElectronSelection)
+
+    activity_pset = cms.PSet()
+    for eleid in process.egmGsfElectronIDs.physicsObjectIDs:
+        if eleid.idDefinition.idName == "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-tight":
+            for cut in eleid.idDefinition.cutFlow:
+                if cut.cutName == "GsfEleEffAreaMiniIsoCut":
+                    activity_pset = cut
+    
+    process.activity = cms.EDProducer("ActivityProducer",
+                                      effAreasConfigFile = activity_pset.effAreasConfigFile,
+                                      probes = cms.InputTag("goodElectronsProbeHLT"),
+                                      rho = activity_pset.rho,
+                                      chadIso = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
+                                      nhadIso = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
+                                      phoIso = cms.InputTag("ElectronIsolation:gamma-DR040-BarVeto030-EndVeto030"),
+                                      isRelativeIso = cms.bool(False),
+                                      )
+
+    process.miniiso =  cms.EDProducer("ActivityProducer",
+                                      effAreasConfigFile = activity_pset.effAreasConfigFile,
+                                      probes = cms.InputTag("goodElectronsProbeHLT"),
+                                      rho = activity_pset.rho,
+                                      chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+                                      nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+                                      phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+                                      isRelativeIso = cms.bool(True),
+                                      )                                      
 
     process.goodElectronsPROBECutBasedMiniVeto = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBECutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-veto")
