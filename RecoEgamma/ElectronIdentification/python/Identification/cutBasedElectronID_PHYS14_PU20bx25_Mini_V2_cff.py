@@ -162,13 +162,13 @@ cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_medium = configureVIDCutBa
 cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_tight = configureVIDCutBasedEleID_Mini_V2(WP_Tight_EB, WP_Tight_EE, isoInputs)
 
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_veto.idName,
-                             '83f993d919f7f4c8fbcdc76b6cca2d58')
+                             '8c3adf985749713697359cb9e59f5c4f')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_loose.idName,
-                             '8b0e5bf29fa4dec84ab56d910ff022f5')
+                             '55004b1d34eeb4b23542b258ddef33a4')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_medium.idName,
-                             '2473da7234f0b1850c6abc0b164effb8')
+                             '2a7c8a034149f8a668ab2c72223237f6')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_tight.idName,
-                             '80edbff86726362e826be713024b082a')
+                             'e96a277af359baeefcc7f8893dcbbdce')
 
 # Veto working point Barrel and Endcap (no iso)
 idName = "cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-noiso-veto"
@@ -308,10 +308,10 @@ cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_medium = configureVI
 cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_tight = configureVIDCutBasedEleID_Mini_V2(WP_Tight_NoIso_EB, WP_Tight_NoIso_EE, isoInputs)
 
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_veto.idName,
-                             '0ef18e48b4c743d42281c3e70c54b001')
+                             'd5fa09110cf08bbdc7cc9e06a1918ecf')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_loose.idName,
-                             '7fc90c3375d252a5ee2e3e00e0c4bbf6')
+                             '3604d42ce009aff23940a9279a9269e5')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_medium.idName,
-                             '0e7d83341084adc5c0abbeaaa9e9c6c2')
+                             '0b578902a68a35a48a8d471620fdea0b')
 central_id_registry.register(cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_standalone_noiso_tight.idName,
-                             '0373cc1f9c4cb419758f43ae968acdc4')
+                             '3235c84fa427db0afc7c3205d45e5378')

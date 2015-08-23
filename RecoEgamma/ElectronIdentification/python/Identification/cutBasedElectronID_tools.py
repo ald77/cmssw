@@ -366,6 +366,9 @@ def configureVIDCutBasedEleID_Mini_V2( wpEB, wpEE, isoInputs ):
                       isoCutEBHighPt = cms.double( wpEB.relCombIsolationWithEAHighPtCut ),
                       isoCutEELowPt  = cms.double( wpEE.relCombIsolationWithEALowPtCut  ),
                       isoCutEEHighPt = cms.double( wpEE.relCombIsolationWithEAHighPtCut ),
+                      MinConeSize = cms.double(0.05),
+                      MaxConeSize = cms.double(0.2),
+                      ktScale = cms.double(10),
                       isRelativeIso = cms.bool(True),
                       ptCutOff = cms.double(20.0),          # high pT above this value, low pT below
                       barrelCutOff = cms.double(ebCutOff),
