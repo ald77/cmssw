@@ -59,8 +59,8 @@ def AddMiniIso(process, options):
                                 probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
                                 probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
                                 probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR040-BarVeto030-EndVeto030"),
-                                probe_Ele_Act = cms.InputTag("activity:activity"),
-                                probe_Ele_Mini = cms.InputTag("miniiso:activity"),
+                                probe_Ele_Act = cms.InputTag("activity:sum"),
+                                probe_Ele_Mini = cms.InputTag("miniiso:sum"),
                                 )
 
     setupAllVIDIdsInModule(process,
@@ -81,6 +81,8 @@ def AddMiniIso(process, options):
                                       chadIso = cms.InputTag("ElectronIsolation:h+-DR040-BarVeto030-EndVeto030"),
                                       nhadIso = cms.InputTag("ElectronIsolation:h0-DR040-BarVeto030-EndVeto030"),
                                       phoIso = cms.InputTag("ElectronIsolation:gamma-DR040-BarVeto030-EndVeto030"),
+                                      minRadius = cms.double(0.3),
+                                      maxRadius = cms.double(0.4),
                                       isRelativeIso = cms.bool(False),
                                       )
 
@@ -91,6 +93,9 @@ def AddMiniIso(process, options):
                                       chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
                                       nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
                                       phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+                                      minRadius = cms.double(0.05),
+                                      maxRadius = cms.double(0.2),
+                                      ktScale = cms.double(10.),
                                       isRelativeIso = cms.bool(True),
                                       )                                      
 
