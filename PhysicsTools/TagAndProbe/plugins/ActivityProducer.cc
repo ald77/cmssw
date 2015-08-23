@@ -26,6 +26,8 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > chadToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > nhadToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > phoToken_;
+  double minRadius_, maxRadius_;
+  double ktScale_;
   bool isRelativeIso_;
 };
 
@@ -36,8 +38,11 @@ ActivityProducer::ActivityProducer(const edm::ParameterSet &pset):
   chadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("chadIso"))),
   nhadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("nhadIso"))),
   phoToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("phoIso"))),
+  minRadius_(pset.getParameter<double>("minRadius")),
+  maxRadius_(pset.getParameter<double>("maxRadius")),
+  ktScale_(pset.existsAs<double>("ktScale")?pset.getParameter<double>("ktScale"):-1.),
   isRelativeIso_(pset.getParameter<bool>("isRelativeIso")){
-  produces<edm::ValueMap<float> >("activity");
+  produces<edm::ValueMap<float> >("sum");
 }
 
 ActivityProducer::~ActivityProducer(){
@@ -65,7 +70,15 @@ void ActivityProducer::produce(edm::Event &event, const edm::EventSetup &setup){
     auto cand = probesHandle->ptrAt(iprobe);
     reco::GsfElectronPtr gsf(cand);
     double absEta = gsf->superCluster()->position().eta();
-    double effectiveArea = effectiveAreas_.getEffectiveArea(absEta);
+    double area;
+    if(ktScale_>=0.){
+      area = std::max(minRadius_*minRadius_,
+		      std::min(maxRadius_*maxRadius_,
+			       std::pow(static_cast<double>(ktScale_/gsf->pt()),.2)));
+    }else{
+      area = maxRadius_*maxRadius_-minRadius_*minRadius_;
+    }
+    double effectiveArea = effectiveAreas_.getEffectiveArea(absEta)*area/(0.3*0.3);
     double chad = chadMap[cand];
     double nhad = nhadMap[cand];
     double pho = phoMap[cand];
@@ -78,7 +91,7 @@ void ActivityProducer::produce(edm::Event &event, const edm::EventSetup &setup){
   edm::ValueMap<float>::Filler isosFiller(*isosValMap);
   isosFiller.insert(probesHandle, isos.begin(), isos.end());
   isosFiller.fill();
-  event.put(isosValMap, "activity");
+  event.put(isosValMap, "sum");
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
