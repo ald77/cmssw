@@ -24,6 +24,7 @@ private:
   // Configuration
   const float _ptCutOff;
   const float _barrelCutOff;
+  const float _minConeSize2, _maxConeSize2, _ktScale;
   bool  _isRelativeIso;
   // Effective area constants
   EffectiveAreas _effectiveAreas;
@@ -59,6 +60,9 @@ GsfEleEffAreaMiniIsoCut::GsfEleEffAreaMiniIsoCut(const edm::ParameterSet& c) :
   _isoCutEEHighPt(c.getParameter<double>("isoCutEEHighPt")),
   _ptCutOff(c.getParameter<double>("ptCutOff")),
   _barrelCutOff(c.getParameter<double>("barrelCutOff")),
+  _minConeSize2(std::pow(c.getParameter<double>("MinConeSize"),2.0)),
+  _maxConeSize2(std::pow(c.getParameter<double>("MinConeSize"),2.0)),
+  _ktScale(c.getParameter<double>("ktScale")),
   _isRelativeIso(c.getParameter<bool>("isRelativeIso")),
   _effectiveAreas( (c.getParameter<edm::FileInPath>("effAreasConfigFile")).fullPath())
 {
@@ -105,7 +109,10 @@ operator()(const reco::GsfElectronPtr& cand) const{
       ( absEta < _barrelCutOff ? _isoCutEBHighPt : _isoCutEEHighPt ) );
 
   // Compute the combined isolation with effective area correction
-  float  eA = _effectiveAreas.getEffectiveArea( absEta );
+  const float coneSize2 = std::max(static_cast<double>(_minConeSize2),
+				   std::min(static_cast<double>(_maxConeSize2),
+					    static_cast<double>(std::pow(_ktScale/(cand->pt()),2.))));
+  float  eA = _effectiveAreas.getEffectiveArea( absEta )*coneSize2/(0.3*0.3);
   float rho = static_cast<float>(*_rhoHandle); // std::max likes float arguments
   edm::ValueMap<float> chadMap = static_cast<edm::ValueMap<float> >(*_chadIsoHandle);
   edm::ValueMap<float> nhadMap = static_cast<edm::ValueMap<float> >(*_nhadIsoHandle);
@@ -130,7 +137,10 @@ double GsfEleEffAreaMiniIsoCut::value(const reco::CandidatePtr& cand) const {
   double absEta = std::abs(ele->superCluster()->position().eta());
 
   // Compute the combined isolation with effective area correction
-  float  eA = _effectiveAreas.getEffectiveArea( absEta );
+  const float coneSize2 = std::max(static_cast<double>(_minConeSize2),
+				   std::min(static_cast<double>(_maxConeSize2),
+					    static_cast<double>(std::pow(_ktScale/(cand->pt()),2.))));
+  float  eA = _effectiveAreas.getEffectiveArea( absEta )*coneSize2/(0.3*0.3);
   float rho = static_cast<float>(*_rhoHandle); // std::max likes float arguments
   edm::ValueMap<float> chadMap = static_cast<edm::ValueMap<float> >(*_chadIsoHandle);
   edm::ValueMap<float> nhadMap = static_cast<edm::ValueMap<float> >(*_nhadIsoHandle);

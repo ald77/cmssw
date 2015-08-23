@@ -88,7 +88,9 @@ isInIsolationCone(const reco::CandidatePtr& physob,
   bool isEB = ( seed->seed().subdetId() == EcalBarrel );
   const float deltar2 = reco::deltaR2(*physob,*iso_obj);
   const float vetoConeSize2 = ( isEB ? _vetoConeSize2EB : _vetoConeSize2EE );
-  const float coneSize2 = std::max(_minConeSize2, std::min(_coneSize2, static_cast<float>(_ktScale/eleref->pt())));
+  const float coneSize2 = std::max(_minConeSize2,
+				   std::min(static_cast<float>(_coneSize2),
+					    std::pow(static_cast<float>(_ktScale/eleref->pt()),2.f)));
   bool result = true;
   if( aspacked.isNonnull() && aspacked.get() ) {
     if( aspacked->charge() != 0 ) {
