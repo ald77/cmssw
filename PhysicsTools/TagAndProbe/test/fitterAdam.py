@@ -204,7 +204,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "FCONV::signalPass(mass, signalPhy, signalResPass)",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",
             "efficiency[0.5,0,1]",
-            "signalFractionInPassing[0.9,0.,1.]",
+            "signalFractionInPassing[1.]",
             ),
         ZCB = cms.vstring(
             "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
@@ -215,7 +215,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "FCONV::signalPass(mass, signalPhy, signalResPass)",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",
             "efficiency[0.5,0,1]",
-            "signalFractionInPassing[0.9,0.,1.]",
+            "signalFractionInPassing[1.]",
             ),
         voigtCB = cms.vstring(
             "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
@@ -226,7 +226,7 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "FCONV::signalPass(mass, signalPhy, signalResPass)",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",
             "efficiency[0.5,0,1]",
-            "signalFractionInPassing[0.9,0.,1.]",
+            "signalFractionInPassing[1.]",
             ),
         BWCB = cms.vstring(
             "RooCBShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,5.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
@@ -237,18 +237,29 @@ process.dataGsfElectronToId = cms.EDAnalyzer(
             "FCONV::signalPass(mass, signalPhy, signalResPass)",
             "FCONV::signalFail(mass, signalPhy, signalResFail)",
             "efficiency[0.5,0,1]",
-            "signalFractionInPassing[0.9,0.,1.]",
+            "signalFractionInPassing[1.]",
             ),
         gaussPlusLinear = cms.vstring(
             "Voigtian::signal(mass, mean[91.2, 84.0, 98.0], width[2.4, 0.5, 5.0], sigma[5., 1., 12.0])",
             "RooExponential::backgroundPass(mass, cPass[0,-2,2])",
             "RooExponential::backgroundFail(mass, cFail[0,-2,2])",
             "efficiency[0.95,0,1]",
-            "signalFractionInPassing[0.9,0.,1.]"
+            "signalFractionInPassing[1.]"
             ),
         ),
     Efficiencies = cms.PSet(dataIDEffs),
     )
+
+if options.noMC and not options.noData:
+    for model in process.dataGsfElectronToId.PDFs.__dict__:
+        param = process.dataGsfElectronToId.PDFs.getParameter(model)
+        if type(param) is not cms.vstring:
+            continue
+        i = 0
+        for line in getattr(process.dataGsfElectronToId.PDFs,model):
+            if line.find("signalFractionInPassing") != -1:
+                getattr(process.dataGsfElectronToId.PDFs,model)[i] = line.replace("[1.]","[0.9,0.,1.]")
+            i = i + 1
 
 process.mcGsfElectronToId = process.dataGsfElectronToId.clone()
 process.mcGsfElectronToId.InputFileNames = cms.vstring("TnPTree_mc.root")
