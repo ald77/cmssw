@@ -72,6 +72,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 measBinnedVariables = cms.PSet(
     probe_sc_et = cms.vdouble(10., 20., 30., 40., 50., 200.),
     probe_sc_abseta = cms.vdouble(0., 1.442, 1.556, 2.5),
+    totWeight = cms.vdouble(0.,10000000.),
     )
 dataVariables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", " GeV/c^{2}"),
@@ -85,7 +86,7 @@ trueBinnedVariables = cms.PSet(
     )
 
 dataUnbinnedVariables = cms.vstring("mass")
-mcUnbinnedVariables = cms.vstring("mass","PUweight")
+mcUnbinnedVariables = cms.vstring("mass","totWeight")
 
 trueVars = cms.PSet(
     BinnedVariables = trueBinnedVariables,
@@ -116,7 +117,7 @@ dataTight = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passing
 dataStandard = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passingStandard","pass"))
 dataMini = cms.PSet(dataVars, EfficiencyCategoryAndState = cms.vstring("passingMini","pass"))
 
-mcVariables = cms.PSet(dataVariables, PUweight = cms.vstring("PU weight", "0", "100", ""))
+mcVariables = cms.PSet(dataVariables, totWeight = cms.vstring("totWeight", "0", "10000000", ""))
 
 catMCTrue = cms.vstring("MC true", "dummy[true=1,false=0]")
 catVeto = cms.vstring("passingVeto", "dummy[pass=1,fail=0]")
@@ -264,7 +265,7 @@ if options.noMC and not options.noData:
 process.mcGsfElectronToId = process.dataGsfElectronToId.clone()
 process.mcGsfElectronToId.InputFileNames = cms.vstring("TnPTree_mc.root")
 process.mcGsfElectronToId.OutputFileName = cms.string("eff_mc_id.root")
-process.mcGsfElectronToId.WeightVariable = cms.string("PUweight")
+process.mcGsfElectronToId.WeightVariable = cms.string("totWeight")
 process.mcGsfElectronToId.Variables = mcVariables
 process.mcGsfElectronToId.Categories = cms.PSet(mcIDCats)
 process.mcGsfElectronToId.Efficiencies = cms.PSet(mcIDEffs)
