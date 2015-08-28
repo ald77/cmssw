@@ -12,10 +12,10 @@
 
 typedef edm::View<reco::Candidate> CandView;
 
-class ActivityProducer : public edm::EDProducer{
+class IsolationSum : public edm::EDProducer{
 public:
-  explicit ActivityProducer(const edm::ParameterSet &pset);
-  ~ActivityProducer();
+  explicit IsolationSum(const edm::ParameterSet &pset);
+  ~IsolationSum();
 
 private:
   virtual void produce(edm::Event &event, const edm::EventSetup &setup) override;
@@ -28,27 +28,31 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > phoToken_;
   double minRadius_, maxRadius_;
   double ktScale_;
+  double radius_;
+  double activityRadius_;
   bool isRelativeIso_;
 };
 
-ActivityProducer::ActivityProducer(const edm::ParameterSet &pset):
+IsolationSum::IsolationSum(const edm::ParameterSet &pset):
   effectiveAreas_((pset.getParameter<edm::FileInPath>("effAreasConfigFile")).fullPath()),
   probesToken_(consumes<CandView>(pset.getParameter<edm::InputTag>("probes"))),
   rhoToken_(consumes<double>(pset.getParameter<edm::InputTag>("rho"))),
   chadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("chadIso"))),
   nhadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("nhadIso"))),
   phoToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("phoIso"))),
-  minRadius_(pset.getParameter<double>("minRadius")),
-  maxRadius_(pset.getParameter<double>("maxRadius")),
+  minRadius_(pset.existsAs<double>("minRadius") ? pset.getParameter<double>("minRadius") : -1.),
+  maxRadius_(pset.existsAs<double>("maxRadius") ? pset.getParameter<double>("maxRadius") : -1.),
   ktScale_(pset.existsAs<double>("ktScale")?pset.getParameter<double>("ktScale"):-1.),
+  radius_(pset.existsAs<double>("radius") ? pset.getParameter<double>("radius") : -1.),
+  activityRadius_(pset.existsAs<double>("actRadius") ? pset.getParameter<double>("actRadius") : -1.),
   isRelativeIso_(pset.getParameter<bool>("isRelativeIso")){
   produces<edm::ValueMap<float> >("sum");
 }
 
-ActivityProducer::~ActivityProducer(){
+IsolationSum::~IsolationSum(){
 }
 
-void ActivityProducer::produce(edm::Event &event, const edm::EventSetup &setup){
+void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
   edm::Handle<double> rhoHandle;
   edm::Handle<edm::ValueMap<float> > chadHandle, nhadHandle, phoHandle;
   edm::Handle<CandView> probesHandle;
@@ -71,12 +75,21 @@ void ActivityProducer::produce(edm::Event &event, const edm::EventSetup &setup){
     reco::GsfElectronPtr gsf(cand);
     double absEta = gsf->superCluster()->position().eta();
     double area;
-    if(ktScale_>=0.){
+    if(ktScale_>=0. && minRadius_>=0. && maxRadius_>=0.){
+      double the_radius = std::max(minRadius_,std::min(maxRadius_,ktScale_/gsf->pt()));
+      if(activityRadius_ >= 0.){
+	area = activityRadius_*activityRadius_ - the_radius*the_radius;
+      }else{
+	area = the_radius*the_radius;
+      }
       area = std::max(minRadius_*minRadius_,
 		      std::min(maxRadius_*maxRadius_,
 			       std::pow(static_cast<double>(ktScale_/gsf->pt()),.2)));
+    }else if(radius_ >= 0.){
+      area = radius_*radius_;
     }else{
-      area = maxRadius_*maxRadius_-minRadius_*minRadius_;
+      //Give up and just use the standard PF eff. area
+      area = 0.3*0.3;
     }
     double effectiveArea = effectiveAreas_.getEffectiveArea(absEta)*area/(0.3*0.3);
     double chad = chadMap[cand];
@@ -95,4 +108,4 @@ void ActivityProducer::produce(edm::Event &event, const edm::EventSetup &setup){
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(ActivityProducer);
+DEFINE_FWK_MODULE(IsolationSum);

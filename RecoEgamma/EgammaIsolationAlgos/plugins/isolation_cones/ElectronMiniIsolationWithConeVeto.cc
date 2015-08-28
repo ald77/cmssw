@@ -40,14 +40,24 @@ public:
     _vetoConeSize2EE(std::pow(c.getParameter<double>("VetoConeSizeEndcaps"),2.0)),
     _minConeSize2(std::pow(c.getParameter<double>("MinConeSize"),2.0)),
     _ktScale(c.getParameter<double>("ktScale")),
+    _actConeSize2(c.existsAs<double>("ActivityConeSize") ? std::pow(c.getParameter<double>("ActivityConeSize"),2.) : -1.),
     _miniAODVertexCodes(c.getParameter<std::vector<unsigned> >("miniAODVertexCodes")),
     _isolateAgainst(c.getParameter<std::string>("isolateAgainst")) {
     char buf[50];
-    sprintf(buf,"BarVeto%.2f-EndVeto%.2f-kt%.2f-Min%.2f",
-            std::sqrt(_vetoConeSize2EB),
-            std::sqrt(_vetoConeSize2EE),
-	    _ktScale,
-	    std::sqrt(_minConeSize2));
+    if(_actConeSize2 <= 0.){
+      sprintf(buf,"BarVeto%.2f-EndVeto%.2f-kt%.2f-Min%.2f",
+	      std::sqrt(_vetoConeSize2EB),
+	      std::sqrt(_vetoConeSize2EE),
+	      _ktScale,
+	      std::sqrt(_minConeSize2));
+    }else{
+      sprintf(buf,"BarVeto%.2f-EndVeto%.2f-kt%.2f-Min%.2f-Act%.2f",
+	      std::sqrt(_vetoConeSize2EB),
+	      std::sqrt(_vetoConeSize2EE),
+	      _ktScale,
+	      std::sqrt(_minConeSize2),
+	      std::sqrt(_actConeSize2));
+    }
     _additionalCode = std::string(buf);
     auto decimal = _additionalCode.find('.');
     while( decimal != std::string::npos ) {
@@ -69,6 +79,7 @@ public:
 private:
   const float _vetoConeSize2EB, _vetoConeSize2EE;
   const float _minConeSize2, _ktScale;
+  const float _actConeSize2;
   const std::vector<unsigned> _miniAODVertexCodes;
   const std::string _isolateAgainst;
   edm::EDGetTokenT<reco::VertexCollection> _vtxToken;
@@ -103,9 +114,17 @@ isInIsolationCone(const reco::CandidatePtr& physob,
       }
       result *= ( is_vertex_allowed );
     }
-    result *= deltar2 > vetoConeSize2 && deltar2 < coneSize2 ;
+    if(_actConeSize2 <= 0.){
+      result *= deltar2 > vetoConeSize2 && deltar2 < coneSize2 ;
+    }else{
+      result *= deltar2 > vetoConeSize2 && deltar2 >= coneSize2 && deltar2 < _actConeSize2;
+    }
   } else if ( aspf.isNonnull() && aspf.get() ) {
-    result *= deltar2 > vetoConeSize2 && deltar2 < coneSize2;
+    if(_actConeSize2 <= 0.){
+      result *= deltar2 > vetoConeSize2 && deltar2 < coneSize2;
+    }else{
+      result *= deltar2 > vetoConeSize2 && deltar2 >= coneSize2 && deltar2 < _actConeSize2;
+    }
   } else {
     throw cms::Exception("InvalidIsolationInput")
       << "The supplied candidate to be used as isolation "
