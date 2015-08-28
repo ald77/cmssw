@@ -94,7 +94,7 @@ def AddMiniIso(process, options):
                                       maxRadius = cms.double(0.2),
                                       ktScale = cms.double(10.),
                                       actRadius = cms.double(0.4),
-                                      isRelativeIso = cms.bool(False),
+                                      isRelativeIso = cms.bool(True),
                                       )
 
     process.miniiso =  cms.EDProducer("IsolationSum",
