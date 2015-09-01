@@ -264,9 +264,6 @@ def AddMiniIso(process, options):
             process.ElectronIsolation +
             process.ele_sequence + 
             process.sc_sequence +
-            process.GsfDRToNearestTauProbe +
-            process.GsfDRToNearestTauTag +
-            process.GsfDRToNearestTauSC +
             process.allTagsAndProbes +
             process.mc_sequence +
             process.eleVarHelper +
