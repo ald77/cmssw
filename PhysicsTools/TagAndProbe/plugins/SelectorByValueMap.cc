@@ -100,3 +100,6 @@ DEFINE_FWK_MODULE(PatElectronSelectorByValueMap);
 
 typedef SelectorByValueMap<pat::Photon, bool> PatPhotonSelectorByValueMap;
 DEFINE_FWK_MODULE(PatPhotonSelectorByValueMap);
+
+typedef SelectorByValueMap<pat::Photon, float> PatPhotonSelectorByDoubleValueMap;
+DEFINE_FWK_MODULE(PatPhotonSelectorByDoubleValueMap);
