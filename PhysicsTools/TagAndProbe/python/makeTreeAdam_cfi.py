@@ -3,74 +3,90 @@ from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
 def AddMiniIso(process, options):
     #Adds clones of objects managed by Matteo so that upstream changes propagate to mini iso objects
-    process.ElectronIsolation =  cms.EDProducer("CITKPFIsolationSumProducer",
-                                                srcToIsolate = cms.InputTag("slimmedElectrons"),
-                                                srcForIsolationCone = cms.InputTag('packedPFCandidates'),
-                                                isolationConeDefinitions = cms.VPSet(
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      VetoConeSizeEndcaps = cms.double(0.015),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('h+'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      VetoConeSizeEndcaps = cms.double(0.0),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('h0'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      VetoConeSizeEndcaps = cms.double(0.08),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('gamma'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      ActivityConeSize = cms.double(0.4),
-                      VetoConeSizeEndcaps = cms.double(0.015),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('h+'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      ActivityConeSize = cms.double(0.4),
-                      VetoConeSizeEndcaps = cms.double(0.0),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('h0'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            cms.PSet( isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
-                      coneSize = cms.double(0.2),
-                      MinConeSize = cms.double(0.05),
-                      ktScale = cms.double(10.),
-                      ActivityConeSize = cms.double(0.4),
-                      VetoConeSizeEndcaps = cms.double(0.08),
-                      VetoConeSizeBarrel = cms.double(0.0),
-                      isolateAgainst = cms.string('gamma'),
-                      miniAODVertexCodes = cms.vuint32(2,3) ),
-            )
-                                                )
+    process.ElectronIsolation =  cms.EDProducer(
+        "CITKPFIsolationSumProducer",
+        srcToIsolate = cms.InputTag("slimmedElectrons"),
+        srcForIsolationCone = cms.InputTag('packedPFCandidates'),
+        isolationConeDefinitions = cms.VPSet(
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                VetoConeSizeEndcaps = cms.double(0.015),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('h+'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                VetoConeSizeEndcaps = cms.double(0.0),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('h0'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                VetoConeSizeEndcaps = cms.double(0.08),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('gamma'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                ActivityConeSize = cms.double(0.4),
+                VetoConeSizeEndcaps = cms.double(0.015),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('h+'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                ActivityConeSize = cms.double(0.4),
+                VetoConeSizeEndcaps = cms.double(0.0),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('h0'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            cms.PSet(
+                isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
+                coneSize = cms.double(0.2),
+                MinConeSize = cms.double(0.05),
+                ktScale = cms.double(10.),
+                ActivityConeSize = cms.double(0.4),
+                VetoConeSizeEndcaps = cms.double(0.08),
+                VetoConeSizeBarrel = cms.double(0.0),
+                isolateAgainst = cms.string('gamma'),
+                miniAODVertexCodes = cms.vuint32(2,3),
+                ),
+            ),
+        )
 
-    MiniIsoProbeVars = cms.PSet(process.GsfElectronToRECO.variables,
-                                probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
-                                probe_Ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
-                                probe_Ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
-                                probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
-                                probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
-                                probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
-                                probe_Ele_Act = cms.InputTag("activity:sum"),
-                                probe_Ele_Mini = cms.InputTag("miniiso:sum"),
-                                )
+    MiniIsoProbeVars = cms.PSet(
+        process.GsfElectronToRECO.variables,
+        probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+        probe_Ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+        probe_Ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+        probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
+        probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
+        probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
+        probe_Ele_Act = cms.InputTag("absactivity:sum"),
+        probe_Ele_Mini = cms.InputTag("relminiiso:sum"),
+        probe_Ele_RelAct = cms.InputTag("relactivity:sum"),
+        probe_Ele_AbsMini = cms.InputTag("absminiiso:sum"),
+        )
 
     setupAllVIDIdsInModule(process,
                            'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_PHYS14_PU20bx25_Mini_V2_cff',
@@ -83,32 +99,67 @@ def AddMiniIso(process, options):
                 if cut.cutName == "GsfEleEffAreaMiniIsoCut":
                     activity_pset = cut
     
-    process.activity = cms.EDProducer("IsolationSum",
-                                      effAreasConfigFile = activity_pset.effAreasConfigFile,
-                                      probes = cms.InputTag("slimmedElectrons"),
-                                      rho = activity_pset.rho,
-                                      chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
-                                      nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
-                                      phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
-                                      minRadius = cms.double(0.05),
-                                      maxRadius = cms.double(0.2),
-                                      ktScale = cms.double(10.),
-                                      actRadius = cms.double(0.4),
-                                      isRelativeIso = cms.bool(True),
-                                      )
+    process.absactivity = cms.EDProducer(
+        "IsolationSum",
+        effAreasConfigFile = activity_pset.effAreasConfigFile,
+        probes = cms.InputTag("slimmedElectrons"),
+        rho = activity_pset.rho,
+        chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
+        nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
+        phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
+        minRadius = cms.double(0.05),
+        maxRadius = cms.double(0.2),
+        ktScale = cms.double(10.),
+        actRadius = cms.double(0.4),
+        isRelativeIso = cms.bool(False),
+        )
+    process.relactivity = cms.EDProducer(
+        "IsolationSum",
+        effAreasConfigFile = activity_pset.effAreasConfigFile,
+        probes = cms.InputTag("slimmedElectrons"),
+        rho = activity_pset.rho,
+        chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
+        nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
+        phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
+        minRadius = cms.double(0.05),
+        maxRadius = cms.double(0.2),
+        ktScale = cms.double(10.),
+        actRadius = cms.double(0.4),
+        isRelativeIso = cms.bool(True),
+        )
+    process.absminiiso =  cms.EDProducer(
+        "IsolationSum",
+        effAreasConfigFile = activity_pset.effAreasConfigFile,
+        probes = cms.InputTag("slimmedElectrons"),
+        rho = activity_pset.rho,
+        chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+        nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+        phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+        minRadius = cms.double(0.05),
+        maxRadius = cms.double(0.2),
+        ktScale = cms.double(10.),
+        isRelativeIso = cms.bool(False),
+        )                                      
+    process.relminiiso =  cms.EDProducer(
+        "IsolationSum",
+        effAreasConfigFile = activity_pset.effAreasConfigFile,
+        probes = cms.InputTag("slimmedElectrons"),
+        rho = activity_pset.rho,
+        chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+        nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+        phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+        minRadius = cms.double(0.05),
+        maxRadius = cms.double(0.2),
+        ktScale = cms.double(10.),
+        isRelativeIso = cms.bool(True),
+        )
 
-    process.miniiso =  cms.EDProducer("IsolationSum",
-                                      effAreasConfigFile = activity_pset.effAreasConfigFile,
-                                      probes = cms.InputTag("slimmedElectrons"),
-                                      rho = activity_pset.rho,
-                                      chadIso = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
-                                      nhadIso = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
-                                      phoIso = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
-                                      minRadius = cms.double(0.05),
-                                      maxRadius = cms.double(0.2),
-                                      ktScale = cms.double(10.),
-                                      isRelativeIso = cms.bool(True),
-                                      )                                      
+    process.iso_sums = cms.Sequence(
+        process.absactivity +
+        process.relactivity +
+        process.absminiiso +
+        process.relminiiso
+        )                                   
 
     process.goodElectronsPROBECutBasedMiniVeto = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBECutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-Mini-V2-standalone-veto")
@@ -254,8 +305,7 @@ def AddMiniIso(process, options):
             process.pileupReweightingProducer +
             process.mc_sequence +
             process.eleVarHelper +
-            process.activity +
-            process.miniiso +
+            process.iso_sums +
             process.tree_sequence
             )
     elif hasattr(process, 'eleVarHelper'):
@@ -267,8 +317,7 @@ def AddMiniIso(process, options):
             process.allTagsAndProbes +
             process.mc_sequence +
             process.eleVarHelper +
-            process.activity +
-            process.miniiso +
+            process.iso_sums +
             process.tree_sequence
             )
     else:
@@ -280,7 +329,6 @@ def AddMiniIso(process, options):
             ####process.GsfDRToNearestTau+
             process.allTagsAndProbes +
             process.mc_sequence +
-            process.activity +
-            process.miniiso +
+            process.iso_sums +
             process.tree_sequence
             )
