@@ -11,7 +11,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "DataFormats/PatCandidates/interface/Electron.h"
-//#include "DataFormats/EgammaCandidates/interface/GsfElectronFwd.h"
+
 #include "DataFormats/RecoCandidate/interface/RecoEcalCandidate.h"
 #include "DataFormats/RecoCandidate/interface/RecoEcalCandidateFwd.h"
 
@@ -23,15 +23,11 @@ class ElectronMatchedCandidateProducer : public edm::EDProducer {
   ~ElectronMatchedCandidateProducer();
 
  private:
-  virtual void beginJob() ;
   virtual void produce(edm::Event&, const edm::EventSetup&) override;
-  virtual void endJob() ;
 
   edm::EDGetTokenT<edm::RefVector<pat::ElectronCollection> > electronCollectionToken_;
   edm::EDGetTokenT<reco::RecoEcalCandidateCollection> scCollectionToken_;
   StringCutObjectSelector<reco::RecoEcalCandidate> candSelector_;
-
-  double delRMatchingCut_;
 };
 
 #endif

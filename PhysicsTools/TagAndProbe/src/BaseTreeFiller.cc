@@ -18,7 +18,6 @@ void tnp::ProbeFlag::init(const edm::Event &iEvent) const {
         passingProbes_.clear();
         for (size_t i = 0, n = view->size(); i < n; ++i) passingProbes_.push_back(view->refAt(i));
     }
-
 }
 
 void tnp::ProbeFlag::fill(const reco::CandidateBaseRef &probe) const {
@@ -94,6 +93,11 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
     }
 
     ignoreExceptions_ = iConfig.existsAs<bool>("ignoreExceptions") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
+
+    tree_->Branch("totWeight", &totWeight_, "totWeight/F");
+    if (iConfig.existsAs<std::vector<std::string> >("weightsToCombine")) {
+      weightsToCombine_ = iConfig.getParameter<std::vector<std::string> >("weightsToCombine");
+    }
 }
 
 tnp::BaseTreeFiller::BaseTreeFiller(BaseTreeFiller &main, const edm::ParameterSet &iConfig, edm::ConsumesCollector && iC, const std::string &branchNamePrefix) :
@@ -171,8 +175,6 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
       //std::cout<<storePUweight_<<"\t"<<PUweightSrc_<<"\t"<<PUweight_<<std::endl;
     }
 
-    
-
     if (addEventVariablesInfo_) {
         /// *********** store some event variables: MET, SumET ******
         //////////// Primary vertex //////////////
@@ -195,7 +197,6 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
             }
           }
         }
-
 
         //////////// Beam spot //////////////
 	if (saveBeamSpot_) {
@@ -268,6 +269,21 @@ void tnp::BaseTreeFiller::fill(const reco::CandidateBaseRef &probe) const {
         }
     }
 
+    totWeight_ = 1.0;
+    if (weightMode_ != None)
+      totWeight_ *= weight_;
+    if(storePUweight_)
+      totWeight_ *= PUweight_;
+
+    if (weightsToCombine_.size() > 0) {
+      for (std::vector<tnp::ProbeVariable>::const_iterator it = vars_.begin(), ed = vars_.end(); it != ed; ++it) {
+	for (unsigned int i=0; i<weightsToCombine_.size(); i++) {
+	  if (it->name() == weightsToCombine_[i])
+	    totWeight_ *= *(it->address());
+	}
+      }
+    }
+        
     if (tree_) 
       tree_->Fill();
 }

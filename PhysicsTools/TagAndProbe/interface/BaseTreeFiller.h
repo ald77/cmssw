@@ -197,6 +197,8 @@ class BaseTreeFiller : boost::noncopyable {
         mutable uint32_t run_, lumi_, mNPV_;
         mutable uint64_t event_;
 	mutable float PUweight_;
+	mutable std::vector<std::string> weightsToCombine_;
+	mutable float totWeight_;
 
         mutable float mPVx_,mPVy_,mPVz_,mBSx_,mBSy_,mBSz_;
 

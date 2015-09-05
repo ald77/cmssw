@@ -49,6 +49,7 @@ private:
   edm::EDGetTokenT<edm::ValueMap<selection_type> >  token_selection;
   cut_type m_cut;
   bool isGreaterThan_;
+  bool saveSCRef_;
 };
   
 template <typename T, typename C>
@@ -59,15 +60,23 @@ SelectorByValueMap<T,C>::SelectorByValueMap(edm::ParameterSet const & config) :
   m_cut(config.getParameter<cut_type>("id_cut")) {
 
   isGreaterThan_ = true;
-  if (config.existsAs<edm::ParameterSet>("isGreaterThan")) 
+  if (config.existsAs<bool>("isGreaterThan")) 
     isGreaterThan_ = config.getParameter<bool>("isGreaterThan");
 
-  produces<candidateRefVector>();
+  saveSCRef_ = false;
+  if (config.existsAs<bool>("saveSCRef"))
+    saveSCRef_ = config.getParameter<bool>("saveSCRef");
+
+  if (saveSCRef_)
+    produces<edm::RefVector<reco::SuperClusterCollection> >();
+  else
+    produces<candidateRefVector>();
 }
   
 template <typename T, typename C>
 void SelectorByValueMap<T, C>::produce(edm::Event & event, const edm::EventSetup & setup) {
   std::auto_ptr<candidateRefVector> candidates(new candidateRefVector());
+  std::auto_ptr<edm::RefVector<reco::SuperClusterCollection> > scCandidates(new edm::RefVector<reco::SuperClusterCollection>());
 
   edm::Handle<candidateRefVector> h_inputs;
   event.getByToken(token_inputs, h_inputs);
@@ -82,16 +91,27 @@ void SelectorByValueMap<T, C>::produce(edm::Event & event, const edm::EventSetup
     candidateRef ptr = (*h_inputs)[i];
     if (candSelector(*ptr)) {
       if (isGreaterThan_) {
-	if (selectionMap[ptr] >= m_cut)
-	  candidates->push_back(ptr);
+	if (selectionMap[ptr] >= m_cut) {
+	  if (saveSCRef_)
+	    scCandidates->push_back(ptr->superCluster());
+	  else
+	    candidates->push_back(ptr);
+	}
       } else {
-	if (selectionMap[ptr] < m_cut)
-	  candidates->push_back(ptr);
+	if (selectionMap[ptr] < m_cut) {
+	  if (saveSCRef_)
+	    scCandidates->push_back(ptr->superCluster());
+	  else
+	    candidates->push_back(ptr);
+	}
       }
     }
   }
   
-  event.put(candidates);
+  if (saveSCRef_)
+    event.put(scCandidates);
+  else
+    event.put(candidates);
 }
 #endif
 
