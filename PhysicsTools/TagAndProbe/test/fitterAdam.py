@@ -241,17 +241,17 @@ process.McVetoElectronToIso.Efficiencies = cms.PSet(
         ),
     )
 
-process.McLooseElectronToIso = process.McGsfElectronToVeto.clone()
+process.McLooseElectronToIso = process.McVetoElectronToIso.clone()
 process.McLooseElectronToIso.InputFileNames = cms.vstring("current/TnPTree_loose_norm.root")
 process.McLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
 process.McLooseElectronToIso.OutputFileName = cms.string("eff_mc_loose_iso.root")
 
-process.McMediumElectronToIso = process.McGsfElectronToVeto.clone()
+process.McMediumElectronToIso = process.McVetoElectronToIso.clone()
 process.McMediumElectronToIso.InputFileNames = cms.vstring("current/TnPTree_medium_norm.root")
 process.McMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
 process.McMediumElectronToIso.OutputFileName = cms.string("eff_mc_medium_iso.root")
 
-process.McTightElectronToIso = process.McGsfElectronToVeto.clone()
+process.McTightElectronToIso = process.McVetoElectronToIso.clone()
 process.McTightElectronToIso.InputFileNames = cms.vstring("current/TnPTree_tight_norm.root")
 process.McTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
 process.McTightElectronToIso.OutputFileName = cms.string("eff_mc_tight_iso.root")
