@@ -401,8 +401,8 @@ process.out = cms.OutputModule("PoolOutputModule",
                                SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring("p"))
                                )
 process.outpath = cms.EndPath(process.out)
-#if (not options['DEBUG']):
-#    process.outpath.remove(process.out)
+if (not options['DEBUG']):
+    process.outpath.remove(process.out)
 
 if (options['MC_FLAG']):
     process.p = cms.Path(

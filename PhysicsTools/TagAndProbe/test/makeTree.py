@@ -492,8 +492,7 @@ process.GsfElectronToSC = cms.EDAnalyzer("TagProbeFitTreeProducer",
                                          CommonStuffForSuperClusterProbe, mcTruthCommonStuff,
                                          tagProbePairs = cms.InputTag("tagTightSC"),
                                          arbitration   = cms.string("None"),
-                                         flags         = cms.PSet(
-        passingRECO   = cms.InputTag("GsfMatchedSuperClusterCands", "electrons"),                                                                  
+                                         flags         = cms.PSet(passingRECO   = cms.InputTag("GsfMatchedSuperClusterCands", "superclusters"),         
                                                                   ),                                               
                                          allProbes     = cms.InputTag("goodSuperClustersHLT"),
                                          )

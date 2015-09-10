@@ -9,7 +9,7 @@ options['INPUT_FILE_NAME']       = ("/store/relval/CMSSW_7_4_1/RelValZEE_13/MINI
                                     "/store/relval/CMSSW_7_4_1/RelValZEE_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/924D7850-DEEC-E411-9109-0025905B8582.root",
                                     "/store/relval/CMSSW_7_4_1/RelValZEE_13/MINIAODSIM/MCRUN2_74_V9_gensim71X-v1/00000/B257DA50-DEEC-E411-BA6F-0025905B858C.root")
 
-options['OUTPUT_FILE_NAME']      = "TnPTree.root"
+options['OUTPUT_FILE_NAME']      = "TnPTree_mc.root"
 options['PHOTON_COLL']           = "slimmedPhotons"
 options['PHOTON_CUTS']           = "(abs(superCluster.eta)<2.5) && ((superCluster.energy*sin(superCluster.position.theta))>15.0) && !passElectronVeto"
 options['PHOTON_TAG_CUTS']       = "(abs(superCluster.eta)<=2.5) && !(1.4442<=abs(superCluster.eta)<=1.566) && (superCluster.energy*sin(superCluster.position.theta))>25.0 && !passElectronVeto"
@@ -20,7 +20,7 @@ options['HLTPathToMeasure']      = cms.vstring("HLT_Ele17_CaloIdT_CaloIsoVL_TrkI
 options['HLTFILTERTOMEASURE']    = cms.vstring("hltEle17TightIdLooseIsoEle8TightIdLooseIsoTrackIsoFilter")
 options['GLOBALTAG']             = 'PHYS14_25_V1'
 options['EVENTSToPROCESS']       = cms.untracked.VEventRange()
-options['MAXEVENTS']             = cms.untracked.int32(-1) 
+options['MAXEVENTS']             = cms.untracked.int32(1000) 
 options['useAOD']                = cms.bool(False)
 options['OUTPUTEDMFILENAME']     = 'edmFile.root'
 options['DEBUG']                 = cms.bool(False)
