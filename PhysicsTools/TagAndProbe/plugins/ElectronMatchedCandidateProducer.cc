@@ -1,4 +1,4 @@
-#include "PhysicsTools/TagAndProbe/interface/ElectronMatchedCandidateProducer.h"
+#include "PhysicsTools/TagAndProbe/plugins/ElectronMatchedCandidateProducer.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 

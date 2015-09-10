@@ -148,7 +148,8 @@ process.goodElectronsPROBECutBasedVeto = cms.EDProducer("PatElectronSelectorByVa
                                                         cut       = cms.string(options['ELECTRON_CUTS']),
                                                         selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-PHYS14-PU20bx25-V2-standalone-veto"),
                                                         id_cut    = cms.bool(True),
-                                                        saveSCRef = cms.bool(True)
+                                                        saveSCRef = cms.bool(True),
+                                                        recoEcalCandidates = cms.InputTag("GsfMatchedSuperClusterCands","superclusters")
                                                         )
 
 process.goodElectronsPROBECutBasedLoose = process.goodElectronsPROBECutBasedVeto.clone()
@@ -237,7 +238,7 @@ process.sc_sequence = cms.Sequence(process.superClusterCands +
 
 process.tagTightRECO = cms.EDProducer("CandViewShallowCloneCombiner",
                                       decay = cms.string("goodElectronsTagHLT goodSuperClustersHLT"), 
-                                      checkCharge = cms.bool(True),
+                                      checkCharge = cms.bool(False),
                                       cut = cms.string("40<mass<1000"),
                                     )
 
@@ -371,12 +372,12 @@ else:
 process.GsfElectronToSC = cms.EDAnalyzer("TagProbeFitTreeProducer",
                                          CommonStuffForSuperClusterProbe, mcTruthCommonStuff,
                                          tagProbePairs = cms.InputTag("tagTightRECO"), 
-                                         arbitration   = cms.string("None"),
-                                         flags         = cms.PSet(passingVeto   = cms.InputTag("goodElectronsPROBECutBasedVeto"),
-                                                                  passingLoose  = cms.InputTag("goodElectronsPROBECutBasedLoose"),
-                                                                  passingMedium = cms.InputTag("goodElectronsPROBECutBasedMedium"),
-                                                                  passingTight  = cms.InputTag("goodElectronsPROBECutBasedTight"),
-                                                                  passingRECO   = cms.InputTag("GsfMatchedSuperClusterCands")
+                                         arbitration   = cms.string("Random2"),
+                                         flags         = cms.PSet(passingVeto   = cms.InputTag("goodElectronsPROBECutBasedVeto", "superclusters"),
+                                                                  passingLoose  = cms.InputTag("goodElectronsPROBECutBasedLoose","superclusters"),
+                                                                  passingMedium = cms.InputTag("goodElectronsPROBECutBasedMedium","superclusters"),
+                                                                  passingTight  = cms.InputTag("goodElectronsPROBECutBasedTight","superclusters"),
+                                                                  passingRECO   = cms.InputTag("GsfMatchedSuperClusterCands","superclusters")
                                                                   ),                                               
                                          allProbes     = cms.InputTag("goodSuperClustersHLT"),
                                          )
@@ -400,8 +401,8 @@ process.out = cms.OutputModule("PoolOutputModule",
                                SelectEvents = cms.untracked.PSet(SelectEvents = cms.vstring("p"))
                                )
 process.outpath = cms.EndPath(process.out)
-if (not options['DEBUG']):
-    process.outpath.remove(process.out)
+#if (not options['DEBUG']):
+#    process.outpath.remove(process.out)
 
 if (options['MC_FLAG']):
     process.p = cms.Path(
