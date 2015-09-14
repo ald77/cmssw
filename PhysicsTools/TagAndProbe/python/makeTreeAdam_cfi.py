@@ -74,6 +74,11 @@ def AddMiniIso(process, options):
             ),
         )
 
+    process.MyEleVars = cms.EDProducer(
+        "MyElectronVariableHelper",
+        probes = cms.InputTag(options['ELECTRON_COLL']),
+        )
+
     MiniIsoProbeVars = cms.PSet(
         process.GsfElectronToRECO.variables,
         probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
@@ -86,6 +91,8 @@ def AddMiniIso(process, options):
         probe_Ele_Mini = cms.InputTag("relminiiso:sum"),
         probe_Ele_RelAct = cms.InputTag("relactivity:sum"),
         probe_Ele_AbsMini = cms.InputTag("absminiiso:sum"),
+        probe_Ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
+        probe_Ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
         )
 
     setupAllVIDIdsInModule(process,
@@ -305,6 +312,7 @@ def AddMiniIso(process, options):
             process.pileupReweightingProducer +
             process.mc_sequence +
             process.eleVarHelper +
+            process.MyEleVars +
             process.iso_sums +
             process.tree_sequence
             )
@@ -317,6 +325,7 @@ def AddMiniIso(process, options):
             process.allTagsAndProbes +
             process.mc_sequence +
             process.eleVarHelper +
+            process.MyEleVars +
             process.iso_sums +
             process.tree_sequence
             )
@@ -329,6 +338,7 @@ def AddMiniIso(process, options):
             ####process.GsfDRToNearestTau+
             process.allTagsAndProbes +
             process.mc_sequence +
+            process.MyEleVars +
             process.iso_sums +
             process.tree_sequence
             )
