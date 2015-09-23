@@ -28,7 +28,7 @@ public:
   MiniAODL1CandProducer(const edm::ParameterSet&);
   ~MiniAODL1CandProducer();
 
-  bool l1OfflineMatching(std::auto_ptr<l1extra::L1EmParticleCollection> triggerObjects, 
+  bool l1OfflineMatching(const l1extra::L1EmParticleCollection& triggerObjects, 
 			 math::XYZTLorentzVector refP4, float dRmin, int& index);
 
  private:
@@ -54,8 +54,8 @@ MiniAODL1CandProducer<T>::MiniAODL1CandProducer(const edm::ParameterSet& iConfig
   inputs_(consumes<TRefVector>(iConfig.getParameter<edm::InputTag>("inputs"))),
   l1IsoObjectsToken_(consumes<l1extra::L1EmParticleCollection>(iConfig.getParameter<edm::InputTag>("isoObjects"))),
   l1NonIsoObjectsToken_(consumes<l1extra::L1EmParticleCollection>(iConfig.getParameter<edm::InputTag>("nonIsoObjects"))),
-  minET_(iConfig.getParameter<bool>("minET")),		
-  dRMatch_(iConfig.getParameter<bool>("dRmatch")) {
+  minET_(iConfig.getParameter<double>("minET")),		
+  dRMatch_(iConfig.getParameter<double>("dRmatch")) {
 
   produces<TRefVector>();
 }
@@ -76,16 +76,16 @@ void MiniAODL1CandProducer<T>::produce(edm::Event &iEvent, const edm::EventSetup
   iEvent.getByToken(inputs_, inputs);
 
   // Merge L1 objects and sort by et
-  std::auto_ptr<l1extra::L1EmParticleCollection> mergedL1;
+  l1extra::L1EmParticleCollection mergedL1;
   for (l1extra::L1EmParticleCollection::const_iterator it=l1IsoObjectsH.product()->begin();
        it!=l1IsoObjectsH.product()->end(); it++)
-    mergedL1->push_back(*it);
+    mergedL1.push_back(*it);
 
   for (l1extra::L1EmParticleCollection::const_iterator it=l1NonIsoObjectsH.product()->begin();
        it!=l1NonIsoObjectsH.product()->end(); it++)
-    mergedL1->push_back(*it);
+    mergedL1.push_back(*it);
 
-  std::sort(mergedL1->begin(), mergedL1->end(), ptComparator);
+  std::sort(mergedL1.begin(), mergedL1.end(), ptComparator);
 
   // Create the output collection
   std::auto_ptr<TRefVector> outColRef(new TRefVector);
@@ -102,11 +102,11 @@ void MiniAODL1CandProducer<T>::produce(edm::Event &iEvent, const edm::EventSetup
 }
 
 template <class T>
-bool MiniAODL1CandProducer<T>::l1OfflineMatching(std::auto_ptr<l1extra::L1EmParticleCollection> l1Objects, 
+bool MiniAODL1CandProducer<T>::l1OfflineMatching(const l1extra::L1EmParticleCollection& l1Objects, 
 						 math::XYZTLorentzVector refP4, float dRmin, int& index) {
   
   index = 0;
-  for (l1extra::L1EmParticleCollection::const_iterator it=l1Objects->begin(); it != l1Objects->end(); it++) {
+  for (l1extra::L1EmParticleCollection::const_iterator it=l1Objects.begin(); it != l1Objects.end(); it++) {
     if (it->et() < minET_)
       continue;
 
