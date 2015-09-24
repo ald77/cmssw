@@ -74,21 +74,13 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
       saveBeamSpot_ =  iConfig.existsAs<edm::InputTag>("beamSpot") ? true: false;
       if (saveBeamSpot_) {
 	beamSpotToken_ = iC.consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpot"));
-	//metToken_ = iC.consumes<std::vector<pat::MET>>(iConfig.getParameter<edm::InputTag>("met"));
-	//tcmetToken_ = iC.consumes<reco::METCollection>(edm::InputTag("tcMet"));
-	//pfmetToken_ = iC.consumes<reco::PFMETCollection>(edm::InputTag("pfMet"));
-	//tree_->Branch("event_met_calomet"    ,&mMET_                ,"mMET/F");
-	//tree_->Branch("event_met_calosumet"  ,&mSumET_              ,"mSumET/F");
-	//tree_->Branch("event_met_calometsignificance",&mMETSign_    ,"mMETSign/F");
-	//tree_->Branch("event_met_tcmet"    ,&mtcMET_                ,"mtcMET/F");
-	//tree_->Branch("event_met_tcsumet"  ,&mtcSumET_              ,"mtcSumET/F");
-	//tree_->Branch("event_met_tcmetsignificance",&mtcMETSign_    ,"mtcMETSign/F");
-	//tree_->Branch("event_met_pfmet"    ,&mpfMET_                ,"mpfMET/F");
-	//tree_->Branch("event_met_pfsumet"  ,&mpfSumET_              ,"mpfSumET/F");
-	//tree_->Branch("event_met_pfmetsignificance",&mpfMETSign_    ,"mpfMETSign/F");
-	tree_->Branch("event_BeamSpot_x"       ,&mBSx_              ,"mBSx/F");
-	tree_->Branch("event_BeamSpot_y"       ,&mBSy_              ,"mBSy/F");
-	tree_->Branch("event_BeamSpot_z"       ,&mBSz_              ,"mBSz/F");
+	pfmetToken_ = iC.consumes<pat::METCollection>(edm::InputTag("pfMet"));
+	tree_->Branch("event_met_pfmet"    ,&mpfMET_   ,"mpfMET/F");
+	tree_->Branch("event_met_pfsumet"  ,&mpfSumET_ ,"mpfSumET/F");
+	tree_->Branch("event_met_pfphi"    ,&mpfPhi_   ,"mpfPhi/F");
+	tree_->Branch("event_BeamSpot_x"   ,&mBSx_     ,"mBSx/F");
+	tree_->Branch("event_BeamSpot_y"   ,&mBSy_     ,"mBSy/F");
+	tree_->Branch("event_BeamSpot_z"   ,&mBSz_     ,"mBSz/F");
       }
     }
 
@@ -207,47 +199,13 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
 	  mBSz_ = beamSpot->position().Z();
 	}
 
-        ////////////// CaloMET //////
-        //edm::Handle<reco::CaloMETCollection> met;
-        //iEvent.getByToken(metToken_,met);
-        //if (met->size() == 0) {
-        //  mMET_   = -1;
-        //  mSumET_ = -1;
-        //  mMETSign_ = -1;
-        //}
-        //else {
-        //  mMET_   = (*met)[0].et();
-        //  mSumET_ = (*met)[0].sumEt();
-        //  mMETSign_ = (*met)[0].significance();
-        //}
-	//
-        ///////// TcMET information /////
-        //edm::Handle<reco::METCollection> tcmet;
-        //iEvent.getByToken(tcmetToken_, tcmet);
-        //if (tcmet->size() == 0) {
-        //  mtcMET_   = -1;
-        //  mtcSumET_ = -1;
-        //  mtcMETSign_ = -1;
-        //}
-        //else {
-        //  mtcMET_   = (*tcmet)[0].et();
-        //  mtcSumET_ = (*tcmet)[0].sumEt();
-        //  mtcMETSign_ = (*tcmet)[0].significance();
-        //}
-	//
-        ///////// PfMET information /////
-        //edm::Handle<reco::PFMETCollection> pfmet;
-        //iEvent.getByToken(pfmetToken_, pfmet);
-        //if (pfmet->size() == 0) {
-        //  mpfMET_   = -1;
-        //  mpfSumET_ = -1;
-        //  mpfMETSign_ = -1;
-        //}
-        //else {
-        //  mpfMET_   = (*pfmet)[0].et();
-        //  mpfSumET_ = (*pfmet)[0].sumEt();
-        //  mpfMETSign_ = (*pfmet)[0].significance();
-        //}
+	edm::Handle<pat::METCollection> mets;
+	iEvent.getByToken(pfmetToken_, mets);
+	const pat::MET &met = mets->front();
+	mpfMET_ = met.pt();
+	mpfPhi_ = met.phi();
+	mpfSumET_ = met.sumEt();
+ 
     }
 
 }

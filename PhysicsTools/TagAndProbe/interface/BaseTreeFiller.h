@@ -13,12 +13,13 @@
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"
 
-#include "DataFormats/METReco/interface/MET.h"
-#include "DataFormats/METReco/interface/METCollection.h"
-#include "DataFormats/METReco/interface/CaloMET.h"
-#include "DataFormats/METReco/interface/CaloMETCollection.h"
-#include "DataFormats/METReco/interface/PFMET.h"
-#include "DataFormats/METReco/interface/PFMETCollection.h"
+//#include "DataFormats/METReco/interface/MET.h"
+//#include "DataFormats/METReco/interface/METCollection.h"
+//#include "DataFormats/METReco/interface/CaloMET.h"
+//#include "DataFormats/METReco/interface/CaloMETCollection.h"
+//#include "DataFormats/METReco/interface/PFMET.h"
+//#include "DataFormats/METReco/interface/PFMETCollection.h"
+#include "DataFormats/PatCandidates/interface/MET.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
@@ -173,9 +174,7 @@ class BaseTreeFiller : boost::noncopyable {
         edm::EDGetTokenT<GenEventInfoProduct> weightSrcToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
-        edm::EDGetTokenT<reco::CaloMETCollection> metToken_;
-        edm::EDGetTokenT<reco::METCollection> tcmetToken_;
-        edm::EDGetTokenT<reco::PFMETCollection> pfmetToken_;
+        edm::EDGetTokenT<pat::METCollection> pfmetToken_;
 
 	edm::InputTag PUweightSrc_;
 	bool storePUweight_;
@@ -201,9 +200,7 @@ class BaseTreeFiller : boost::noncopyable {
 	mutable float totWeight_;
 
         mutable float mPVx_,mPVy_,mPVz_,mBSx_,mBSy_,mBSz_;
-
-        mutable float mMET_,mSumET_,mMETSign_,mtcMET_,mtcSumET_,
-	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_;
+	mutable float mpfMET_,mpfSumET_,mpfPhi_;
 };
 
 
