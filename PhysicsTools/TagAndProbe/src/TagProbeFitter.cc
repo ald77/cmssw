@@ -522,7 +522,7 @@ void TagProbeFitter::createPdf(RooWorkspace* w, vector<string>& pdfCommands){
   } 
 
   // setup the simultaneous extended pdf
-  w->factory("expr::numSignalPass('efficiency*numSignalAll', efficiency, numSignalAll[10.,1e7])");
+  w->factory("expr::numSignalPass('efficiency*numSignalAll', efficiency, numSignalAll[10.,10000000])");
   w->factory("expr::numSignalFail('(1-efficiency)*numSignalAll', efficiency, numSignalAll)");
   TString sPass = "signal", sFail = "signal";
   if (w->pdf("signalPass") != 0 && w->pdf("signalFail") != 0) {
@@ -536,8 +536,8 @@ void TagProbeFitter::createPdf(RooWorkspace* w, vector<string>& pdfCommands){
     throw std::logic_error("You must either define one 'signal' PDF or two PDFs ('signalPass', 'signalFail')");
   }
   
-  w->factory("SUM::pdfPass(numSignalPass*"+sPass+", numBackgroundPass[0.,1e10]*backgroundPass)");
-  w->factory("SUM::pdfFail(numSignalFail*"+sFail+", numBackgroundFail[0.,1e10]*backgroundFail)");
+  w->factory("SUM::pdfPass(numSignalPass*"+sPass+", numBackgroundPass[0.,1000000000]*backgroundPass)");
+  w->factory("SUM::pdfFail(numSignalFail*"+sFail+", numBackgroundFail[0.,1000000000]*backgroundFail)");
   w->factory("SIMUL::simPdf(_efficiencyCategory_, Passed=pdfPass, Failed=pdfFail)");
   // signalFractionInPassing is not used in the fit just to set the initial values
   if (w->pdf("simPdf") == 0) throw std::runtime_error("Could not create simultaneous fit pdf.");
