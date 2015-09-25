@@ -30,6 +30,30 @@ namespace{
     filler.fill();
     iEvent.put(valMap, name);
   }
+
+  bool PassMVA(double mva, double pt, double abssceta){
+    if(pt<10.){
+      if(abssceta<0.8){
+	return mva>0.87;
+      }else if(abssceta<1.479){
+	return mva>0.60;
+      }else if(abssceta<2.5){
+	return mva>0.17;
+      }else{
+	return false;
+      }
+    }else{
+      if(abssceta<0.8){
+	return mva>0.87;
+      }else if(abssceta<1.479){
+	return mva>0.60;
+      }else if(abssceta<2.5){
+	return mva>0.17;
+      }else{
+	return false;
+      }
+    }
+  }
 }
 
 class MyElectronVariableHelper : public edm::EDProducer {
@@ -41,12 +65,17 @@ public:
   
 private:
   edm::EDGetTokenT<std::vector<pat::Electron> > probesToken_;
+  edm::EDGetTokenT<edm::View<reco::Candidate> > probesViewToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > mvaToken_;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
-  probesToken_(consumes<std::vector<pat::Electron> >(iConfig.getParameter<edm::InputTag>("probes"))){
+  probesToken_(consumes<std::vector<pat::Electron> >(iConfig.getParameter<edm::InputTag>("probes"))),
+  probesViewToken_(consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("probes"))),
+  mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))){
   produces<edm::ValueMap<float> >("sip3d");
-  produces<edm::ValueMap<bool> >("passConvVeto");
+  produces<edm::ValueMap<float> >("passConvVeto");
+  produces<edm::ValueMap<float> >("passMVA");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -56,19 +85,29 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   // read input
   edm::Handle<std::vector<pat::Electron> > probes;
   iEvent.getByToken(probesToken_,  probes);
+  edm::Handle<edm::View<reco::Candidate> > probes_view;
+  iEvent.getByToken(probesViewToken_, probes_view);
+  edm::Handle<edm::ValueMap<float> > mvas;
+  iEvent.getByToken(mvaToken_, mvas);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
-  std::vector<bool> passConvVetoValues;
+  std::vector<float> passConvVetoValues;
+  std::vector<float> passMVA;
 
+  size_t i = 0;
   for(auto probe = probes->cbegin(); probe != probes->cend(); ++probe){
     sip3dValues.push_back(probe->dB(pat::Electron::PV3D)/probe->edB(pat::Electron::PV3D));
     passConvVetoValues.push_back(probe->passConversionVeto());
+    edm::RefToBase<reco::Candidate> pp = probes_view->refAt(i);
+    passMVA.push_back(PassMVA(((*mvas)[pp]), probe->pt(), probe->superCluster()->eta()));
+    ++i;
   }
 
   // convert into ValueMap and store
   Store(iEvent, probes, sip3dValues, "sip3d");
   Store(iEvent, probes, passConvVetoValues, "passConvVeto");
+  Store(iEvent, probes, passMVA, "passMVA");
 }
 
 

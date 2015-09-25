@@ -77,6 +77,7 @@ def AddMiniIso(process, options):
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
         probes = cms.InputTag(options['ELECTRON_COLL']),
+        mvas = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues"),
         )
 
     MiniIsoProbeVars = cms.PSet(
@@ -93,6 +94,7 @@ def AddMiniIso(process, options):
         probe_Ele_AbsMini = cms.InputTag("absminiiso:sum"),
         probe_Ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
         probe_Ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
+        probe_Ele_passMVA = cms.InputTag("MyEleVars:passMVA"),
         )
 
     setupAllVIDIdsInModule(process,
