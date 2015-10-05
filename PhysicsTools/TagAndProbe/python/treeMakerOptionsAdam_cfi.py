@@ -1,10 +1,10 @@
 import FWCore.ParameterSet.Config as cms
 
-def AdjustOptions(options):
+def AdjustOptions(options, varOptions):
     options["MAXEVENTS"] = cms.untracked.int32(10000)
 
     options["INPUT_FILE_NAME"] = cms.untracked.vstring()
-    if options["MC_FLAG"]:
+    if varOptions.isMC:
         options["INPUT_FILE_NAME"].extend([
                 "/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v2/00000/00C4781D-6B08-E511-8A0A-0025905A6084.root",
                 "/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v2/00000/02DE3B74-6C08-E511-ABE3-0025905A60D0.root",

@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
-def AddMiniIso(process, options):
+def AddMiniIso(process, options, varOptions):
     #Adds clones of objects managed by Matteo so that upstream changes propagate to mini iso objects
     process.ElectronIsolation =  cms.EDProducer(
         "CITKPFIsolationSumProducer",
@@ -92,9 +92,9 @@ def AddMiniIso(process, options):
         probe_Ele_Mini = cms.InputTag("relminiiso:sum"),
         probe_Ele_RelAct = cms.InputTag("relactivity:sum"),
         probe_Ele_AbsMini = cms.InputTag("absminiiso:sum"),
-        probe_Ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
-        probe_Ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
-        probe_Ele_passMVA = cms.InputTag("MyEleVars:passMVA"),
+        #probe_Ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
+        #probe_Ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
+        #probe_Ele_passMVA = cms.InputTag("MyEleVars:passMVA"),
         )
 
     setupAllVIDIdsInModule(process,
@@ -287,7 +287,7 @@ def AddMiniIso(process, options):
         )
     process.TightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeTightNoIso")
 
-    if options["MC_FLAG"]:
+    if varOptions.isMC:
         process.GsfElectronToID.probeMatches = cms.InputTag("McMatchRECO")
         process.VetoElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
         process.LooseElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
@@ -301,46 +301,35 @@ def AddMiniIso(process, options):
     process.tree_sequence *= process.TightElectronToIso
 
     #Probably a better way to do this, but just copy for now to refresh paths and insert ElectronIsolation
-    if (options['MC_FLAG']):
+    if varOptions.isMC:
         process.p = cms.Path(
-            process.hltHighLevel +
+            process.sampleInfo +
+            process.hltFilter +
             process.ElectronIsolation +
             process.ele_sequence + 
             process.sc_sequence +
-            process.GsfDRToNearestTauProbe +
-            process.GsfDRToNearestTauTag +
-            process.GsfDRToNearestTauSC +
             process.allTagsAndProbes +
             process.pileupReweightingProducer +
             process.mc_sequence +
             process.eleVarHelper +
-            process.MyEleVars +
+            #process.MyEleVars +
             process.iso_sums +
-            process.tree_sequence
-            )
-    elif hasattr(process, 'eleVarHelper'):
-        process.p = cms.Path(
-            process.hltHighLevel +
-            process.ElectronIsolation +
-            process.ele_sequence + 
-            process.sc_sequence +
-            process.allTagsAndProbes +
-            process.mc_sequence +
-            process.eleVarHelper +
-            process.MyEleVars +
-            process.iso_sums +
+            process.GsfDRToNearestTauProbe + 
+            process.GsfDRToNearestTauTag + 
+            process.GsfDRToNearestTauSC + 
             process.tree_sequence
             )
     else:
         process.p = cms.Path(
-            process.hltHighLevel +
+            process.sampleInfo +
+            process.hltFilter +
             process.ElectronIsolation +
             process.ele_sequence + 
             process.sc_sequence +
-            ####process.GsfDRToNearestTau+
             process.allTagsAndProbes +
             process.mc_sequence +
-            process.MyEleVars +
+            #process.MyEleVars +
             process.iso_sums +
+            process.eleVarHelper +
             process.tree_sequence
             )
