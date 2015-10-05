@@ -33,6 +33,9 @@ options['DEBUG']                   = cms.bool(False)
 
 from PhysicsTools.TagAndProbe.treeMakerOptions_cfi import *
 
+import PhysicsTools.TagAndProbe.treeMakerOptionsAdam_cfi as adam
+adam.AdjustOptions(options, varOptions)
+
 if (varOptions.isMC):
     options['INPUT_FILE_NAME']     = "/store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt50ns_MCRUN2_74_V9A-v2/00000/00C4781D-6B08-E511-8A0A-0025905A6084.root"
     options['OUTPUT_FILE_NAME']    = "TnPTree_mc.root"
@@ -82,6 +85,7 @@ process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
 
 from PhysicsTools.TagAndProbe.electronIDModules_cfi import *
 setIDs(process, options)
+
 
 ###################################################################
 ## SEQUENCES
@@ -245,4 +249,4 @@ process.TFileService = cms.Service(
     )
 
 import PhysicsTools.TagAndProbe.makeTreeAdam_cfi as adam
-adam.AddMiniIso(process, options)
+adam.AddMiniIso(process, options, varOptions)
