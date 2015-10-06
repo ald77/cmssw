@@ -170,13 +170,13 @@ cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_tight = configureVIDCutBased
 #
 
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_veto.idName,
-                             '202030579ee3eec90fdc2d236ba3deee')
+                             'a304cdd11209b38a69b2c8c242d1b69d')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_loose.idName,
-                             '4fab9e4d09a2c1a36cbbd2279deb3eee')
+                             '41d3c1e008fe81a2fca59f7dfe7f7d95')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_medium.idName,
-                             'aa291aba714c148fcba156544907ceee')
+                             'c9e0ac748c809f644d87a0d03cbbebbf')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_tight.idName,
-                             '4e13b87c0573d3c8ebf91d446fa1deee')
+                             '25e80917b4f31543248ed36ceee09c92')
 
 
 ### for now until we have a database...
@@ -336,13 +336,13 @@ cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_noiso_tight = configureVIDCu
 #
 
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_noiso_veto.idName,
-                             '202030579ee3eec90fdc2d236ba3dfff')
+                             '67e255b4086e4c2810ffa00d3f13c8d5')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_noiso_loose.idName,
-                             '4fab9e4d09a2c1a36cbbd2279deb3fff')
+                             '24a156cfc92174ad348c073047015c31')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_noiso_medium.idName,
-                             'aa291aba714c148fcba156544907cfff')
+                             '056c52297bd7ea00319d3820929adf3c')
 central_id_registry.register(cutBasedElectronID_Spring15_25ns_Mini_V1_standalone_noiso_tight.idName,
-                             '4e13b87c0573d3c8ebf91d446fa1dfff')
+                             'fd4e3ae8626a83cf34cc46f49bdf5168')
 
 
 ### for now until we have a database...
