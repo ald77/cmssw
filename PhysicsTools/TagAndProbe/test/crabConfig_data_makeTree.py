@@ -10,7 +10,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'makeTree.py'
 config.JobType.pyCfgParams = ['isMC=False']
 
-config.Data.inputDataset = '/SingleElectron/Run2015C-PromptReco-v1/MINIAOD'
+config.Data.inputDataset = '/SingleElectron/Run2015D-PromptReco-v3/MINIAOD'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 20
