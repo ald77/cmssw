@@ -7,7 +7,8 @@ config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'makeTreeData.py'
+config.JobType.psetName = 'makeTree.py'
+config.JobType.pyCfgParams = ['isMC=False']
 
 config.Data.inputDataset = '/SingleElectron/Run2015C-PromptReco-v1/MINIAOD'
 config.Data.inputDBS = 'global'
