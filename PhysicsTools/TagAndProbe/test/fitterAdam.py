@@ -60,10 +60,6 @@ process.load("FWCore.MessageService.MessageLogger_cfi")
 process.MessageLogger.destinations = ['cout', 'cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
-InputFileName = "current/TnPTree_id_norm.root"
-OutputFile = "eff_mc_id.root"
-PDFName = "pdfSignalPlusBackground"
-
 ################################################
 IDEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
@@ -72,7 +68,7 @@ IDEfficiencyBins = cms.PSet(
 IsoEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
     #probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
-    probe_Ele_Act = cms.vdouble(0., 0.02, 0.05, 0.15, 1.),
+    probe_Ele_Act = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 10.),
     )
 
 #specifies the binning of parameters
@@ -149,7 +145,7 @@ DataIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-    InputFileNames = cms.vstring("current/TnPTree_id_norm.root"),
+    InputFileNames = cms.vstring("current/TnPTree_mc_norm.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto_id.root"),
@@ -227,7 +223,7 @@ process.McGsfElectronToTight.Efficiencies = cms.PSet(
     )
 
 process.McVetoElectronToIso = process.McGsfElectronToVeto.clone()
-process.McVetoElectronToIso.InputFileNames = cms.vstring("current/TnPTree_veto_norm.root")
+process.McVetoElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McVetoElectronToIso.InputDirectoryName = cms.string("VetoElectronToIso")
 process.McVetoElectronToIso.OutputFileName = cms.string("eff_mc_veto_iso.root")
 process.McVetoElectronToIso.Categories = cms.PSet(
@@ -242,17 +238,17 @@ process.McVetoElectronToIso.Efficiencies = cms.PSet(
     )
 
 process.McLooseElectronToIso = process.McVetoElectronToIso.clone()
-process.McLooseElectronToIso.InputFileNames = cms.vstring("current/TnPTree_loose_norm.root")
+process.McLooseElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
 process.McLooseElectronToIso.OutputFileName = cms.string("eff_mc_loose_iso.root")
 
 process.McMediumElectronToIso = process.McVetoElectronToIso.clone()
-process.McMediumElectronToIso.InputFileNames = cms.vstring("current/TnPTree_medium_norm.root")
+process.McMediumElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
 process.McMediumElectronToIso.OutputFileName = cms.string("eff_mc_medium_iso.root")
 
 process.McTightElectronToIso = process.McVetoElectronToIso.clone()
-process.McTightElectronToIso.InputFileNames = cms.vstring("current/TnPTree_tight_norm.root")
+process.McTightElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
 process.McTightElectronToIso.OutputFileName = cms.string("eff_mc_tight_iso.root")
 
