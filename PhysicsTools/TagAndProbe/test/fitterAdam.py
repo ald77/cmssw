@@ -36,6 +36,14 @@ options.register(
     "Don't compute efficiencies for ID->ID+Iso"
     )
 
+options.register(
+    "doEta",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Bin in eta instead of activity for isolation efficiencies"
+    )
+
 options.parseArguments()
 
 if (not options.noMC) and (not options.noData):
@@ -65,10 +73,23 @@ IDEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
     probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
     )
+IsoEfficiencyBins = cms.PSet()
+trail = ""
+if (options.doEta):
+    IsoEfficiencyBins = cms.PSet(
+        probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+        probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
+        )
+    trail = "eta"
+else:
+    IsoEfficiencyBins = cms.PSet(
+        probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+        probe_Ele_Act = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
+        )
+    trail = "act"
 IsoEfficiencyBins = cms.PSet(
-    probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
-    #probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
-    probe_Ele_Act = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 10.),
+    probe_sc_et = cms.vdouble(30. ,40.),
+    probe_sc_abseta = cms.vdouble(1.566, 2.5),
     )
 
 #specifies the binning of parameters
@@ -82,45 +103,67 @@ McVetoBinningSpecification = cms.PSet(
     BinnedVariables = cms.PSet(IDEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = cms.vstring(
         "standard",
-        "*eta_bin1*et_bin0*","veto_pt_10_20",
-        "*eta_bin1*et_bin1*","veto_pt_20_30",
-        "*eta_bin1*et_bin2*","veto_pt_30_40",
-        "*eta_bin1*et_bin3*","veto_pt_40_50",
-        "*eta_bin1*et_bin4*","veto_pt_50_200",
+        "*eta_bin1*et_bin0*","veto_id_crack_pt_10_20",
+        "*eta_bin1*et_bin1*","veto_id_crack_pt_20_30",
+        "*eta_bin1*et_bin2*","veto_id_crack_pt_30_40",
+        "*eta_bin1*et_bin3*","veto_id_crack_pt_40_50",
+        "*eta_bin1*et_bin4*","veto_id_crack_pt_50_200",
+        "*et_bin4*","veto_id_pt_50_200",
         )
 )
 McLooseBinningSpecification = McVetoBinningSpecification.clone()
 McLooseBinningSpecification.BinToPDFmap = cms.vstring(
         "standard",
-        "*eta_bin1*et_bin0*","loose_pt_10_20",
-        "*eta_bin1*et_bin1*","loose_pt_20_30",
-        "*eta_bin1*et_bin2*","loose_pt_30_40",
-        "*eta_bin1*et_bin3*","loose_pt_40_50",
-        "*eta_bin1*et_bin4*","loose_pt_50_200",
+        "*eta_bin1*et_bin0*","loose_id_crack_pt_10_20",
+        "*eta_bin1*et_bin1*","loose_id_crack_pt_20_30",
+        "*eta_bin1*et_bin2*","loose_id_crack_pt_30_40",
+        "*eta_bin1*et_bin3*","loose_id_crack_pt_40_50",
+        "*eta_bin1*et_bin4*","loose_id_crack_pt_50_200",
+        "*et_bin4*","loose_id_pt_50_200",
 )
 McMediumBinningSpecification = McVetoBinningSpecification.clone()
 McMediumBinningSpecification.BinToPDFmap = cms.vstring(
         "standard",
-        "*eta_bin1*et_bin0*","medium_pt_10_20",
-        "*eta_bin1*et_bin1*","medium_pt_20_30",
-        "*eta_bin1*et_bin2*","medium_pt_30_40",
-        "*eta_bin1*et_bin3*","medium_pt_40_50",
-        "*eta_bin1*et_bin4*","medium_pt_50_200",
+        "*eta_bin1*et_bin0*","medium_id_crack_pt_10_20",
+        "*eta_bin1*et_bin1*","medium_id_crack_pt_20_30",
+        "*eta_bin1*et_bin2*","medium_id_crack_pt_30_40",
+        "*eta_bin1*et_bin3*","medium_id_crack_pt_40_50",
+        "*eta_bin1*et_bin4*","medium_id_crack_pt_50_200",
+        "*et_bin4*","medium_id_pt_50_200",
 )
 McTightBinningSpecification = McVetoBinningSpecification.clone()
 McTightBinningSpecification.BinToPDFmap = cms.vstring(
         "standard",
-        "*eta_bin1*et_bin0*","tight_pt_10_20",
-        "*eta_bin1*et_bin1*","tight_pt_20_30",
-        "*eta_bin1*et_bin2*","tight_pt_30_40",
-        "*eta_bin1*et_bin3*","tight_pt_40_50",
-        "*eta_bin1*et_bin4*","tight_pt_50_200",
+        "*eta_bin1*et_bin0*","tight_id_crack_pt_10_20",
+        "*eta_bin1*et_bin1*","tight_id_crack_pt_20_30",
+        "*eta_bin1*et_bin2*","tight_id_crack_pt_30_40",
+        "*eta_bin1*et_bin3*","tight_id_crack_pt_40_50",
+        "*eta_bin1*et_bin4*","tight_id_crack_pt_50_200",
+        "*et_bin4*","tight_id_pt_50_200",
 )
-McIsoBinningSpecification = cms.PSet(
+McVetoIsoBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins, mcTrue = cms.vstring("true")),
-    BinToPDFmap = cms.vstring("standard"),
+    BinToPDFmap = cms.vstring(
+        "standard",
+        "*et_bin4*","veto_iso_pt_50_200",
+        ),
 )
+McLooseIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
+McLooseIsoBinningSpecification.BinToPDFmap = cms.vstring(
+    "standard",
+    "*et_bin4*","loose_iso_pt_50_200",
+    )
+McMediumIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
+McMediumIsoBinningSpecification.BinToPDFmap = cms.vstring(
+    "standard",
+    "*et_bin4*","medium_iso_pt_50_200",
+    )
+McTightIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
+McTightIsoBinningSpecification.BinToPDFmap = cms.vstring(
+    "standard",
+    "*et_bin4*","tight_iso_pt_50_200",
+    )
 DataVetoBinningSpecification = McVetoBinningSpecification.clone()
 DataVetoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataVetoBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
@@ -133,9 +176,18 @@ DataMediumBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 DataTightBinningSpecification = McTightBinningSpecification.clone()
 DataTightBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataTightBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
-DataIsoBinningSpecification = McIsoBinningSpecification.clone()
-DataIsoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
-DataIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataVetoIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
+DataVetoIsoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataVetoIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataLooseIsoBinningSpecification = McLooseIsoBinningSpecification.clone()
+DataLooseIsoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLooseIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataMediumIsoBinningSpecification = McMediumIsoBinningSpecification.clone()
+DataMediumIsoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataMediumIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataTightIsoBinningSpecification = McTightIsoBinningSpecification.clone()
+DataTightIsoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataTightIsoBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 
 ############################################################################################
 ############################################################################################
@@ -225,14 +277,14 @@ process.McGsfElectronToTight.Efficiencies = cms.PSet(
 process.McVetoElectronToIso = process.McGsfElectronToVeto.clone()
 process.McVetoElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McVetoElectronToIso.InputDirectoryName = cms.string("VetoElectronToIso")
-process.McVetoElectronToIso.OutputFileName = cms.string("eff_mc_veto_iso.root")
+process.McVetoElectronToIso.OutputFileName = cms.string("eff_mc_veto_iso_"+trail+".root")
 process.McVetoElectronToIso.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"),
     )
 process.McVetoElectronToIso.Efficiencies = cms.PSet(
     MCtruth_Mini = cms.PSet(
-        McIsoBinningSpecification,
+        McVetoIsoBinningSpecification,
         EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
         ),
     )
@@ -240,17 +292,35 @@ process.McVetoElectronToIso.Efficiencies = cms.PSet(
 process.McLooseElectronToIso = process.McVetoElectronToIso.clone()
 process.McLooseElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
-process.McLooseElectronToIso.OutputFileName = cms.string("eff_mc_loose_iso.root")
+process.McLooseElectronToIso.OutputFileName = cms.string("eff_mc_loose_iso_"+trail+".root")
+process.McLooseElectronToIso.Efficiencies = cms.PSet(
+    MCtruth_Mini = cms.PSet(
+        McLooseIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.McMediumElectronToIso = process.McVetoElectronToIso.clone()
 process.McMediumElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
-process.McMediumElectronToIso.OutputFileName = cms.string("eff_mc_medium_iso.root")
+process.McMediumElectronToIso.OutputFileName = cms.string("eff_mc_medium_iso_"+trail+".root")
+process.McMediumElectronToIso.Efficiencies = cms.PSet(
+    MCtruth_Mini = cms.PSet(
+        McMediumIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.McTightElectronToIso = process.McVetoElectronToIso.clone()
 process.McTightElectronToIso.InputFileNames = cms.vstring("current/TnPTree_mc_norm.root")
 process.McTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
-process.McTightElectronToIso.OutputFileName = cms.string("eff_mc_tight_iso.root")
+process.McTightElectronToIso.OutputFileName = cms.string("eff_mc_tight_iso_"+trail+".root")
+process.McTightElectronToIso.Efficiencies = cms.PSet(
+    MCtruth_Mini = cms.PSet(
+        McTightIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.DataGsfElectronToVeto = process.McGsfElectronToVeto.clone()
 process.DataGsfElectronToVeto.InputFileNames = cms.vstring("current/TnPTree_data.root")
@@ -303,26 +373,44 @@ process.DataGsfElectronToTight.Efficiencies = cms.PSet(
 
 process.DataVetoElectronToIso = process.DataGsfElectronToVeto.clone()
 process.DataVetoElectronToIso.InputDirectoryName = cms.string("VetoElectronToIso")
-process.DataVetoElectronToIso.OutputFileName = cms.string("eff_data_veto_iso.root")
+process.DataVetoElectronToIso.OutputFileName = cms.string("eff_data_veto_iso_"+trail+".root")
 process.DataVetoElectronToIso.Categories = cms.PSet(passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"))
 process.DataVetoElectronToIso.Efficiencies = cms.PSet(
     Mini = cms.PSet(
-        DataIsoBinningSpecification,
+        DataVetoIsoBinningSpecification,
         EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
         ),
     )
 
 process.DataLooseElectronToIso = process.DataVetoElectronToIso.clone()
 process.DataLooseElectronToIso.InputDirectoryName = cms.string("LooseElectronToIso")
-process.DataLooseElectronToIso.OutputFileName = cms.string("eff_data_loose_iso.root")
+process.DataLooseElectronToIso.OutputFileName = cms.string("eff_data_loose_iso_"+trail+".root")
+process.DataLooseElectronToIso.Efficiencies = cms.PSet(
+    Mini = cms.PSet(
+        DataLooseIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.DataMediumElectronToIso = process.DataVetoElectronToIso.clone()
 process.DataMediumElectronToIso.InputDirectoryName = cms.string("MediumElectronToIso")
-process.DataMediumElectronToIso.OutputFileName = cms.string("eff_data_medium_iso.root")
+process.DataMediumElectronToIso.OutputFileName = cms.string("eff_data_medium_iso_"+trail+".root")
+process.DataMediumElectronToIso.Efficiencies = cms.PSet(
+    Mini = cms.PSet(
+        DataMediumIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.DataTightElectronToIso = process.DataVetoElectronToIso.clone()
 process.DataTightElectronToIso.InputDirectoryName = cms.string("TightElectronToIso")
-process.DataTightElectronToIso.OutputFileName = cms.string("eff_data_tight_iso.root")
+process.DataTightElectronToIso.OutputFileName = cms.string("eff_data_tight_iso_"+trail+".root")
+process.DataTightElectronToIso.Efficiencies = cms.PSet(
+    Mini = cms.PSet(
+        DataTightIsoBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
+        ),
+    )
 
 process.seq = cms.Sequence()
 
