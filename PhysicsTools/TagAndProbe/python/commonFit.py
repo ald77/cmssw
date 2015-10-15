@@ -78,10 +78,21 @@ tight_60p0To100p0_1p5To2p5 = cms.vstring(
 "efficiency[0.5,0,1]",
 "signalFractionInPassing[1.0]"
 ),
-
+crystalball = cms.vstring(
+        "RooCBShape::signalResPass(mass,meanP[-0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])",
+        "RooCBShape::signalResFail(mass,meanF[-0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])",
+        "ZGeneratorLineShape::signalPhyPass(mass)",
+        "ZGeneratorLineShape::signalPhyFail(mass)",
+        "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
+        "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])",
+        "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+        "FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+        "efficiency[0.5,0,1]",
+        "signalFractionInPassing[1.]",
+        ),
 standard = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-7.000,7.000],sigmaP[0.956,0.00,7.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-7.000,7.000],sigmaF[0.956,0.00,7.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass)",
         "ZGeneratorLineShape::signalPhyFail(mass)",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -92,8 +103,8 @@ standard = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_crack_pt_10_20 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -104,8 +115,8 @@ veto_id_crack_pt_10_20 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_crack_pt_20_30 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -116,8 +127,8 @@ veto_id_crack_pt_20_30 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_crack_pt_30_40 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -128,8 +139,8 @@ veto_id_crack_pt_30_40 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_crack_pt_40_50 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -140,8 +151,8 @@ veto_id_crack_pt_40_50 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_crack_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -152,8 +163,8 @@ veto_id_crack_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_crack_pt_10_20 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -164,8 +175,8 @@ loose_id_crack_pt_10_20 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_crack_pt_20_30 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -176,8 +187,8 @@ loose_id_crack_pt_20_30 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_crack_pt_30_40 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -188,8 +199,8 @@ loose_id_crack_pt_30_40 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_crack_pt_40_50 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -200,8 +211,8 @@ loose_id_crack_pt_40_50 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_crack_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -212,8 +223,8 @@ loose_id_crack_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_crack_pt_10_20 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -224,8 +235,8 @@ medium_id_crack_pt_10_20 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_crack_pt_20_30 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -236,8 +247,8 @@ medium_id_crack_pt_20_30 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_crack_pt_30_40 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -248,8 +259,8 @@ medium_id_crack_pt_30_40 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_crack_pt_40_50 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -260,8 +271,8 @@ medium_id_crack_pt_40_50 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_crack_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -272,8 +283,8 @@ medium_id_crack_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_crack_pt_10_20 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -284,8 +295,8 @@ tight_id_crack_pt_10_20 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_crack_pt_20_30 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -296,8 +307,8 @@ tight_id_crack_pt_20_30 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_crack_pt_30_40 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -308,8 +319,8 @@ tight_id_crack_pt_30_40 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_crack_pt_40_50 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -320,8 +331,8 @@ tight_id_crack_pt_40_50 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_crack_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -332,8 +343,8 @@ tight_id_crack_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_id_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -344,8 +355,8 @@ veto_id_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_id_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -356,8 +367,8 @@ loose_id_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_id_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -368,8 +379,8 @@ medium_id_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_id_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -380,8 +391,8 @@ tight_id_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 veto_iso_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -392,8 +403,8 @@ veto_iso_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 loose_iso_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -404,8 +415,8 @@ loose_iso_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 medium_iso_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
@@ -416,8 +427,8 @@ medium_iso_pt_50_200 = cms.vstring(
         "signalFractionInPassing[1.]"     
         ),
 tight_iso_pt_50_200 = cms.vstring(
-        "RooGaussian::signalResPass(mass, meanP[.0,-5.000,5.000],sigmaP[0.956,0.00,5.000])",
-        "RooGaussian::signalResFail(mass, meanF[.0,-5.000,5.000],sigmaF[0.956,0.00,5.000])",
+        "RooGaussian::signalResPass(mass, meanP[.0,-10.000,10.000],sigmaP[0.956,0.00,10.000])",
+        "RooGaussian::signalResFail(mass, meanF[.0,-10.000,10.000],sigmaF[0.956,0.00,10.000])",
         "ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
         "ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_highpt.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
         "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
