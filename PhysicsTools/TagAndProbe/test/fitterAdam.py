@@ -69,6 +69,7 @@ process.MessageLogger.destinations = ['cout', 'cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 ################################################
+#specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
     probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
@@ -87,16 +88,6 @@ else:
         probe_Ele_Act = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
     trail = "act"
-IsoEfficiencyBins = cms.PSet(
-    probe_sc_et = cms.vdouble(30. ,40.),
-    probe_sc_abseta = cms.vdouble(1.566, 2.5),
-    )
-
-#specifies the binning of parameters
-EfficiencyBins = cms.PSet(
-    probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
-    probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
-    )
 
 McVetoBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
