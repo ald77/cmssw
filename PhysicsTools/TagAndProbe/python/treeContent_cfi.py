@@ -42,7 +42,7 @@ ProbeVariablesToStore = cms.PSet(
     probe_Ele_mHits         = cms.InputTag("eleVarHelper:missinghits"),
     probe_Ele_dz            = cms.InputTag("eleVarHelper:dz"),
     probe_Ele_dxy           = cms.InputTag("eleVarHelper:dxy"),
-    probe_Ele_mva           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Phys14NonTrigValues"),
+    probe_Ele_mva           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     
     #isolation
     probe_Ele_chIso         = cms.string("pfIsolationVariables().sumChargedHadronPt"),
