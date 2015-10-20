@@ -33,6 +33,24 @@ namespace{
     iEvent.put(valMap, name);
   }
 
+  std::vector<bool> And(const std::vector<bool> &a, std::vector<bool> b){
+    size_t min_size = a.size(), max_size = b.size();
+    if(a.size() > b.size()){
+      size_t temp = min_size;
+      min_size = max_size;
+      max_size = temp;
+    }
+    std::vector<bool> result(max_size);
+    for(size_t i = 0; i < max_size; ++i){
+      if(i < min_size){
+	result.at(i) = a.at(i) && b.at(i);
+      }else{
+	result.at(i) = false;
+      }
+    }
+    return result;
+  }
+
   bool PassMVAVLooseFO(double mva, double abssceta){
     if(abssceta<0.8){
       return mva > -0.7;
@@ -68,6 +86,34 @@ namespace{
       return false;
     }
   }
+
+  bool PassTightIP2D(double dxy, double dz){
+    return fabs(dxy) < 0.05 && fabs(dz) < 0.1;
+  }
+
+  bool PassIDEmu(const pat::Electron &ele){
+    if(ele.isEB()){
+      return ele.sigmaIetaIeta() < 0.011
+	&& ele.hadronicOverEm() < 0.08
+	&& fabs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
+	&& fabs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.04
+	&& fabs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
+    }else if(ele.isEE()){
+      return ele.sigmaIetaIeta() < 0.031
+	&& ele.hadronicOverEm() < 0.08
+	&& fabs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
+	&& fabs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.08
+	&& fabs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
+    }else{
+      return false;
+    }
+  }
+
+  bool PassISOEmu(const pat::Electron &ele){
+    return ele.ecalPFClusterIso() / ele.pt() < 0.45
+      && ele.hcalPFClusterIso() / ele.pt() < 0.25
+      && ele.dr03TkSumPt() / ele.pt() < 0.2;
+  }
 }
 
 class MyElectronVariableHelper : public edm::EDProducer {
@@ -81,17 +127,38 @@ private:
   edm::EDGetTokenT<std::vector<pat::Electron> > probesToken_;
   edm::EDGetTokenT<edm::View<reco::Candidate> > probesViewToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > mvaToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > dxyToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > dzToken_;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
   probesToken_(consumes<std::vector<pat::Electron> >(iConfig.getParameter<edm::InputTag>("probes"))),
   probesViewToken_(consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("probes"))),
-  mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))){
+  mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))),
+  dxyToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dxy"))),
+  dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))){
   produces<edm::ValueMap<float> >("sip3d");
+  produces<edm::ValueMap<float> >("ecalIso");
+  produces<edm::ValueMap<float> >("hcalIso");
+  produces<edm::ValueMap<float> >("trackIso");
+  produces<edm::ValueMap<int> >("missIHits");
   produces<edm::ValueMap<MyBool> >("passConvVeto");
   produces<edm::ValueMap<MyBool> >("passMVAVLooseFO");
   produces<edm::ValueMap<MyBool> >("passMVAVLoose");
   produces<edm::ValueMap<MyBool> >("passMVATight");
+  produces<edm::ValueMap<MyBool> >("passTightIP2D");
+  produces<edm::ValueMap<MyBool> >("passTightIP3D");
+  produces<edm::ValueMap<MyBool> >("passIDEmu");
+  produces<edm::ValueMap<MyBool> >("passISOEmu");
+  produces<edm::ValueMap<MyBool> >("passCharge");
+  produces<edm::ValueMap<MyBool> >("passIHit0");
+  produces<edm::ValueMap<MyBool> >("passIHit1");
+  produces<edm::ValueMap<MyBool> >("passLoose2D");
+  produces<edm::ValueMap<MyBool> >("passFOID2D");
+  produces<edm::ValueMap<MyBool> >("passTight2D3D");
+  produces<edm::ValueMap<MyBool> >("passTightID2D3D");
+  produces<edm::ValueMap<MyBool> >("passConvIHit1");
+  produces<edm::ValueMap<MyBool> >("passConvIHit0");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -105,31 +172,88 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(probesViewToken_, probes_view);
   edm::Handle<edm::ValueMap<float> > mvas;
   iEvent.getByToken(mvaToken_, mvas);
+  edm::Handle<edm::ValueMap<float> > dxys;
+  iEvent.getByToken(dxyToken_, dxys);
+  edm::Handle<edm::ValueMap<float> > dzs;
+  iEvent.getByToken(dzToken_, dzs);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
-  std::vector<MyBool> passConvVetoValues;
+  std::vector<float> ecalIsoValues;
+  std::vector<float> hcalIsoValues;
+  std::vector<float> trackIsoValues;
+  std::vector<int> missingInnerHitsValues;
+  std::vector<MyBool> passConversionVeto;
   std::vector<MyBool> passMVAVLooseFO;
   std::vector<MyBool> passMVAVLoose;
   std::vector<MyBool> passMVATight;
+  std::vector<MyBool> passTightIP2D;
+  std::vector<MyBool> passTightIP3D;
+  std::vector<MyBool> passIDEmu;
+  std::vector<MyBool> passISOEmu;
+  std::vector<MyBool> passCharge;
+  std::vector<MyBool> passIHit0;
+  std::vector<MyBool> passIHit1;
 
   size_t i = 0;
-  for(auto probe = probes->cbegin(); probe != probes->cend(); ++probe){
-    sip3dValues.push_back(probe->dB(pat::Electron::PV3D)/probe->edB(pat::Electron::PV3D));
-    passConvVetoValues.push_back(probe->passConversionVeto());
+  for(const auto &probe: *probes){
     edm::RefToBase<reco::Candidate> pp = probes_view->refAt(i);
-    passMVAVLooseFO.push_back(PassMVAVLooseFO(((*mvas)[pp]), probe->superCluster()->eta()));
-    passMVAVLoose.push_back(PassMVAVLoose(((*mvas)[pp]), probe->superCluster()->eta()));
-    passMVATight.push_back(PassMVATight(((*mvas)[pp]), probe->superCluster()->eta()));
+
+    double ip3d = probe.dB(pat::Electron::PV3D);
+    double ip3d_err = probe.edB(pat::Electron::PV3D);
+    double sip3d = ip3d/ip3d_err;
+    double mva = (*mvas)[pp];
+    double dxy = (*dxys)[pp];
+    double dz = (*dzs)[pp];
+    double ecalIso = probe.ecalPFClusterIso();
+    double hcalIso = probe.hcalPFClusterIso();
+    double trackIso = probe.dr03TkSumPt();
+    int missingInnerHits = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+
+    sip3dValues.push_back(sip3d);
+    ecalIsoValues.push_back(ecalIso);
+    hcalIsoValues.push_back(hcalIso);
+    trackIsoValues.push_back(trackIso);
+    missingInnerHitsValues.push_back(missingInnerHits);
+    passConversionVeto.push_back(probe.passConversionVeto());
+    passMVAVLooseFO.push_back(PassMVAVLooseFO(mva, fabs(probe.superCluster()->eta())));
+    passMVAVLoose.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())));
+    passMVATight.push_back(PassMVATight(mva, fabs(probe.superCluster()->eta())));
+    passTightIP2D.push_back(PassTightIP2D(dxy, dz));
+    passTightIP3D.push_back(fabs(sip3d < 4.));
+    passIDEmu.push_back(PassIDEmu(probe));
+    passISOEmu.push_back(PassISOEmu(probe));
+    passCharge.push_back(probe.isGsfCtfScPixChargeConsistent());
+    passIHit0.push_back(missingInnerHits == 0);
+    passIHit1.push_back(missingInnerHits <= 1);
     ++i;
   }
 
   // convert into ValueMap and store
   Store(iEvent, probes, sip3dValues, "sip3d");
-  Store(iEvent, probes, passConvVetoValues, "passConvVeto");
+  Store(iEvent, probes, ecalIsoValues, "ecalIso");
+  Store(iEvent, probes, hcalIsoValues, "hcalIso");
+  Store(iEvent, probes, trackIsoValues, "trackIso");
+  Store(iEvent, probes, missingInnerHitsValues, "missIHits");
+  Store(iEvent, probes, passConversionVeto, "passConvVeto");
   Store(iEvent, probes, passMVAVLooseFO, "passMVAVLooseFO");
   Store(iEvent, probes, passMVAVLoose, "passMVAVLoose");
   Store(iEvent, probes, passMVATight, "passMVATight");
+  Store(iEvent, probes, passTightIP2D, "passTightIP2D");
+  Store(iEvent, probes, passTightIP3D, "passTightIP3D");
+  Store(iEvent, probes, passIDEmu, "passIDEmu");
+  Store(iEvent, probes, passISOEmu, "passISOEmu");
+  Store(iEvent, probes, passCharge, "passCharge");
+  Store(iEvent, probes, passIHit0, "passIHit0");
+  Store(iEvent, probes, passIHit1, "passIHit1");
+  Store(iEvent, probes, And(passMVAVLoose, passTightIP2D), "passLoose2D");
+  Store(iEvent, probes, And(And(passMVAVLooseFO, passIDEmu), passTightIP2D), "passFOID2D");
+  Store(iEvent, probes, And(And(passMVATight, passTightIP2D), passTightIP3D), "passTight2D3D");
+  Store(iEvent, probes,
+	And(And(And(passMVATight, passIDEmu), passTightIP2D), passTightIP3D),
+	"passTightID2D3D");
+  Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
+  Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0");
 }
 
 

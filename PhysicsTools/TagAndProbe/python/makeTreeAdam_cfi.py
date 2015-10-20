@@ -77,24 +77,45 @@ def AddMiniIso(process, options, varOptions):
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
         probes = cms.InputTag(options['ELECTRON_COLL']),
-        #mvas = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig"),
-        mvas = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values")
+        mvas = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
+        dxy = cms.InputTag("eleVarHelper:dxy"),
+        dz = cms.InputTag("eleVarHelper:dz"),
         )
 
     MiniIsoProbeVars = cms.PSet(
         process.GsfElectronToRECO.variables,
-        probe_Ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
-        probe_Ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
-        probe_Ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
-        probe_Ele_chAct = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
-        probe_Ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
-        probe_Ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
-        probe_Ele_Act = cms.InputTag("absactivity:sum"),
-        probe_Ele_Mini = cms.InputTag("relminiiso:sum"),
-        probe_Ele_RelAct = cms.InputTag("relactivity:sum"),
-        probe_Ele_AbsMini = cms.InputTag("absminiiso:sum"),
-        probe_Ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
-        probe_Ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
+        probe_ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
+        probe_ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
+        probe_ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
+        probe_ele_chAct = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005-Act040"),
+        probe_ele_neuAct = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005-Act040"),
+        probe_ele_phoAct = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005-Act040"),
+        probe_ele_Act = cms.InputTag("absactivity:sum"),
+        probe_ele_Mini = cms.InputTag("relminiiso:sum"),
+        probe_ele_RelAct = cms.InputTag("relactivity:sum"),
+        probe_ele_AbsMini = cms.InputTag("absminiiso:sum"),
+        probe_ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
+        probe_ele_ecalIso = cms.InputTag("MyEleVars:ecalIso"),
+        probe_ele_hcalIso = cms.InputTag("MyEleVars:hcalIso"),
+        probe_ele_trackIso = cms.InputTag("MyEleVars:trackIso"),
+        probe_ele_missIHits = cms.InputTag("MyEleVars:missIHits"),
+        probe_ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
+        probe_ele_passMVAVLooseFO = cms.InputTag("MyEleVars:passMVAVLooseFO"),
+        probe_ele_passMVAVLoose = cms.InputTag("MyEleVars:passMVAVLoose"),
+        probe_ele_passMVATight = cms.InputTag("MyEleVars:passMVATight"),
+        probe_ele_passTightIP2D = cms.InputTag("MyEleVars:passTightIP2D"),
+        probe_ele_passTightIP3D = cms.InputTag("MyEleVars:passTightIP3D"),
+        probe_ele_passIDEmu = cms.InputTag("MyEleVars:passIDEmu"),
+        probe_ele_passISOEmu = cms.InputTag("MyEleVars:passISOEmu"),
+        probe_ele_passCharge = cms.InputTag("MyEleVars:passCharge"),
+        probe_ele_passIHit0 = cms.InputTag("MyEleVars:passIHit0"),
+        probe_ele_passIHit1 = cms.InputTag("MyEleVars:passIHit1"),
+        probe_ele_passLoose2D = cms.InputTag("MyEleVars:passLoose2D"),
+        probe_ele_passFOID2D = cms.InputTag("MyEleVars:passFOID2D"),
+        probe_ele_passTight2D3D = cms.InputTag("MyEleVars:passTight2D3D"),
+        probe_ele_passTightID2D3D = cms.InputTag("MyEleVars:passTightID2D3D"),
+        probe_ele_passConvIHit1 = cms.InputTag("MyEleVars:passConvIHit1"),
+        probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
         )
 
     setupAllVIDIdsInModule(process,
@@ -170,6 +191,7 @@ def AddMiniIso(process, options, varOptions):
         process.relminiiso
         )                                   
 
+    #Applies probe cuts and WP
     process.goodElectronsPROBECutBasedMiniVeto = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBECutBasedMiniVeto.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-veto")
     process.goodElectronsPROBECutBasedNoIsoVeto = process.goodElectronsPROBECutBasedVeto.clone()
@@ -193,6 +215,7 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBEMVATight = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEMVATight.selection = cms.InputTag("MyEleVars:passMVATight");
 
+    #Applies trigger matching
     process.goodElectronsProbeVetoMini = process.goodElectronsTagHLT.clone()
     process.goodElectronsProbeVetoMini.isAND = cms.bool(False)
     process.goodElectronsProbeVetoMini.inputs = cms.InputTag("goodElectronsPROBECutBasedMiniVeto")
@@ -331,13 +354,13 @@ def AddMiniIso(process, options, varOptions):
             process.hltFilter +
             process.ElectronIsolation +
             process.ele_sequence + 
+            process.eleVarHelper +
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
             process.allTagsAndProbes +
             process.pileupReweightingProducer +
             process.mc_sequence +
-            process.eleVarHelper +
             process.iso_sums +
             process.GsfDRToNearestTauProbe + 
             process.GsfDRToNearestTauTag + 
@@ -350,12 +373,12 @@ def AddMiniIso(process, options, varOptions):
             process.hltFilter +
             process.ElectronIsolation +
             process.ele_sequence + 
+            process.eleVarHelper +
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
             process.allTagsAndProbes +
             process.mc_sequence +
             process.iso_sums +
-            process.eleVarHelper +
             process.tree_sequence
             )
