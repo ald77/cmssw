@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 def AdjustOptions(options, varOptions):
-    options["MAXEVENTS"] = cms.untracked.int32(10000)
+    options["MAXEVENTS"] = cms.untracked.int32(1010)
 
     options["INPUT_FILE_NAME"] = cms.untracked.vstring()
     if varOptions.isMC:
