@@ -19,6 +19,8 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
 namespace{
+  typedef bool MyBool;
+
   template<typename T>
     void Store(edm::Event &iEvent,
 	       const edm::Handle<std::vector<pat::Electron> > &probes,
@@ -31,27 +33,39 @@ namespace{
     iEvent.put(valMap, name);
   }
 
-  bool PassMVA(double mva, double pt, double abssceta){
-    if(pt<10.){
-      if(abssceta<0.8){
-	return mva>0.87;
-      }else if(abssceta<1.479){
-	return mva>0.60;
-      }else if(abssceta<2.5){
-	return mva>0.17;
-      }else{
-	return false;
-      }
+  bool PassMVAVLooseFO(double mva, double abssceta){
+    if(abssceta<0.8){
+      return mva > -0.7;
+    }else if(abssceta<1.479){
+      return mva > -0.83;
+    }else if(abssceta<2.5){
+      return mva > -0.92;
     }else{
-      if(abssceta<0.8){
-	return mva>0.87;
-      }else if(abssceta<1.479){
-	return mva>0.60;
-      }else if(abssceta<2.5){
-	return mva>0.17;
-      }else{
-	return false;
-      }
+      return false;
+    }
+  }
+
+  bool PassMVAVLoose(double mva, double abssceta){
+    if(abssceta<0.8){
+      return mva > -0.16;
+    }else if(abssceta<1.479){
+      return mva > -0.65;
+    }else if(abssceta<2.5){
+      return mva > -0.74;
+    }else{
+      return false;
+    }
+  }
+
+  bool PassMVATight(double mva, double abssceta){
+    if(abssceta<0.8){
+      return mva > 0.87;
+    }else if(abssceta<1.479){
+      return mva > 0.60;
+    }else if(abssceta<2.5){
+      return mva > 0.17;
+    }else{
+      return false;
     }
   }
 }
@@ -74,8 +88,10 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   probesViewToken_(consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("probes"))),
   mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))){
   produces<edm::ValueMap<float> >("sip3d");
-  produces<edm::ValueMap<float> >("passConvVeto");
-  produces<edm::ValueMap<float> >("passMVA");
+  produces<edm::ValueMap<MyBool> >("passConvVeto");
+  produces<edm::ValueMap<MyBool> >("passMVAVLooseFO");
+  produces<edm::ValueMap<MyBool> >("passMVAVLoose");
+  produces<edm::ValueMap<MyBool> >("passMVATight");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -92,22 +108,28 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
 
   // prepare vector for output
   std::vector<float> sip3dValues;
-  std::vector<float> passConvVetoValues;
-  std::vector<float> passMVA;
+  std::vector<MyBool> passConvVetoValues;
+  std::vector<MyBool> passMVAVLooseFO;
+  std::vector<MyBool> passMVAVLoose;
+  std::vector<MyBool> passMVATight;
 
   size_t i = 0;
   for(auto probe = probes->cbegin(); probe != probes->cend(); ++probe){
     sip3dValues.push_back(probe->dB(pat::Electron::PV3D)/probe->edB(pat::Electron::PV3D));
     passConvVetoValues.push_back(probe->passConversionVeto());
     edm::RefToBase<reco::Candidate> pp = probes_view->refAt(i);
-    passMVA.push_back(PassMVA(((*mvas)[pp]), probe->pt(), probe->superCluster()->eta()));
+    passMVAVLooseFO.push_back(PassMVAVLooseFO(((*mvas)[pp]), probe->superCluster()->eta()));
+    passMVAVLoose.push_back(PassMVAVLoose(((*mvas)[pp]), probe->superCluster()->eta()));
+    passMVATight.push_back(PassMVATight(((*mvas)[pp]), probe->superCluster()->eta()));
     ++i;
   }
 
   // convert into ValueMap and store
   Store(iEvent, probes, sip3dValues, "sip3d");
   Store(iEvent, probes, passConvVetoValues, "passConvVeto");
-  Store(iEvent, probes, passMVA, "passMVA");
+  Store(iEvent, probes, passMVAVLooseFO, "passMVAVLooseFO");
+  Store(iEvent, probes, passMVAVLoose, "passMVAVLoose");
+  Store(iEvent, probes, passMVATight, "passMVATight");
 }
 
 
