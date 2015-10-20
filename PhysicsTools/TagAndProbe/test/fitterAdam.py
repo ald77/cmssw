@@ -99,61 +99,93 @@ McVetoBinningSpecification = cms.PSet(
         "*eta_bin1*et_bin2*","veto_id_crack_pt_30_40",
         "*eta_bin1*et_bin3*","veto_id_crack_pt_40_50",
         "*eta_bin1*et_bin4*","veto_id_crack_pt_50_200",
+        "*et_bin0*","veto_id_pt_10_20",
+        "*et_bin1*","veto_id_pt_20_30",
+        "*et_bin2*","veto_id_pt_30_40",
+        "*et_bin3*","veto_id_pt_40_50",
         "*et_bin4*","veto_id_pt_50_200",
         )
-)
+    )
 McLooseBinningSpecification = McVetoBinningSpecification.clone()
 McLooseBinningSpecification.BinToPDFmap = cms.vstring(
-        "standard",
-        "*eta_bin1*et_bin0*","loose_id_crack_pt_10_20",
-        "*eta_bin1*et_bin1*","loose_id_crack_pt_20_30",
-        "*eta_bin1*et_bin2*","loose_id_crack_pt_30_40",
-        "*eta_bin1*et_bin3*","loose_id_crack_pt_40_50",
-        "*eta_bin1*et_bin4*","loose_id_crack_pt_50_200",
-        "*et_bin4*","loose_id_pt_50_200",
-)
+    "standard",
+    "*eta_bin1*et_bin0*","loose_id_crack_pt_10_20",
+    "*eta_bin1*et_bin1*","loose_id_crack_pt_20_30",
+    "*eta_bin1*et_bin2*","loose_id_crack_pt_30_40",
+    "*eta_bin1*et_bin3*","loose_id_crack_pt_40_50",
+    "*eta_bin1*et_bin4*","loose_id_crack_pt_50_200",
+    "*et_bin0*","loose_id_pt_10_20",
+    "*et_bin1*","loose_id_pt_20_30",
+    "*et_bin2*","loose_id_pt_30_40",
+    "*et_bin3*","loose_id_pt_40_50",
+    "*et_bin4*","loose_id_pt_50_200",
+    )
 McMediumBinningSpecification = McVetoBinningSpecification.clone()
 McMediumBinningSpecification.BinToPDFmap = cms.vstring(
-        "standard",
-        "*eta_bin1*et_bin0*","medium_id_crack_pt_10_20",
-        "*eta_bin1*et_bin1*","medium_id_crack_pt_20_30",
-        "*eta_bin1*et_bin2*","medium_id_crack_pt_30_40",
-        "*eta_bin1*et_bin3*","medium_id_crack_pt_40_50",
-        "*eta_bin1*et_bin4*","medium_id_crack_pt_50_200",
-        "*et_bin4*","medium_id_pt_50_200",
-)
+    "standard",
+    "*eta_bin1*et_bin0*","medium_id_crack_pt_10_20",
+    "*eta_bin1*et_bin1*","medium_id_crack_pt_20_30",
+    "*eta_bin1*et_bin2*","medium_id_crack_pt_30_40",
+    "*eta_bin1*et_bin3*","medium_id_crack_pt_40_50",
+    "*eta_bin1*et_bin4*","medium_id_crack_pt_50_200",
+    "*et_bin0*","medium_id_pt_10_20",
+    "*et_bin1*","medium_id_pt_20_30",
+    "*et_bin2*","medium_id_pt_30_40",
+    "*et_bin3*","medium_id_pt_40_50",
+    "*et_bin4*","medium_id_pt_50_200",
+    )
 McTightBinningSpecification = McVetoBinningSpecification.clone()
 McTightBinningSpecification.BinToPDFmap = cms.vstring(
-        "standard",
-        "*eta_bin1*et_bin0*","tight_id_crack_pt_10_20",
-        "*eta_bin1*et_bin1*","tight_id_crack_pt_20_30",
-        "*eta_bin1*et_bin2*","tight_id_crack_pt_30_40",
-        "*eta_bin1*et_bin3*","tight_id_crack_pt_40_50",
-        "*eta_bin1*et_bin4*","tight_id_crack_pt_50_200",
-        "*et_bin4*","tight_id_pt_50_200",
-)
+    "standard",
+    "*eta_bin1*et_bin0*","tight_id_crack_pt_10_20",
+    "*eta_bin1*et_bin1*","tight_id_crack_pt_20_30",
+    "*eta_bin1*et_bin2*","tight_id_crack_pt_30_40",
+    "*eta_bin1*et_bin3*","tight_id_crack_pt_40_50",
+    "*eta_bin1*et_bin4*","tight_id_crack_pt_50_200",
+    "*et_bin0*","tight_id_pt_10_20",
+    "*et_bin1*","tight_id_pt_20_30",
+    "*et_bin2*","tight_id_pt_30_40",
+    "*et_bin3*","tight_id_pt_40_50",
+    "*et_bin4*","tight_id_pt_50_200",
+    )
 McVetoIsoBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = cms.vstring(
         "standard",
+        "*et_bin0*","veto_iso_pt_10_20",
+        "*et_bin1*","veto_iso_pt_20_30",
+        "*et_bin2*","veto_iso_pt_30_40",
+        "*et_bin3*","veto_iso_pt_40_50",
         "*et_bin4*","veto_iso_pt_50_200",
         ),
-)
+    )
 McLooseIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
 McLooseIsoBinningSpecification.BinToPDFmap = cms.vstring(
     "standard",
-    "*et_bin4*","loose_iso_pt_50_200",
+    "*et_bin0*","veto_iso_pt_10_20",
+    "*et_bin1*","veto_iso_pt_20_30",
+    "*et_bin2*","veto_iso_pt_30_40",
+    "*et_bin3*","veto_iso_pt_40_50",
+    "*et_bin4*","veto_iso_pt_50_200",
     )
 McMediumIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
 McMediumIsoBinningSpecification.BinToPDFmap = cms.vstring(
     "standard",
-    "*et_bin4*","medium_iso_pt_50_200",
+    "*et_bin0*","veto_iso_pt_10_20",
+    "*et_bin1*","veto_iso_pt_20_30",
+    "*et_bin2*","veto_iso_pt_30_40",
+    "*et_bin3*","veto_iso_pt_40_50",
+    "*et_bin4*","veto_iso_pt_50_200",
     )
 McTightIsoBinningSpecification = McVetoIsoBinningSpecification.clone()
 McTightIsoBinningSpecification.BinToPDFmap = cms.vstring(
     "standard",
-    "*et_bin4*","tight_iso_pt_50_200",
+    "*et_bin0*","veto_iso_pt_10_20",
+    "*et_bin1*","veto_iso_pt_20_30",
+    "*et_bin2*","veto_iso_pt_30_40",
+    "*et_bin3*","veto_iso_pt_40_50",
+    "*et_bin4*","veto_iso_pt_50_200",
     )
 DataVetoBinningSpecification = McVetoBinningSpecification.clone()
 DataVetoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
