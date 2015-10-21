@@ -234,6 +234,8 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsProbeMediumNoIso.inputs = cms.InputTag("goodElectronsPROBECutBasedNoIsoMedium")
     process.goodElectronsProbeMVAVLoose = process.goodElectronsProbeMediumNoIso.clone()
     process.goodElectronsProbeMVAVLoose.inputs = cms.InputTag("goodElectronsPROBEMVAVLoose")
+    process.goodElectronsProbeMVATight = process.goodElectronsProbeMediumNoIso.clone()
+    process.goodElectronsProbeMVATight.inputs = cms.InputTag("goodElectronsPROBEMVATight")
 
     process.ele_sequence += process.goodElectronsPROBECutBasedNoIsoVeto
     process.ele_sequence += process.goodElectronsPROBECutBasedNoIsoLoose
@@ -256,6 +258,7 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsPROBEConvIHit1
     process.my_ele_sequence += process.goodElectronsPROBEConvIHit0Chg
     process.my_ele_sequence += process.goodElectronsProbeMVAVLoose
+    process.my_ele_sequence += process.goodElectronsProbeMVATight
 
     process.tagTightID = process.tagTightRECO.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
@@ -263,10 +266,13 @@ def AddMiniIso(process, options, varOptions):
     process.tagTightMiniMedium.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBECutBasedNoIsoMedium@-")
     process.tagTightMiniMVAVLoose = process.tagTightRECO.clone()
     process.tagTightMiniMVAVLoose.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBEMVAVLoose@-")
+    process.tagTightMiniMVATight = process.tagTightRECO.clone()
+    process.tagTightMiniMVATight.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBEMVATight@-")
 
     process.allTagsAndProbes *= process.tagTightID
     process.allTagsAndProbes *= process.tagTightMiniMedium
     process.allTagsAndProbes *= process.tagTightMiniMVAVLoose
+    process.allTagsAndProbes *= process.tagTightMiniMVATight
 
     process.GsfElectronToRECO.jetCollection = cms.InputTag("slimmedJets")
     process.GsfElectronToRECO.jet_pt_cut = cms.double(30.)
@@ -285,8 +291,6 @@ def AddMiniIso(process, options, varOptions):
         passingFOID2D = cms.InputTag("goodElectronsPROBEFOID2D"),
         passingTight2D3D = cms.InputTag("goodElectronsPROBETight2D3D"),
         passingTightID2D3D = cms.InputTag("goodElectronsPROBETightID2D3D"),
-        passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
-        passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.MediumElectronToIso = process.GsfElectronToRECO.clone()
@@ -295,6 +299,8 @@ def AddMiniIso(process, options, varOptions):
     process.MediumElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniMedium"),
         passingMini4 = cms.InputTag("goodElectronsPROBECutBasedMini4Medium"),
+        passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
+        passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         passingStandard = cms.InputTag("goodElectronsPROBECutBasedMedium"),
         )
     process.MediumElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMediumNoIso")
@@ -304,9 +310,20 @@ def AddMiniIso(process, options, varOptions):
     process.MVAVLooseElectronToIso.flags = cms.PSet(
         passingMini = cms.InputTag("goodElectronsPROBEMiniMVAVLoose"),
         passingMini4 = cms.InputTag("goodElectronsPROBEMini4MVAVLoose"),
+        passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
+        passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         passingStandard = cms.InputTag("goodElectronsPROBEMVAVLoose"),
         )
     process.MVAVLooseElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVAVLoose")
+    process.MVATightElectronToIso = process.GsfElectronToRECO.clone()
+    process.MVATightElectronToIso.variables = MiniIsoProbeVars
+    process.MVATightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVATight")
+    process.MVATightElectronToIso.flags = cms.PSet(
+        passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
+        passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
+        passingStandard = cms.InputTag("goodElectronsPROBEMVATight"),
+        )
+    process.MVATightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVATight")
 
     if varOptions.isMC:
         process.GsfElectronToID.probeMatches = cms.InputTag("McMatchRECO")
@@ -315,6 +332,7 @@ def AddMiniIso(process, options, varOptions):
     process.tree_sequence *= process.GsfElectronToID
     process.tree_sequence *= process.MediumElectronToIso
     process.tree_sequence *= process.MVAVLooseElectronToIso
+    process.tree_sequence *= process.MVATightElectronToIso
 
     #Probably a better way to do this, but just copy for now to refresh paths and insert ElectronIsolation
 
