@@ -9,13 +9,13 @@ def AdjustOptions(options, varOptions):
         options["TnPHLTTagFilters"]        = cms.vstring("hltSingleEle22WP75GsfTrackIsoFilter")
         options["TnPHLTProbeFilters"]      = cms.vstring()
         options["HLTFILTERTOMEASURE"]      = cms.vstring("hltSingleEle22WP75GsfTrackIsoFilter")
-        options["GLOBALTAG"]               = "MCRUN2_74_V9"
+        options["GLOBALTAG"]               = "74X_mcRun2_asymptotic_v2"
     else:
         options["TnPPATHS"]            = cms.vstring("HLT_Ele22_eta2p1_WPLoose_Gsf_v*")
         options["TnPHLTTagFilters"]    = cms.vstring("hltSingleEle22WPLooseGsfTrackIsoFilter")
         options["TnPHLTProbeFilters"]  = cms.vstring()
         options["HLTFILTERTOMEASURE"]  = cms.vstring("hltSingleEle22WPLooseGsfTrackIsoFilter")
-        options["GLOBALTAG"]           = "74X_dataRun2_Prompt_v2"
+        options["GLOBALTAG"]           = "74X_dataRun2_Prompt_v4"
 
     if varOptions.isMC:
         options["INPUT_FILE_NAME"].extend([
