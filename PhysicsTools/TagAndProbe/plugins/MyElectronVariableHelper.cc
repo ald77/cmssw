@@ -129,6 +129,7 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > mvaToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > dxyToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > dzToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > miniIsoToken_;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
@@ -136,7 +137,8 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   probesViewToken_(consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("probes"))),
   mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))),
   dxyToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dxy"))),
-  dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))){
+  dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))),
+  miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))){
   produces<edm::ValueMap<float> >("sip3d");
   produces<edm::ValueMap<float> >("ecalIso");
   produces<edm::ValueMap<float> >("hcalIso");
@@ -145,6 +147,8 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passConvVeto");
   produces<edm::ValueMap<MyBool> >("passMVAVLooseFO");
   produces<edm::ValueMap<MyBool> >("passMVAVLoose");
+  produces<edm::ValueMap<MyBool> >("passMVAVLooseMini");
+  produces<edm::ValueMap<MyBool> >("passMVAVLooseMini4");
   produces<edm::ValueMap<MyBool> >("passMVATight");
   produces<edm::ValueMap<MyBool> >("passTightIP2D");
   produces<edm::ValueMap<MyBool> >("passTightIP3D");
@@ -158,7 +162,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passTight2D3D");
   produces<edm::ValueMap<MyBool> >("passTightID2D3D");
   produces<edm::ValueMap<MyBool> >("passConvIHit1");
-  produces<edm::ValueMap<MyBool> >("passConvIHit0");
+  produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -176,6 +180,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(dxyToken_, dxys);
   edm::Handle<edm::ValueMap<float> > dzs;
   iEvent.getByToken(dzToken_, dzs);
+  edm::Handle<edm::ValueMap<float> > miniIsos;
+  iEvent.getByToken(miniIsoToken_, miniIsos);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -186,6 +192,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passConversionVeto;
   std::vector<MyBool> passMVAVLooseFO;
   std::vector<MyBool> passMVAVLoose;
+  std::vector<MyBool> passMVAVLooseMini;
+  std::vector<MyBool> passMVAVLooseMini4;
   std::vector<MyBool> passMVATight;
   std::vector<MyBool> passTightIP2D;
   std::vector<MyBool> passTightIP3D;
@@ -205,6 +213,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     double mva = (*mvas)[pp];
     double dxy = (*dxys)[pp];
     double dz = (*dzs)[pp];
+    double mini_iso = (*miniIsos)[pp];
     double ecalIso = probe.ecalPFClusterIso();
     double hcalIso = probe.hcalPFClusterIso();
     double trackIso = probe.dr03TkSumPt();
@@ -218,6 +227,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passConversionVeto.push_back(probe.passConversionVeto());
     passMVAVLooseFO.push_back(PassMVAVLooseFO(mva, fabs(probe.superCluster()->eta())));
     passMVAVLoose.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())));
+    passMVAVLooseMini.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.1);
+    passMVAVLooseMini4.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.4);
     passMVATight.push_back(PassMVATight(mva, fabs(probe.superCluster()->eta())));
     passTightIP2D.push_back(PassTightIP2D(dxy, dz));
     passTightIP3D.push_back(fabs(sip3d < 4.));
@@ -238,6 +249,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, passConversionVeto, "passConvVeto");
   Store(iEvent, probes, passMVAVLooseFO, "passMVAVLooseFO");
   Store(iEvent, probes, passMVAVLoose, "passMVAVLoose");
+  Store(iEvent, probes, passMVAVLooseMini, "passMVAVLooseMini");
+  Store(iEvent, probes, passMVAVLooseMini4, "passMVAVLooseMini4");
   Store(iEvent, probes, passMVATight, "passMVATight");
   Store(iEvent, probes, passTightIP2D, "passTightIP2D");
   Store(iEvent, probes, passTightIP3D, "passTightIP3D");
@@ -253,7 +266,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
 	And(And(And(passMVATight, passIDEmu), passTightIP2D), passTightIP3D),
 	"passTightID2D3D");
   Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
-  Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0");
+  Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
 }
 
 
