@@ -19,18 +19,20 @@ def main(options):
     for binVar1 in xrange(len(var1s)-1):
         for binVar2 in xrange(len(var2s)-1):
             psetName = options.idLabel+"_"+str(var1s[binVar1])+"To"+str(var1s[binVar1+1])+"_"+str(var2s[binVar2])+"To"+str(var2s[binVar2+1])
-            psetName = psetName.replace(".", "p") + " = cms.vstring(\n"
-            psetName = psetName.replace("-", "m") + " = cms.vstring(\n"
+            psetName = psetName.replace(".", "p")
+            psetName = psetName.replace("-", "m")
+            psetName = psetName + " = cms.vstring(\n"
             outputFile.write(psetName)
 
-            outputFile.write("\"RooGaussian::signalResPass(mass, meanP[1.0,-5.000,5.000],sigmaP[0.5,0.001,5.000])\",\n")
-            outputFile.write("\"RooGaussian::signalResFail(mass, meanF[1.0,-5.000,5.000],sigmaF[0.5,0.001,5.000])\",\n")
+            #outputFile.write("\"RooCBShape::signalResPass(mass,meanP[-0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])\",\n")
+            #outputFile.write("\"RooCBShape::signalResFail(mass,meanF[-0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])\",\n")
+            outputFile.write("\"RooGaussian::signalResPass(mass, meanP[1.0,-10.000,10.000],sigmaP[0.5,0.001,10.000])\",\n")
+            outputFile.write("\"RooGaussian::signalResFail(mass, meanF[1.0,-10.000,10.000],sigmaF[0.5,0.001,10.000])\",\n")
             histNameSt = "hMass_"+str(var1s[binVar1])+"To"+str(var1s[binVar1+1])+"_"+str(var2s[binVar2])+"To"+str(var2s[binVar2+1])
             outputFile.write("\"ZGeneratorLineShape::signalPhyPass(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Pass\\\")\",\n"),
             outputFile.write("\"ZGeneratorLineShape::signalPhyFail(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Fail\\\")\",\n"),
             outputFile.write(options.passBkgPdf+",\n")
             outputFile.write(options.failBkgPdf+",\n")
-            outputFile.write("\"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])\",\n")
             outputFile.write("\"FCONV::signalPass(mass, signalPhyPass, signalResPass)\",\n")
             outputFile.write("\"FCONV::signalFail(mass, signalPhyFail, signalResFail)\",\n")     
             outputFile.write("\"efficiency[0.5,0,1]\",\n")

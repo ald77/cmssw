@@ -46,7 +46,7 @@ def main(options):
 
             hpassInt = histos[hp].Integral()
             hfailInt = histos[hf].Integral()
-            print hpassInt, hfailInt, hpassInt/(hpassInt+hfailInt)
+            print hpassInt, hfailInt
     
     outFile = ROOT.TFile(options.output, "RECREATE")
     for k in histos:
