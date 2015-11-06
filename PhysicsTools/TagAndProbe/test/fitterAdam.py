@@ -72,14 +72,14 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
-    probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
+    probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
 IsoEfficiencyBins = cms.PSet()
 trail = ""
 if (options.doEta):
     IsoEfficiencyBins = cms.PSet(
         probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
-        probe_sc_abseta = cms.vdouble(0., 1.442, 1.566, 2.5),
+        probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
         )
     trail = "eta"
 else:
