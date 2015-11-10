@@ -16,7 +16,8 @@ def AdjustOptions(options, varOptions):
         options["TnPHLTProbeFilters"]  = cms.vstring()
         options["HLTFILTERTOMEASURE"]  = cms.vstring("hltSingleEle22WPLooseGsfTrackIsoFilter")
         options["GLOBALTAG"]           = "74X_dataRun2_Prompt_v4"
-
+        if varOptions.isRunC:
+            options["GLOBALTAG"]           = "74X_dataRun2_v4"
     if varOptions.isMC:
         options["INPUT_FILE_NAME"].extend([
             "/store/mc/RunIISpring15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/74X_mcRun2_asymptotic_v2-v1/60000/02CDE51A-726D-E511-B2C4-0025905C96EA.root",

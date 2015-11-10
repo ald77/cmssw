@@ -14,6 +14,13 @@ varOptions.register(
     VarParsing.varType.bool,
     "Compute MC efficiencies"
     )
+varOptions.register(
+    "isRunC",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Using data from run C"
+    )
 
 varOptions.parseArguments()
 
