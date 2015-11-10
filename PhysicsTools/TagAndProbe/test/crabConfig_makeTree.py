@@ -16,6 +16,6 @@ config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 10
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
-config.Data.publishDataName = 'CRAB3_TnP_tree'
+config.Data.outputDatasetTag = 'CRAB3_TnP_tree'
 
 config.Site.storageSite = 'T2_US_UCSD'

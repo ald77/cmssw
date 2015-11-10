@@ -18,6 +18,6 @@ config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/
 config.Data.runRange = '246908-260426'
 config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = True
-config.Data.publishDataName = 'CRAB3_TnP_tree'
+config.Data.outputDatasetTag = 'CRAB3_TnP_tree'
 
 config.Site.storageSite = 'T2_US_UCSD'
