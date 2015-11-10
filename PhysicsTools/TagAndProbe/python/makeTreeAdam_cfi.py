@@ -3,6 +3,7 @@ from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
 def AddMiniIso(process, options, varOptions):
     #Adds clones of objects managed by Matteo so that upstream changes propagate to mini iso objects
+    process.load("JetMETCorrections.Configuration.JetCorrectors_cff")
     process.ElectronIsolation =  cms.EDProducer(
         "CITKPFIsolationSumProducer",
         srcToIsolate = cms.InputTag("slimmedElectrons"),
@@ -74,9 +75,14 @@ def AddMiniIso(process, options, varOptions):
         ),
     )
 
+    process.jetConverter = cms.EDProducer(
+        "JetConverter",
+        jets=cms.InputTag("slimmedJets")
+    )
+
     process.jetAwareCleaner = cms.EDProducer(
         "JetAwareCleaner",
-        RawJetCollection= cms.InputTag("ak4PFJetsCHS"),
+        RawJetCollection= cms.InputTag("jetConverter"),
         LeptonCollection= cms.InputTag(options['ELECTRON_COLL']),
         L1Corrector = cms.InputTag("ak4PFCHSL1FastjetCorrector"),
         L1L2L3ResCorrector= cms.InputTag("ak4PFCHSL1FastL2L3Corrector"),
@@ -251,6 +257,8 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBEConvIHit1.selection = cms.InputTag("MyEleVars:passConvIHit1")
     process.goodElectronsPROBEConvIHit0Chg = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEConvIHit0Chg.selection = cms.InputTag("MyEleVars:passConvIHit0Chg")
+    process.goodElectronsPROBEMultiIso = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIso.selection = cms.InputTag("MyEleVars:passMultiIso")
 
     #Applies trigger matching (denominators need to be listed here)
     process.goodElectronsProbeMediumNoIso = process.goodElectronsTagHLT.clone()
@@ -283,6 +291,7 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsPROBEConvIHit0Chg
     process.my_ele_sequence += process.goodElectronsProbeMVAVLoose
     process.my_ele_sequence += process.goodElectronsProbeMVATight
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIso
 
     process.tagTightID = process.tagTightRECO.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
@@ -321,6 +330,7 @@ def AddMiniIso(process, options, varOptions):
     process.MediumElectronToIso.variables = MiniIsoProbeVars
     process.MediumElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMedium")
     process.MediumElectronToIso.flags = cms.PSet(
+        passingMultiIso = cms.InputTag("goodElectronsPROBEMultiIso"),
         passingMini = cms.InputTag("goodElectronsPROBECutBasedMiniMedium"),
         passingMini4 = cms.InputTag("goodElectronsPROBECutBasedMini4Medium"),
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
@@ -332,6 +342,7 @@ def AddMiniIso(process, options, varOptions):
     process.MVAVLooseElectronToIso.variables = MiniIsoProbeVars
     process.MVAVLooseElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVAVLoose")
     process.MVAVLooseElectronToIso.flags = cms.PSet(
+        passingMultiIso = cms.InputTag("goodElectronsPROBEMultiIso"),
         passingMini = cms.InputTag("goodElectronsPROBEMiniMVAVLoose"),
         passingMini4 = cms.InputTag("goodElectronsPROBEMini4MVAVLoose"),
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
@@ -368,6 +379,8 @@ def AddMiniIso(process, options, varOptions):
             process.ele_sequence + 
             process.eleVarHelper +
             process.iso_sums +
+            process.ak4PFCHSL1FastL2L3CorrectorChain +
+            process.jetConverter + 
             process.jetAwareCleaner + 
             process.AddPtRatioPtRel + 
             process.MyEleVars +
@@ -389,6 +402,8 @@ def AddMiniIso(process, options, varOptions):
             process.ele_sequence + 
             process.eleVarHelper +
             process.iso_sums +
+            process.ak4PFCHSL1FastL2L3CorrectorChain +
+            process.jetConverter + 
             process.jetAwareCleaner + 
             process.AddPtRatioPtRel + 
             process.MyEleVars +
