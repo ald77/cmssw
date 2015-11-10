@@ -17,7 +17,7 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('h+'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
+            ),
             cms.PSet(
                 isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
                 coneSize = cms.double(0.2),
@@ -27,7 +27,7 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('h0'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
+            ),
             cms.PSet(
                 isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
                 coneSize = cms.double(0.2),
@@ -37,7 +37,7 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('gamma'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
+            ),
             cms.PSet(
                 isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
                 coneSize = cms.double(0.2),
@@ -48,7 +48,7 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('h+'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
+            ),
             cms.PSet(
                 isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
                 coneSize = cms.double(0.2),
@@ -59,7 +59,7 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('h0'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
+            ),
             cms.PSet(
                 isolationAlgo = cms.string('ElectronMiniIsolationWithConeVeto'),
                 coneSize = cms.double(0.2),
@@ -70,9 +70,28 @@ def AddMiniIso(process, options, varOptions):
                 VetoConeSizeBarrel = cms.double(0.0),
                 isolateAgainst = cms.string('gamma'),
                 miniAODVertexCodes = cms.vuint32(2,3),
-                ),
             ),
-        )
+        ),
+    )
+
+    process.jetAwareCleaner = cms.EDProducer(
+        "JetAwareCleaner",
+        RawJetCollection= cms.InputTag("ak4PFJetsCHS"),
+        LeptonCollection= cms.InputTag(options['ELECTRON_COLL']),
+        L1Corrector = cms.InputTag("ak4PFCHSL1FastjetCorrector"),
+        L1L2L3ResCorrector= cms.InputTag("ak4PFCHSL1FastL2L3Corrector"),
+        dRmax = cms.double(0.4),
+        dRCandProbeVeto = cms.double(0.0001)
+    )
+    
+    process.AddPtRatioPtRel = cms.EDProducer(
+        "AddPtRatioPtRel",
+        probes = cms.InputTag(options['ELECTRON_COLL']),
+        # jets = cms.InputTag("ak4PFCHSJetsL1L2L3"),
+        jets = cms.InputTag("jetAwareCleaner"),
+        dRmax = cms.double(0.4),
+        subLepFromJetForPtRel = cms.bool(True)
+    )
 
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
@@ -80,8 +99,10 @@ def AddMiniIso(process, options, varOptions):
         mvas = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
         dxy = cms.InputTag("eleVarHelper:dxy"),
         dz = cms.InputTag("eleVarHelper:dz"),
-        miniIso = cms.InputTag("relminiiso:sum")
-        )
+        miniIso = cms.InputTag("relminiiso:sum"),
+        ptRatio = cms.InputTag("AddPtRatioPtRel","PtRatio"),
+        ptRel = cms.InputTag("AddPtRatioPtRel","PtRel"),
+    )
 
     MiniIsoProbeVars = cms.PSet(
         process.GsfElectronToRECO.variables,
@@ -95,6 +116,8 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_Mini = cms.InputTag("relminiiso:sum"),
         probe_ele_RelAct = cms.InputTag("relactivity:sum"),
         probe_ele_AbsMini = cms.InputTag("absminiiso:sum"),
+        probe_ele_PtRatio = cms.InputTag("AddPtRatioPtRel","PtRatio"),
+        probe_ele_PtRel = cms.InputTag("AddPtRatioPtRel","PtRel"),
         probe_ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
         probe_ele_ecalIso = cms.InputTag("MyEleVars:ecalIso"),
         probe_ele_hcalIso = cms.InputTag("MyEleVars:hcalIso"),
@@ -117,7 +140,8 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passTightID2D3D = cms.InputTag("MyEleVars:passTightID2D3D"),
         probe_ele_passConvIHit1 = cms.InputTag("MyEleVars:passConvIHit1"),
         probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
-        )
+        probe_ele_passMultiIso = cms.InputTag("MyEleVars:passMultiIso"),
+    )
 
     setupAllVIDIdsInModule(process,
                            'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_Mini_V1_cff',
@@ -129,7 +153,7 @@ def AddMiniIso(process, options, varOptions):
             for cut in eleid.idDefinition.cutFlow:
                 if cut.cutName == "GsfEleEffAreaMiniIsoCut":
                     activity_pset = cut
-    
+                    
     process.absactivity = cms.EDProducer(
         "IsolationSum",
         effAreasConfigFile = activity_pset.effAreasConfigFile,
@@ -143,7 +167,7 @@ def AddMiniIso(process, options, varOptions):
         ktScale = cms.double(10.),
         actRadius = cms.double(0.4),
         isRelativeIso = cms.bool(False),
-        )
+    )
     process.relactivity = cms.EDProducer(
         "IsolationSum",
         effAreasConfigFile = activity_pset.effAreasConfigFile,
@@ -157,7 +181,7 @@ def AddMiniIso(process, options, varOptions):
         ktScale = cms.double(10.),
         actRadius = cms.double(0.4),
         isRelativeIso = cms.bool(True),
-        )
+    )
     process.absminiiso =  cms.EDProducer(
         "IsolationSum",
         effAreasConfigFile = activity_pset.effAreasConfigFile,
@@ -170,7 +194,7 @@ def AddMiniIso(process, options, varOptions):
         maxRadius = cms.double(0.2),
         ktScale = cms.double(10.),
         isRelativeIso = cms.bool(False),
-        )                                      
+    )                                      
     process.relminiiso =  cms.EDProducer(
         "IsolationSum",
         effAreasConfigFile = activity_pset.effAreasConfigFile,
@@ -183,14 +207,14 @@ def AddMiniIso(process, options, varOptions):
         maxRadius = cms.double(0.2),
         ktScale = cms.double(10.),
         isRelativeIso = cms.bool(True),
-        )
+    )
 
     process.iso_sums = cms.Sequence(
         process.absactivity +
         process.relactivity +
         process.absminiiso +
         process.relminiiso
-        )                                   
+    )                                   
 
     #Applies probe cuts and WP (numerators and denominators both need to be listed here)
     process.goodElectronsPROBECutBasedNoIsoVeto = process.goodElectronsPROBECutBasedVeto.clone()
@@ -291,7 +315,7 @@ def AddMiniIso(process, options, varOptions):
         passingFOID2D = cms.InputTag("goodElectronsPROBEFOID2D"),
         passingTight2D3D = cms.InputTag("goodElectronsPROBETight2D3D"),
         passingTightID2D3D = cms.InputTag("goodElectronsPROBETightID2D3D"),
-        )
+    )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.MediumElectronToIso = process.GsfElectronToRECO.clone()
     process.MediumElectronToIso.variables = MiniIsoProbeVars
@@ -302,7 +326,7 @@ def AddMiniIso(process, options, varOptions):
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
         passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         passingStandard = cms.InputTag("goodElectronsPROBECutBasedMedium"),
-        )
+    )
     process.MediumElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMediumNoIso")
     process.MVAVLooseElectronToIso = process.GsfElectronToRECO.clone()
     process.MVAVLooseElectronToIso.variables = MiniIsoProbeVars
@@ -313,7 +337,7 @@ def AddMiniIso(process, options, varOptions):
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
         passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         passingStandard = cms.InputTag("goodElectronsPROBEMVAVLoose"),
-        )
+    )
     process.MVAVLooseElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVAVLoose")
     process.MVATightElectronToIso = process.GsfElectronToRECO.clone()
     process.MVATightElectronToIso.variables = MiniIsoProbeVars
@@ -322,7 +346,7 @@ def AddMiniIso(process, options, varOptions):
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
         passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
         passingStandard = cms.InputTag("goodElectronsPROBEMVATight"),
-        )
+    )
     process.MVATightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVATight")
 
     if varOptions.isMC:
@@ -344,6 +368,8 @@ def AddMiniIso(process, options, varOptions):
             process.ele_sequence + 
             process.eleVarHelper +
             process.iso_sums +
+            process.jetAwareCleaner + 
+            process.AddPtRatioPtRel + 
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
@@ -354,7 +380,7 @@ def AddMiniIso(process, options, varOptions):
             process.GsfDRToNearestTauTag + 
             process.GsfDRToNearestTauSC + 
             process.tree_sequence
-            )
+        )
     else:
         process.p = cms.Path(
             process.sampleInfo +
@@ -363,10 +389,12 @@ def AddMiniIso(process, options, varOptions):
             process.ele_sequence + 
             process.eleVarHelper +
             process.iso_sums +
+            process.jetAwareCleaner + 
+            process.AddPtRatioPtRel + 
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
             process.allTagsAndProbes +
             process.mc_sequence +
             process.tree_sequence
-            )
+        )

@@ -114,6 +114,12 @@ namespace{
       && ele.hcalPFClusterIso() / ele.pt() < 0.25
       && ele.dr03TkSumPt() / ele.pt() < 0.2;
   }
+
+  bool PassMultiIso(double mini_iso,
+		    double pt_ratio,
+		    double pt_rel){
+    return mini_iso < 0.12 && (pt_ratio > 0.80 || pt_rel > 7.2);
+  }
 }
 
 class MyElectronVariableHelper : public edm::EDProducer {
@@ -130,6 +136,8 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > dxyToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > dzToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > miniIsoToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > ptRatioToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > ptRelToken_;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
@@ -138,7 +146,9 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))),
   dxyToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dxy"))),
   dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))),
-  miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))){
+  miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))),
+  ptRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRatio"))),
+  ptRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRel"))){  
   produces<edm::ValueMap<float> >("sip3d");
   produces<edm::ValueMap<float> >("ecalIso");
   produces<edm::ValueMap<float> >("hcalIso");
@@ -163,6 +173,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passTightID2D3D");
   produces<edm::ValueMap<MyBool> >("passConvIHit1");
   produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
+  produces<edm::ValueMap<MyBool> >("passMultiIso");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -182,6 +193,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(dzToken_, dzs);
   edm::Handle<edm::ValueMap<float> > miniIsos;
   iEvent.getByToken(miniIsoToken_, miniIsos);
+  edm::Handle<edm::ValueMap<float> > ptRatios;
+  iEvent.getByToken(ptRatioToken_, ptRatios);
+  edm::Handle<edm::ValueMap<float> > ptRels;
+  iEvent.getByToken(ptRelToken_, ptRels);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -202,6 +217,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passCharge;
   std::vector<MyBool> passIHit0;
   std::vector<MyBool> passIHit1;
+  std::vector<MyBool> passMultiIso;
 
   size_t i = 0;
   for(const auto &probe: *probes){
@@ -214,6 +230,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     double dxy = (*dxys)[pp];
     double dz = (*dzs)[pp];
     double mini_iso = (*miniIsos)[pp];
+    double pt_ratio = (*ptRatios)[pp];
+    double pt_rel = (*ptRels)[pp];
     double ecalIso = probe.ecalPFClusterIso();
     double hcalIso = probe.hcalPFClusterIso();
     double trackIso = probe.dr03TkSumPt();
@@ -237,6 +255,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passCharge.push_back(probe.isGsfCtfScPixChargeConsistent());
     passIHit0.push_back(missingInnerHits == 0);
     passIHit1.push_back(missingInnerHits <= 1);
+    passMultiIso.push_back(PassMultiIso(mini_iso, pt_ratio, pt_rel));
     ++i;
   }
 
@@ -267,6 +286,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
 	"passTightID2D3D");
   Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
   Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
+  Store(iEvent, probes, passMultiIso, "passMultiIso");
 }
 
 
