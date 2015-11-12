@@ -13,9 +13,11 @@ python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../d
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMini_crack.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMini4_crack.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini4 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
+python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMulti_crack.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMulti --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMini_crack.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMini4_crack.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini4 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
+python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMulti_crack.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMulti --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToConvIHit1_crack.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingConvIHit1 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVATightElectronToConvIHit0Chg_crack.root -d MVATightElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingConvIHit0Chg --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=1.442,1.566 &
@@ -31,9 +33,11 @@ python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../d
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMini_alleta.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMini4_alleta.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini4 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
+python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MediumElectronToMulti_alleta.root -d MediumElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMulti --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMini_alleta.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMini4_alleta.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMini4 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
+python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToMulti_alleta.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingMulti --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVAVLooseElectronToConvIHit1_alleta.root -d MVAVLooseElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingConvIHit1 --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
 
 python MCTemplates/getTemplatesFromMC.py -i current/TnPTree_mc_norm.root -o ../data/MVATightElectronToConvIHit0Chg_alleta.root -d MVATightElectronToIso --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingConvIHit0Chg --var1Name=probe_Ele_et --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_eta --var2Bins=0,2.5 &
@@ -53,9 +57,11 @@ python MCTemplates/makeConfigForTemplates.py -i TightID2D3D_crack -o ../python/c
 
 python MCTemplates/makeConfigForTemplates.py -i MediumMini_crack -o ../python/commonFit_MediumMini_crack.py -t ../data/MediumElectronToMini_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
 python MCTemplates/makeConfigForTemplates.py -i MediumMini4_crack -o ../python/commonFit_MediumMini4_crack.py -t ../data/MediumElectronToMini4_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
+python MCTemplates/makeConfigForTemplates.py -i MediumMulti_crack -o ../python/commonFit_MediumMulti_crack.py -t ../data/MediumElectronToMulti_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
 
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMini_crack -o ../python/commonFit_MVAVLooseMini_crack.py -t ../data/MVAVLooseElectronToMini_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMini4_crack -o ../python/commonFit_MVAVLooseMini4_crack.py -t ../data/MVAVLooseElectronToMini4_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
+python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMulti_crack -o ../python/commonFit_MVAVLooseMulti_crack.py -t ../data/MVAVLooseElectronToMulti_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseConvIHit1_crack -o ../python/commonFit_MVAVLooseConvIHit1_crack.py -t ../data/MVAVLooseElectronToConvIHit1_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
 
 python MCTemplates/makeConfigForTemplates.py -i MVATightConvIHit0Chg_crack -o ../python/commonFit_MVATightConvIHit0Chg_crack.py -t ../data/MVATightElectronToConvIHit0Chg_crack.root --var1Bins=10,20,30,40,50,200 --var2Bins=1.442,1.566 &
@@ -71,9 +77,11 @@ python MCTemplates/makeConfigForTemplates.py -i TightID2D3D_alleta -o ../python/
 
 python MCTemplates/makeConfigForTemplates.py -i MediumMini_alleta -o ../python/commonFit_MediumMini_alleta.py -t ../data/MediumElectronToMini_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
 python MCTemplates/makeConfigForTemplates.py -i MediumMini4_alleta -o ../python/commonFit_MediumMini4_alleta.py -t ../data/MediumElectronToMini4_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
+python MCTemplates/makeConfigForTemplates.py -i MediumMulti_alleta -o ../python/commonFit_MediumMulti_alleta.py -t ../data/MediumElectronToMulti_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
 
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMini_alleta -o ../python/commonFit_MVAVLooseMini_alleta.py -t ../data/MVAVLooseElectronToMini_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMini4_alleta -o ../python/commonFit_MVAVLooseMini4_alleta.py -t ../data/MVAVLooseElectronToMini4_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
+python MCTemplates/makeConfigForTemplates.py -i MVAVLooseMulti_alleta -o ../python/commonFit_MVAVLooseMulti_alleta.py -t ../data/MVAVLooseElectronToMulti_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
 python MCTemplates/makeConfigForTemplates.py -i MVAVLooseConvIHit1_alleta -o ../python/commonFit_MVAVLooseConvIHit1_alleta.py -t ../data/MVAVLooseElectronToConvIHit1_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
 
 python MCTemplates/makeConfigForTemplates.py -i MVATightConvIHit0Chg_alleta -o ../python/commonFit_MVATightConvIHit0Chg_alleta.py -t ../data/MVATightElectronToConvIHit0Chg_alleta.root --var1Bins=10,20,30,40,50,200 --var2Bins=0,2.5 &
@@ -95,9 +103,11 @@ head --lines=-2 ../python/commonFit_TightID2D3D_crack.py | tail --lines=+4  >> .
 
 head --lines=-2 ../python/commonFit_MediumMini_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MediumMini4_crack.py | tail --lines=+4  >> ../python/commonFit.py
+head --lines=-2 ../python/commonFit_MediumMulti_crack.py | tail --lines=+4  >> ../python/commonFit.py
 
 head --lines=-2 ../python/commonFit_MVAVLooseMini_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVAVLooseMini4_crack.py | tail --lines=+4  >> ../python/commonFit.py
+head --lines=-2 ../python/commonFit_MVAVLooseMulti_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVAVLooseConvIHit1_crack.py | tail --lines=+4  >> ../python/commonFit.py
 
 head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_crack.py | tail --lines=+4  >> ../python/commonFit.py
@@ -113,9 +123,11 @@ head --lines=-2 ../python/commonFit_TightID2D3D_alleta.py | tail --lines=+4  >> 
 
 head --lines=-2 ../python/commonFit_MediumMini_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MediumMini4_alleta.py | tail --lines=+4  >> ../python/commonFit.py
+head --lines=-2 ../python/commonFit_MediumMulti_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 
 head --lines=-2 ../python/commonFit_MVAVLooseMini_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVAVLooseMini4_alleta.py | tail --lines=+4  >> ../python/commonFit.py
+head --lines=-2 ../python/commonFit_MVAVLooseMulti_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVAVLooseConvIHit1_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 
 head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_alleta.py | tail --lines=+4  >> ../python/commonFit.py
