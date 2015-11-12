@@ -2,6 +2,62 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import PhysicsTools.TagAndProbe.commonFit as common
 
+def BinSpec(name):
+    return cms.vstring(
+        "standard",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_sc_abseta_bin1*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_sc_abseta_bin1*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_sc_abseta_bin1*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_sc_abseta_bin1*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_sc_abseta_bin1*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_sc_abseta_bin2*probe_sc_et_bin0*",name+"_crack_10p0To20p0_1p442To1p566",
+        "*probe_sc_abseta_bin2*probe_sc_et_bin1*",name+"_crack_20p0To30p0_1p442To1p566",
+        "*probe_sc_abseta_bin2*probe_sc_et_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
+        "*probe_sc_abseta_bin2*probe_sc_et_bin3*",name+"_crack_40p0To50p0_1p442To1p566",
+        "*probe_sc_abseta_bin2*probe_sc_et_bin4*",name+"_crack_50p0To200p0_1p442To1p566",
+        "*probe_sc_abseta_bin3*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_sc_abseta_bin3*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_sc_abseta_bin3*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_sc_abseta_bin3*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_sc_abseta_bin3*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_sc_abseta_bin4*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_sc_abseta_bin4*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_sc_abseta_bin4*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_sc_abseta_bin4*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_sc_abseta_bin4*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_sc_abseta_bin0*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin0*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin0*probe_sc_et_bin1*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin0*probe_sc_et_bin2*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin0*probe_sc_et_bin3*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin0*probe_sc_et_bin4*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin1*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin1*probe_sc_et_bin1*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin1*probe_sc_et_bin2*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin1*probe_sc_et_bin3*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin1*probe_sc_et_bin4*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin2*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin2*probe_sc_et_bin1*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin2*probe_sc_et_bin2*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin2*probe_sc_et_bin3*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin2*probe_sc_et_bin4*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin3*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin3*probe_sc_et_bin1*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin3*probe_sc_et_bin2*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin3*probe_sc_et_bin3*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin3*probe_sc_et_bin4*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin4*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin4*probe_sc_et_bin1*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin4*probe_sc_et_bin2*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin4*probe_sc_et_bin3*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_ele_RelAct_bin4*probe_sc_et_bin4*",name+"_alleta_10p0To20p0_0p0To2p5",
+        )
+
 options = VarParsing('analysis')
 
 options.register(
@@ -92,275 +148,50 @@ else:
 McVetoBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     BinnedVariables = cms.PSet(IDEfficiencyBins, mcTrue = cms.vstring("true")),
-    BinToPDFmap = cms.vstring(
-        "standard",
-        "*eta_bin1*et_bin0*","Veto_crack_10p0To20p0_1p442To1p566",
-        "*eta_bin1*et_bin1*","Veto_crack_20p0To30p0_1p442To1p566",
-        "*eta_bin1*et_bin2*","Veto_crack_30p0To40p0_1p442To1p566",
-        "*eta_bin1*et_bin3*","Veto_crack_40p0To50p0_1p442To1p566",
-        "*eta_bin1*et_bin4*","Veto_crack_50p0To200p0_1p442To1p566",
-        "*et_bin0*eta_bin1*","Veto_crack_10p0To20p0_1p442To1p566",
-        "*et_bin1*eta_bin1*","Veto_crack_20p0To30p0_1p442To1p566",
-        "*et_bin2*eta_bin1*","Veto_crack_30p0To40p0_1p442To1p566",
-        "*et_bin3*eta_bin1*","Veto_crack_40p0To50p0_1p442To1p566",
-        "*et_bin4*eta_bin1*","Veto_crack_50p0To200p0_1p442To1p566",
-        "*et_bin0*","Veto_alleta_10p0To20p0_0p0To2p5",
-        "*et_bin1*","Veto_alleta_20p0To30p0_0p0To2p5",
-        "*et_bin2*","Veto_alleta_30p0To40p0_0p0To2p5",
-        "*et_bin3*","Veto_alleta_40p0To50p0_0p0To2p5",
-        "*et_bin4*","Veto_alleta_50p0To200p0_0p0To2p5",
-        )
+    BinToPDFmap = BinSpec("Veto"),
     )
 McLooseBinningSpecification = McVetoBinningSpecification.clone()
-McLooseBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","Loose_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","Loose_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","Loose_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","Loose_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","Loose_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","Loose_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","Loose_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","Loose_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","Loose_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","Loose_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","Loose_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","Loose_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","Loose_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","Loose_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","Loose_alleta_50p0To200p0_0p0To2p5",
-    )
+McLooseBinningSpecification.BinToPDFmap = BinSpec("Loose")
+
 McMediumBinningSpecification = McVetoBinningSpecification.clone()
-McMediumBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","Medium_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","Medium_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","Medium_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","Medium_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","Medium_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","Medium_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","Medium_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","Medium_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","Medium_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","Medium_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","Medium_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","Medium_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","Medium_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","Medium_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","Medium_alleta_50p0To200p0_0p0To2p5",
-    )
+McMediumBinningSpecification.BinToPDFmap = BinSpec("Medium")
+
 McTightBinningSpecification = McVetoBinningSpecification.clone()
-McTightBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","Tight_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","Tight_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","Tight_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","Tight_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","Tight_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","Tight_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","Tight_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","Tight_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","Tight_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","Tight_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","Tight_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","Tight_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","Tight_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","Tight_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","Tight_alleta_50p0To200p0_0p0To2p5",
-    )
+McTightBinningSpecification.BinToPDFmap = BinSpec("Tight")
+
 McLoose2DBinningSpecification = McVetoBinningSpecification.clone()
-McLoose2DBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","Loose2D_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","Loose2D_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","Loose2D_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","Loose2D_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","Loose2D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","Loose2D_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","Loose2D_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","Loose2D_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","Loose2D_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","Loose2D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","Loose2D_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","Loose2D_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","Loose2D_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","Loose2D_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","Loose2D_alleta_50p0To200p0_0p0To2p5",
-    )
+McLoose2DBinningSpecification.BinToPDFmap = BinSpec("Loose2D")
+
 McFOID2DBinningSpecification = McVetoBinningSpecification.clone()
-McFOID2DBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","FOID2D_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","FOID2D_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","FOID2D_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","FOID2D_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","FOID2D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","FOID2D_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","FOID2D_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","FOID2D_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","FOID2D_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","FOID2D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","FOID2D_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","FOID2D_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","FOID2D_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","FOID2D_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","FOID2D_alleta_50p0To200p0_0p0To2p5",
-    )
+McFOID2DBinningSpecification.BinToPDFmap = BinSpec("FOID2D")
+
 McTight2D3DBinningSpecification = McVetoBinningSpecification.clone()
-McTight2D3DBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","Tight2D3D_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","Tight2D3D_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","Tight2D3D_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","Tight2D3D_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","Tight2D3D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","Tight2D3D_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","Tight2D3D_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","Tight2D3D_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","Tight2D3D_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","Tight2D3D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","Tight2D3D_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","Tight2D3D_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","Tight2D3D_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","Tight2D3D_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","Tight2D3D_alleta_50p0To200p0_0p0To2p5",
-    )
+McTight2D3DBinningSpecification.BinToPDFmap = BinSpec("Tight2D3D")
+
 McTightID2D3DBinningSpecification = McVetoBinningSpecification.clone()
-McTightID2D3DBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","TightID2D3D_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","TightID2D3D_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","TightID2D3D_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","TightID2D3D_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","TightID2D3D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","TightID2D3D_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","TightID2D3D_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","TightID2D3D_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","TightID2D3D_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","TightID2D3D_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","TightID2D3D_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","TightID2D3D_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","TightID2D3D_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","TightID2D3D_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","TightID2D3D_alleta_50p0To200p0_0p0To2p5",
-    )
+McTightID2D3DBinningSpecification.BinToPDFmap = BinSpec("TightID2D3D")
+
 McMediumMiniBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins, mcTrue = cms.vstring("true")),
-    BinToPDFmap = cms.vstring(
-        "standard",
-        "*eta_bin1*et_bin0*","MediumMini_crack_10p0To20p0_1p442To1p566",
-        "*eta_bin1*et_bin1*","MediumMini_crack_20p0To30p0_1p442To1p566",
-        "*eta_bin1*et_bin2*","MediumMini_crack_30p0To40p0_1p442To1p566",
-        "*eta_bin1*et_bin3*","MediumMini_crack_40p0To50p0_1p442To1p566",
-        "*eta_bin1*et_bin4*","MediumMini_crack_50p0To200p0_1p442To1p566",
-        "*et_bin0*eta_bin1*","MediumMini_crack_10p0To20p0_1p442To1p566",
-        "*et_bin1*eta_bin1*","MediumMini_crack_20p0To30p0_1p442To1p566",
-        "*et_bin2*eta_bin1*","MediumMini_crack_30p0To40p0_1p442To1p566",
-        "*et_bin3*eta_bin1*","MediumMini_crack_40p0To50p0_1p442To1p566",
-        "*et_bin4*eta_bin1*","MediumMini_crack_50p0To200p0_1p442To1p566",
-        "*et_bin0*","MediumMini_alleta_10p0To20p0_0p0To2p5",
-        "*et_bin1*","MediumMini_alleta_20p0To30p0_0p0To2p5",
-        "*et_bin2*","MediumMini_alleta_30p0To40p0_0p0To2p5",
-        "*et_bin3*","MediumMini_alleta_40p0To50p0_0p0To2p5",
-        "*et_bin4*","MediumMini_alleta_50p0To200p0_0p0To2p5",
-        ),
+    BinToPDFmap = BinSpec("MediumMini"),
     )
+
 McMediumMini4BinningSpecification = McMediumMiniBinningSpecification.clone()
-McMediumMini4BinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","MediumMini4_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","MediumMini4_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","MediumMini4_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","MediumMini4_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","MediumMini4_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","MediumMini4_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","MediumMini4_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","MediumMini4_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","MediumMini4_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","MediumMini4_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","MediumMini4_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","MediumMini4_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","MediumMini4_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","MediumMini4_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","MediumMini4_alleta_50p0To200p0_0p0To2p5",
-    )
+McMediumMini4BinningSpecification.BinToPDFmap = BinSpec("MediumMini4")
+
 McMVAVLooseMiniBinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVAVLooseMiniBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","MVAVLooseMini_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","MVAVLooseMini_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","MVAVLooseMini_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","MVAVLooseMini_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","MVAVLooseMini_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","MVAVLooseMini_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","MVAVLooseMini_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","MVAVLooseMini_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","MVAVLooseMini_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","MVAVLooseMini_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","MVAVLooseMini_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","MVAVLooseMini_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","MVAVLooseMini_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","MVAVLooseMini_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","MVAVLooseMini_alleta_50p0To200p0_0p0To2p5",
-    )
+McMVAVLooseMiniBinningSpecification.BinToPDFmap = BinSpec("MVAVLooseMini")
+
 McMVAVLooseMini4BinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVAVLooseMini4BinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","MVAVLooseMini4_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","MVAVLooseMini4_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","MVAVLooseMini4_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","MVAVLooseMini4_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","MVAVLooseMini4_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","MVAVLooseMini4_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","MVAVLooseMini4_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","MVAVLooseMini4_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","MVAVLooseMini4_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","MVAVLooseMini4_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","MVAVLooseMini4_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","MVAVLooseMini4_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","MVAVLooseMini4_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","MVAVLooseMini4_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","MVAVLooseMini4_alleta_50p0To200p0_0p0To2p5",
-    )
+McMVAVLooseMini4BinningSpecification.BinToPDFmap = BinSpec("MVAVLooseMini4")
+
 McMVAVLooseConvIHit1BinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVAVLooseConvIHit1BinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","MVAVLooseConvIHit1_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","MVAVLooseConvIHit1_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","MVAVLooseConvIHit1_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","MVAVLooseConvIHit1_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","MVAVLooseConvIHit1_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","MVAVLooseConvIHit1_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","MVAVLooseConvIHit1_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","MVAVLooseConvIHit1_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","MVAVLooseConvIHit1_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","MVAVLooseConvIHit1_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","MVAVLooseConvIHit1_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","MVAVLooseConvIHit1_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","MVAVLooseConvIHit1_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","MVAVLooseConvIHit1_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","MVAVLooseConvIHit1_alleta_50p0To200p0_0p0To2p5",
-    )
+McMVAVLooseConvIHit1BinningSpecification.BinToPDFmap = BinSpec("MVAVLooseConvIHit1")
+
 McMVATightConvIHit0ChgBinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVATightConvIHit0ChgBinningSpecification.BinToPDFmap = cms.vstring(
-    "standard",
-    "*eta_bin1*et_bin0*","MVATightConvIHit0Chg_crack_10p0To20p0_1p442To1p566",
-    "*eta_bin1*et_bin1*","MVATightConvIHit0Chg_crack_20p0To30p0_1p442To1p566",
-    "*eta_bin1*et_bin2*","MVATightConvIHit0Chg_crack_30p0To40p0_1p442To1p566",
-    "*eta_bin1*et_bin3*","MVATightConvIHit0Chg_crack_40p0To50p0_1p442To1p566",
-    "*eta_bin1*et_bin4*","MVATightConvIHit0Chg_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*eta_bin1*","MVATightConvIHit0Chg_crack_10p0To20p0_1p442To1p566",
-    "*et_bin1*eta_bin1*","MVATightConvIHit0Chg_crack_20p0To30p0_1p442To1p566",
-    "*et_bin2*eta_bin1*","MVATightConvIHit0Chg_crack_30p0To40p0_1p442To1p566",
-    "*et_bin3*eta_bin1*","MVATightConvIHit0Chg_crack_40p0To50p0_1p442To1p566",
-    "*et_bin4*eta_bin1*","MVATightConvIHit0Chg_crack_50p0To200p0_1p442To1p566",
-    "*et_bin0*","MVATightConvIHit0Chg_alleta_10p0To20p0_0p0To2p5",
-    "*et_bin1*","MVATightConvIHit0Chg_alleta_20p0To30p0_0p0To2p5",
-    "*et_bin2*","MVATightConvIHit0Chg_alleta_30p0To40p0_0p0To2p5",
-    "*et_bin3*","MVATightConvIHit0Chg_alleta_40p0To50p0_0p0To2p5",
-    "*et_bin4*","MVATightConvIHit0Chg_alleta_50p0To200p0_0p0To2p5",
-    )
+McMVATightConvIHit0ChgBinningSpecification.BinToPDFmap = BinSpec("MVATightConvIHit0Chg")
+
 DataVetoBinningSpecification = McVetoBinningSpecification.clone()
 DataVetoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataVetoBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
