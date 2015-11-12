@@ -19,7 +19,7 @@ def setModules(process, options):
     
     process.pileupReweightingProducer = cms.EDProducer("PileupWeightProducer",
                                                        hardcodedWeights = cms.untracked.bool(True),
-                                                       pileupInfoTag    = cms.InputTag("addPileupInfo")
+                                                       pileupInfoTag    = cms.InputTag("slimmedAddPileupInfo")
                                                        )
     
     process.GsfDRToNearestTauProbe = cms.EDProducer("DeltaRNearestGenPComputer",

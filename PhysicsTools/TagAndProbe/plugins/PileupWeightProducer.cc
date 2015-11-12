@@ -87,7 +87,7 @@ PileupWeightProducer::PileupWeightProducer(const edm::ParameterSet& iConfig) {
   hardcodedWeights_ = iConfig.getUntrackedParameter<bool>("hardcodedWeights");
   pileupMC_ = iConfig.existsAs<std::string>("PileupMCFile") ? iConfig.getParameter<std::string>("PileupMCFile") : "PUMC_dist.root" ;
   pileupData_ = iConfig.existsAs<std::string>("PileupDataFile") ? iConfig.getParameter<std::string>("PileupDataFile") : "PUData_dist.root" ;
-  pileupInfoTag_ = iConfig.existsAs<edm::InputTag>("pileupInfoTag") ? iConfig.getParameter<edm::InputTag>("pileupInfoTag") : edm::InputTag("slimmedAddPileupInfo");
+  pileupInfoTag_ = iConfig.existsAs<edm::InputTag>("pileupInfoTag") ? iConfig.getParameter<edm::InputTag>("pileupInfoTag");
 
   //register your products
   produces<std::vector<float> >( "pileupWeights" ).setBranchAlias( "pileupWeights" );
