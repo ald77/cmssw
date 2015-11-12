@@ -121,3 +121,5 @@ head --lines=-2 ../python/commonFit_MVAVLooseConvIHit1_alleta.py | tail --lines=
 head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 
 echo -e "\\n)" >> ../python/commonFit.py
+
+rm -f ../python/commonFit_*_*.py
