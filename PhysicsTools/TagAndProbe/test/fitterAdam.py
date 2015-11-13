@@ -243,6 +243,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     SaveWorkspace = cms.bool(False), #VERY TIME CONSUMING FOR MC
     doCutAndCount = cms.bool(True),
     floatShapeParameters = cms.bool(True),
+    fixVars = cms.vstring("meanP","sigmaP","meanF","sigmaF"),
     binnedFit = cms.bool(True),
     binsForFit = cms.uint32(60),
     WeightVariable = cms.string("totWeight"),

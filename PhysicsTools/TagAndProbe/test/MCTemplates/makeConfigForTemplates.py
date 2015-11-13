@@ -24,10 +24,10 @@ def main(options):
             psetName = psetName + " = cms.vstring(\n"
             outputFile.write(psetName)
 
-            #outputFile.write("\"RooCBShape::signalResPass(mass,meanP[-0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])\",\n")
-            #outputFile.write("\"RooCBShape::signalResFail(mass,meanF[-0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])\",\n")
-            outputFile.write("\"RooGaussian::signalResPass(mass, meanP[1.0,-10.000,10.000],sigmaP[0.5,0.001,10.000])\",\n")
-            outputFile.write("\"RooGaussian::signalResFail(mass, meanF[1.0,-10.000,10.000],sigmaF[0.5,0.001,10.000])\",\n")
+            #outputFile.write("\"RooCBShape::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])\",\n")
+            #outputFile.write("\"RooCBShape::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])\",\n")
+            outputFile.write("\"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])\",\n")
+            outputFile.write("\"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])\",\n")
             histNameSt = "hMass_"+str(var1s[binVar1])+"To"+str(var1s[binVar1+1])+"_"+str(var2s[binVar2])+"To"+str(var2s[binVar2+1])
             outputFile.write("\"ZGeneratorLineShape::signalPhyPass(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Pass\\\")\",\n"),
             outputFile.write("\"ZGeneratorLineShape::signalPhyFail(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Fail\\\")\",\n"),
