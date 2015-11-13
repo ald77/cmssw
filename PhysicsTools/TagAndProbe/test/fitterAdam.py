@@ -30,7 +30,6 @@ def BinSpec(name):
         "*probe_sc_abseta_bin4*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
         "*probe_sc_abseta_bin4*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
         "*probe_sc_abseta_bin4*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
-        "*probe_sc_abseta_bin0*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
         "*probe_ele_RelAct_bin*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
         "*probe_ele_RelAct_bin*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
         "*probe_ele_RelAct_bin*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
@@ -402,15 +401,15 @@ process.McMediumElectronToMini4.Efficiencies = cms.PSet(
 
 process.McMediumElectronToMulti = process.McMediumElectronToMini.clone()
 process.McMediumElectronToMulti.InputDirectoryName = cms.string("MediumElectronToIso")
-process.McMediumElectronToMulti.OutputFileName = cms.string("eff_mc_mediummini4_"+trail+".root")
+process.McMediumElectronToMulti.OutputFileName = cms.string("eff_mc_mediummulti_"+trail+".root")
 process.McMediumElectronToMulti.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMulti = cms.vstring("passingMulti", "dummy[pass=1,fail=0]"),
+    passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
     )
 process.McMediumElectronToMulti.Efficiencies = cms.PSet(
     MCtruth_Multi = cms.PSet(
         McMediumMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMulti", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
         ),
     )
 
@@ -444,15 +443,15 @@ process.McMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
 
 process.McMVAVLooseElectronToMulti = process.McMediumElectronToMini.clone()
 process.McMVAVLooseElectronToMulti.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.McMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_mc_mvavloosemini4_"+trail+".root")
+process.McMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_mc_mvavloosemulti_"+trail+".root")
 process.McMVAVLooseElectronToMulti.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMulti = cms.vstring("passingMulti", "dummy[pass=1,fail=0]"),
+    passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
     )
 process.McMVAVLooseElectronToMulti.Efficiencies = cms.PSet(
     MCtruth_Multi = cms.PSet(
         McMVAVLooseMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMulti", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
         ),
     )
 
@@ -605,12 +604,12 @@ process.DataMediumElectronToMini4.Efficiencies = cms.PSet(
 
 process.DataMediumElectronToMulti = process.DataMediumElectronToMini.clone()
 process.DataMediumElectronToMulti.InputDirectoryName = cms.string("MediumElectronToIso")
-process.DataMediumElectronToMulti.OutputFileName = cms.string("eff_data_mediummini4_"+trail+".root")
-process.DataMediumElectronToMulti.Categories = cms.PSet(passingMulti = cms.vstring("passingMulti", "dummy[pass=1,fail=0]"))
+process.DataMediumElectronToMulti.OutputFileName = cms.string("eff_data_mediummulti_"+trail+".root")
+process.DataMediumElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
 process.DataMediumElectronToMulti.Efficiencies = cms.PSet(
     Multi = cms.PSet(
         DataMediumMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMulti", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
         ),
     )
 
@@ -638,12 +637,12 @@ process.DataMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
 
 process.DataMVAVLooseElectronToMulti = process.DataMediumElectronToMini.clone()
 process.DataMVAVLooseElectronToMulti.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.DataMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_data_mvavloosemini4_"+trail+".root")
-process.DataMVAVLooseElectronToMulti.Categories = cms.PSet(passingMulti = cms.vstring("passingMulti", "dummy[pass=1,fail=0]"))
+process.DataMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_data_mvavloosemulti_"+trail+".root")
+process.DataMVAVLooseElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
 process.DataMVAVLooseElectronToMulti.Efficiencies = cms.PSet(
     Multi = cms.PSet(
         DataMVAVLooseMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMulti", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
         ),
     )
 
