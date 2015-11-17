@@ -41,12 +41,12 @@ void JetConverter::produce(edm::Event &event, const edm::EventSetup &setup){
   std::vector<reco::PFJet> *jets_out = new std::vector<reco::PFJet>();
   jets_out->resize(jets_in->size());
   for(size_t i = 0; i < jets_in->size(); ++i){
-    //jets_out->at(i) = *dynamic_cast<const reco::PFJet*>(&jets_in->at(i));
     const pat::Jet &jet_in = jets_in->at(i);
-    jets_out->at(i) = reco::PFJet(jet_in.p4(),
+    jets_out->at(i) = reco::PFJet(jet_in.p4()*jet_in.jecFactor("Uncorrected"),
                                   jet_in.vertex(),
                                   jet_in.pfSpecific(),
                                   jet_in.getJetConstituents());
+    jets_out->at(i).setJetArea(jet_in.jetArea());
   }
 
   std::auto_ptr<std::vector<reco::PFJet> > output(jets_out);
