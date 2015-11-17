@@ -35,6 +35,16 @@ def BinSpec(name):
         "*probe_ele_RelAct_bin*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
         "*probe_ele_RelAct_bin*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
         "*probe_ele_RelAct_bin*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*event_nPV_bin*probe_sc_et_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*event_nPV_bin*probe_sc_et_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*event_nPV_bin*probe_sc_et_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*event_nPV_bin*probe_sc_et_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*event_nPV_bin*probe_sc_et_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_sc_et_bin0*event_nPV_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_sc_et_bin1*event_nPV_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_sc_et_bin2*event_nPV_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_sc_et_bin3*event_nPV_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_sc_et_bin4*event_nPV_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
         )
 
 options = VarParsing('analysis')
@@ -107,6 +117,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
     probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+    #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
     probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
 IsoEfficiencyBins = cms.PSet()
@@ -114,12 +125,14 @@ trail = ""
 if (options.doEta):
     IsoEfficiencyBins = cms.PSet(
         probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+        #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
         )
     trail = "eta"
 else:
     IsoEfficiencyBins = cms.PSet(
         probe_sc_et = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+        #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
     trail = "act"
@@ -250,6 +263,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     # defines all the real variables of the probes available in the input tree and intended for use in the efficiencies
     Variables = cms.PSet(
         mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
+        #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
         probe_sc_et = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
         probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 
         probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
@@ -492,6 +506,7 @@ process.DataGsfElectronToVeto.doCutAndCount = cms.bool(False)
 delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
+    #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
     probe_sc_et = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
     probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 
     probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
