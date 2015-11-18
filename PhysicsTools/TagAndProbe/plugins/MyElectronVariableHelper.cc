@@ -174,6 +174,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passConvIHit1");
   produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
   produces<edm::ValueMap<MyBool> >("passMultiIso");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -287,6 +288,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
   Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
   Store(iEvent, probes, passMultiIso, "passMultiIso");
+  Store(iEvent, probes, And(passMultiIso, passISOEmu), "passMultiIsoEmu");
 }
 
 
