@@ -404,6 +404,10 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, string pdfName, RooRealVar
   
   double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   double totFailing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+
+  cout << "Printing QQQ" << endl;
+  w->Print();
+  cout << "Printed QQQ" << endl;
   
   //******* The block of code below is to make the fit converge faster.
   // ****** This part is OPTIONAL, i.e., off be default. User can activate this
@@ -422,36 +426,46 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, string pdfName, RooRealVar
       
   if(!fixVars.empty()){
     // calculate initial values for parameters user want to fix
-    if(!floatShapeParameters && fixVarValues.empty()){
-      // we want to fix these parameters for each bin.
-      // the following sequence fixes them, fits, releases and fits again
-      // to get reasonable values. 
-      // ----------------------------------------------------------------------
-      // This procedure works only once with a whole dataset (without binning)
-      // ----------------------------------------------------------------------
-      std::cout << "NOT PIPPO" << std::endl;
-      // fix them
+    if(!floatShapeParameters){
+      if(fixVarValues.empty()){
+	// we want to fix these parameters for each bin.
+	// the following sequence fixes them, fits, releases and fits again
+	// to get reasonable values. 
+	// ----------------------------------------------------------------------
+	// This procedure works only once with a whole dataset (without binning)
+	// ----------------------------------------------------------------------
+	std::cout << "NOT PIPPO" << std::endl;
+	// fix them
+	varFixer(w,true);
+	//do fit 
+	w->pdf("simPdf")->fitTo(*data, Minimizer("migrad"), Save(true), SumW2Error(true), Extended(true), NumCPU(numCPU), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
+	//release vars
+	varFixer(w,false);
+	//do fit 
+	w->pdf("simPdf")->fitTo(*data, Minimizer("migrad"), Save(true), SumW2Error(true) , Extended(true), NumCPU(numCPU), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
+	//save vars
+	varSaver(w);
+	// now we have a starting point. Fit will converge faster.
+      }
+      
+      // here we can use initial values if we want (this works for each bin)
+      varRestorer(w);  //restore vars
+      
+      // if we don't want to "floatShapeParameters" we just fix, fit, 
+      //  release, and fit again. No need for global fitting above.
+      //fix vars
       varFixer(w,true);
-      //do fit 
-      w->pdf("simPdf")->fitTo(*data, Minimizer("migrad"), Save(true), SumW2Error(true), Extended(true), NumCPU(numCPU), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
-      //release vars
+      //do fit
+      res = w->pdf("simPdf")->fitTo(*data, Save(true), Hesse(false), Extended(true), NumCPU(numCPU), Minos(*w->var("efficiency")), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
+    }else{
+      w->Print();
+      varFixer(w,true);
+      res = w->pdf("simPdf")->fitTo(*data, InitialHesse(true), /*Optimize(true), Minimizer("migrad"), Hesse(true), Minos(*w->var("efficiency")),*/ SumW2Error(true), Extended(true), Strategy(2), Save(true), /*PrintLevel(quiet?-1:9), PrintEvalErrors(quiet?-1:1), Warnings(!quiet)),*/ NumCPU(numCPU));
+      cout << "Intermediate status: " << res->status() << endl;
       varFixer(w,false);
-      //do fit 
-      w->pdf("simPdf")->fitTo(*data, Minimizer("migrad"), Save(true), SumW2Error(true) , Extended(true), NumCPU(numCPU), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
-      //save vars
-      varSaver(w);
-      // now we have a starting point. Fit will converge faster.
+      res = w->pdf("simPdf")->fitTo(*data, InitialHesse(true), /*Optimize(true), Minimizer("migrad"), Hesse(true),*/ Minos(*w->var("efficiency")), SumW2Error(true), Extended(true), Strategy(2), Save(true), /*PrintLevel(quiet?-1:9), PrintEvalErrors(quiet?-1:1), Warnings(!quiet)),*/ NumCPU(numCPU));
+      cout << "Final status: " << res->status() << endl;
     }
-    
-    // here we can use initial values if we want (this works for each bin)
-    if(!floatShapeParameters) varRestorer(w);  //restore vars
-        
-    // if we don't want to "floatShapeParameters" we just fix, fit, 
-    //  release, and fit again. No need for global fitting above.
-    //fix vars
-    varFixer(w,true);
-    //do fit
-    res = w->pdf("simPdf")->fitTo(*data, Save(true), Hesse(false), Extended(true), NumCPU(numCPU), Minos(*w->var("efficiency")), PrintLevel(quiet?-1:3), PrintEvalErrors(quiet?-1:1), Warnings(!quiet));
   } else {
     //release vars
     varFixer(w,false);
@@ -549,6 +563,41 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w){
   double signalFractionInPassing = w->var("signalFractionInPassing")->getVal();
   double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+  double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&(mass<70||mass>110)");
+  double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&(mass<70||mass>110)");
+  double sigPassing = totPassing - bkgPassing;
+  double sigFailing = totFailinging - bkgFailing;
+  if((sigPassing + sigFailing) > 0.){
+    //Have a rough estimate
+    signalEfficiency = sigPassing/(sigPassing + sigFailing);
+  }else if((totPassing + totFailinging) > 0.){
+    //Naively attributed all events to bkg or there were no events. Shouldn't happen.
+    signalEfficiency = totPassing/(totPassing + totFailinging);
+  }else{
+    //Just use value from python config
+  }
+  if(signalEfficiency < 0.02){
+    w->var("efficiency")->setVal(0.02);
+  }else if(signalEfficiency > 0.98){
+    w->var("efficiency")->setVal(0.98);
+  }else{
+    w->var("efficiency")->setVal(signalEfficiency);
+  }
+
+  if(signalFractionInPassing != 1.0){
+    if(totPassing > 0.){
+      signalFractionInPassing = sigPassing/totPassing;
+      if(signalFractionInPassing > 0.95){
+	signalFractionInPassing = 0.95;
+      }else if(signalFractionInPassing < 0.05){
+	signalFractionInPassing = 0.05;
+      }
+    }else{
+      signalFractionInPassing = 0.9;
+    }
+    w->var("signalFractionInPassing")->setVal(signalFractionInPassing);
+  }
+
   double numSignalAll = totPassing*signalFractionInPassing/signalEfficiency;
   // check if this value is inconsistent on the failing side
   if(numSignalAll*(1-signalEfficiency) > totFailinging)
