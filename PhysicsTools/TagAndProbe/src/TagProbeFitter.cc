@@ -407,6 +407,14 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, string pdfName, RooRealVar
 
   cout << "Printing QQQ" << endl;
   w->Print();
+  cout << "Fundamental vars" << endl;
+  const RooArgSet &vars = w->allVars();
+  TIterator *iter_ptr = vars.createIterator();
+  for(; iter_ptr != nullptr && *(*iter_ptr) != nullptr; iter_ptr->Next()){
+    RooAbsArg *var = static_cast<RooAbsArg*>(*(*iter_ptr));
+    if(var == nullptr) continue;
+    var->Print();
+  }
   cout << "Printed QQQ" << endl;
   
   //******* The block of code below is to make the fit converge faster.
@@ -561,10 +569,10 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w){
   // calculate initial values
   double signalEfficiency = w->var("efficiency")->getVal();
   double signalFractionInPassing = w->var("signalFractionInPassing")->getVal();
-  double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
-  double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
-  double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&(mass<70||mass>110)");
-  double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&(mass<70||mass>110)");
+  double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
+  double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
+  double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
+  double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
   double sigPassing = totPassing - bkgPassing;
   double sigFailing = totFailinging - bkgFailing;
   if((sigPassing + sigFailing) > 0.){
@@ -604,8 +612,13 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w){
     numSignalAll = totFailinging;
   // now set the values
   w->var("numSignalAll")->setVal(numSignalAll);
-  w->var("numBackgroundPass")->setVal(totPassing - numSignalAll*signalEfficiency);
-  w->var("numBackgroundFail")->setVal(totFailinging -  numSignalAll*(1-signalEfficiency));
+  w->var("numSignalAll")->setRange(0.,max(10.*numSignalAll,100.));
+  double nbkgpass = totPassing - numSignalAll*signalEfficiency;
+  w->var("numBackgroundPass")->setVal(nbkgpass);
+  w->var("numBackgroundPass")->setRange(0.,max(10.*nbkgpass,100.));
+  double nbkgfail = totFailinging -  numSignalAll*(1-signalEfficiency);
+  w->var("numBackgroundFail")->setVal(nbkgfail);
+  w->var("numBackgroundFail")->setRange(0.,max(10.*nbkgfail,100.));
 
   if (totPassing == 0) {
     w->var("efficiency")->setVal(0.0);

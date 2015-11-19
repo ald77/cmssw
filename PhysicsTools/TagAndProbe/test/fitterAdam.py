@@ -163,32 +163,26 @@ McTight2D3DBinningSpecification.BinToPDFmap = BinSpec("Tight2D3D")
 McTightID2D3DBinningSpecification = McVetoBinningSpecification.clone()
 McTightID2D3DBinningSpecification.BinToPDFmap = BinSpec("TightID2D3D")
 
-McMediumMiniBinningSpecification = cms.PSet(
+McMVAVLooseMiniBinningSpecification = cms.PSet(
     UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins, mcTrue = cms.vstring("true")),
-    BinToPDFmap = BinSpec("MediumMini"),
+    BinToPDFmap = BinSpec("MVAVLooseMini"),
     )
 
-McMediumMini4BinningSpecification = McMediumMiniBinningSpecification.clone()
-McMediumMini4BinningSpecification.BinToPDFmap = BinSpec("MediumMini4")
-
-McMediumMultiBinningSpecification = McMediumMiniBinningSpecification.clone()
-McMediumMultiBinningSpecification.BinToPDFmap = BinSpec("MediumMulti")
-
-McMVAVLooseMiniBinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVAVLooseMiniBinningSpecification.BinToPDFmap = BinSpec("MVAVLooseMini")
-
-McMVAVLooseMini4BinningSpecification = McMediumMiniBinningSpecification.clone()
+McMVAVLooseMini4BinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
 McMVAVLooseMini4BinningSpecification.BinToPDFmap = BinSpec("MVAVLooseMini4")
 
-McMVAVLooseMultiBinningSpecification = McMediumMiniBinningSpecification.clone()
-McMVAVLooseMultiBinningSpecification.BinToPDFmap = BinSpec("MVAVLooseMulti")
-
-McMVAVLooseConvIHit1BinningSpecification = McMediumMiniBinningSpecification.clone()
+McMVAVLooseConvIHit1BinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
 McMVAVLooseConvIHit1BinningSpecification.BinToPDFmap = BinSpec("MVAVLooseConvIHit1")
 
-McMVATightConvIHit0ChgBinningSpecification = McMediumMiniBinningSpecification.clone()
+McMVATightConvIHit0ChgBinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
 McMVATightConvIHit0ChgBinningSpecification.BinToPDFmap = BinSpec("MVATightConvIHit0Chg")
+
+McMVATightMultiBinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
+McMVATightMultiBinningSpecification.BinToPDFmap = BinSpec("MVATightMulti")
+
+McMVATightMultiEmuBinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
+McMVATightMultiEmuBinningSpecification.BinToPDFmap = BinSpec("MVATightMultiEmu")
 
 DataVetoBinningSpecification = McVetoBinningSpecification.clone()
 DataVetoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
@@ -214,30 +208,24 @@ DataTight2D3DBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 DataTightID2D3DBinningSpecification = McTightID2D3DBinningSpecification.clone()
 DataTightID2D3DBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataTightID2D3DBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
-DataMediumMiniBinningSpecification = McMediumMiniBinningSpecification.clone()
-DataMediumMiniBinningSpecification.UnbinnedVariables = cms.vstring("mass")
-DataMediumMiniBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
-DataMediumMini4BinningSpecification = McMediumMini4BinningSpecification.clone()
-DataMediumMini4BinningSpecification.UnbinnedVariables = cms.vstring("mass")
-DataMediumMini4BinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
-DataMediumMultiBinningSpecification = McMediumMultiBinningSpecification.clone()
-DataMediumMultiBinningSpecification.UnbinnedVariables = cms.vstring("mass")
-DataMediumMultiBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 DataMVAVLooseMiniBinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
 DataMVAVLooseMiniBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataMVAVLooseMiniBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 DataMVAVLooseMini4BinningSpecification = McMVAVLooseMini4BinningSpecification.clone()
 DataMVAVLooseMini4BinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataMVAVLooseMini4BinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
-DataMVAVLooseMultiBinningSpecification = McMVAVLooseMultiBinningSpecification.clone()
-DataMVAVLooseMultiBinningSpecification.UnbinnedVariables = cms.vstring("mass")
-DataMVAVLooseMultiBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 DataMVAVLooseConvIHit1BinningSpecification = McMVAVLooseConvIHit1BinningSpecification.clone()
 DataMVAVLooseConvIHit1BinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataMVAVLooseConvIHit1BinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 DataMVATightConvIHit0ChgBinningSpecification = McMVATightConvIHit0ChgBinningSpecification.clone()
 DataMVATightConvIHit0ChgBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataMVATightConvIHit0ChgBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataMVATightMultiBinningSpecification = McMVATightMultiBinningSpecification.clone()
+DataMVATightMultiBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataMVATightMultiBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
+DataMVATightMultiEmuBinningSpecification = McMVATightMultiEmuBinningSpecification.clone()
+DataMVATightMultiEmuBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 
 
 ############################################################################################
@@ -386,49 +374,7 @@ process.McGsfElectronToTightID2D3D.Efficiencies = cms.PSet(
         ),
     )
 
-process.McMediumElectronToMini = process.McGsfElectronToMedium.clone()
-process.McMediumElectronToMini.InputDirectoryName = cms.string("MediumElectronToIso")
-process.McMediumElectronToMini.OutputFileName = cms.string("eff_mc_mediummini_"+trail+".root")
-process.McMediumElectronToMini.Categories = cms.PSet(
-    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"),
-    )
-process.McMediumElectronToMini.Efficiencies = cms.PSet(
-    MCtruth_Mini = cms.PSet(
-        McMediumMiniBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
-        ),
-    )
-
-process.McMediumElectronToMini4 = process.McMediumElectronToMini.clone()
-process.McMediumElectronToMini4.InputDirectoryName = cms.string("MediumElectronToIso")
-process.McMediumElectronToMini4.OutputFileName = cms.string("eff_mc_mediummini4_"+trail+".root")
-process.McMediumElectronToMini4.Categories = cms.PSet(
-    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMini4 = cms.vstring("passingMini4", "dummy[pass=1,fail=0]"),
-    )
-process.McMediumElectronToMini4.Efficiencies = cms.PSet(
-    MCtruth_Mini4 = cms.PSet(
-        McMediumMini4BinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMini4", "pass"),
-        ),
-    )
-
-process.McMediumElectronToMulti = process.McMediumElectronToMini.clone()
-process.McMediumElectronToMulti.InputDirectoryName = cms.string("MediumElectronToIso")
-process.McMediumElectronToMulti.OutputFileName = cms.string("eff_mc_mediummulti_"+trail+".root")
-process.McMediumElectronToMulti.Categories = cms.PSet(
-    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
-    )
-process.McMediumElectronToMulti.Efficiencies = cms.PSet(
-    MCtruth_Multi = cms.PSet(
-        McMediumMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
-        ),
-    )
-
-process.McMVAVLooseElectronToMini = process.McMediumElectronToMini.clone()
+process.McMVAVLooseElectronToMini = process.McGsfElectronToMedium.clone()
 process.McMVAVLooseElectronToMini.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.McMVAVLooseElectronToMini.OutputFileName = cms.string("eff_mc_mvavloosemini_"+trail+".root")
 process.McMVAVLooseElectronToMini.Categories = cms.PSet(
@@ -442,7 +388,7 @@ process.McMVAVLooseElectronToMini.Efficiencies = cms.PSet(
         ),
     )
 
-process.McMVAVLooseElectronToMini4 = process.McMediumElectronToMini.clone()
+process.McMVAVLooseElectronToMini4 = process.McMVAVLooseElectronToMini.clone()
 process.McMVAVLooseElectronToMini4.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.McMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_mc_mvavloosemini4_"+trail+".root")
 process.McMVAVLooseElectronToMini4.Categories = cms.PSet(
@@ -456,21 +402,7 @@ process.McMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
         ),
     )
 
-process.McMVAVLooseElectronToMulti = process.McMediumElectronToMini.clone()
-process.McMVAVLooseElectronToMulti.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.McMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_mc_mvavloosemulti_"+trail+".root")
-process.McMVAVLooseElectronToMulti.Categories = cms.PSet(
-    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
-    )
-process.McMVAVLooseElectronToMulti.Efficiencies = cms.PSet(
-    MCtruth_Multi = cms.PSet(
-        McMVAVLooseMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
-        ),
-    )
-
-process.McMVAVLooseElectronToConvIHit1 = process.McMediumElectronToMini.clone()
+process.McMVAVLooseElectronToConvIHit1 = process.McMVAVLooseElectronToMini.clone()
 process.McMVAVLooseElectronToConvIHit1.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.McMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_mc_mvavlooseconvihit1_"+trail+".root")
 process.McMVAVLooseElectronToConvIHit1.Categories = cms.PSet(
@@ -484,7 +416,7 @@ process.McMVAVLooseElectronToConvIHit1.Efficiencies = cms.PSet(
         ),
     )
 
-process.McMVATightElectronToConvIHit0Chg = process.McMediumElectronToMini.clone()
+process.McMVATightElectronToConvIHit0Chg = process.McMVAVLooseElectronToMini.clone()
 process.McMVATightElectronToConvIHit0Chg.InputDirectoryName = cms.string("MVATightElectronToIso")
 process.McMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_mc_mvatightconvihit0chg_"+trail+".root")
 process.McMVATightElectronToConvIHit0Chg.Categories = cms.PSet(
@@ -495,6 +427,34 @@ process.McMVATightElectronToConvIHit0Chg.Efficiencies = cms.PSet(
     MCtruth_ConvIHit0Chg = cms.PSet(
         McMVATightConvIHit0ChgBinningSpecification,
         EfficiencyCategoryAndState = cms.vstring("passingConvIHit0Chg", "pass"),
+        ),
+    )
+
+process.McMVATightElectronToMulti = process.McMVAVLooseElectronToMini.clone()
+process.McMVATightElectronToMulti.InputDirectoryName = cms.string("MVATightElectronToIso")
+process.McMVATightElectronToMulti.OutputFileName = cms.string("eff_mc_mvatightmulti_"+trail+".root")
+process.McMVATightElectronToMulti.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
+    )
+process.McMVATightElectronToMulti.Efficiencies = cms.PSet(
+    MCtruth_Multi = cms.PSet(
+        McMVATightMultiBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
+        ),
+    )
+
+process.McMVATightElectronToMultiEmu = process.McMVAVLooseElectronToMini.clone()
+process.McMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightElectronToIso")
+process.McMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_mc_mvatightmultiemu_"+trail+".root")
+process.McMVATightElectronToMultiEmu.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingMultiEmuIso = cms.vstring("passingMultiEmuIso", "dummy[pass=1,fail=0]"),
+    )
+process.McMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
+    MCtruth_MultiEmu = cms.PSet(
+        McMVATightMultiEmuBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMultiEmuIso", "pass"),
         ),
     )
 
@@ -596,40 +556,7 @@ process.DataGsfElectronToTightID2D3D.Efficiencies = cms.PSet(
         ),
     )
 
-process.DataMediumElectronToMini = process.DataGsfElectronToVeto.clone()
-process.DataMediumElectronToMini.InputDirectoryName = cms.string("MediumElectronToIso")
-process.DataMediumElectronToMini.OutputFileName = cms.string("eff_data_mediummini_"+trail+".root")
-process.DataMediumElectronToMini.Categories = cms.PSet(passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"))
-process.DataMediumElectronToMini.Efficiencies = cms.PSet(
-    Mini = cms.PSet(
-        DataMediumMiniBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMini", "pass"),
-        ),
-    )
-
-process.DataMediumElectronToMini4 = process.DataMediumElectronToMini.clone()
-process.DataMediumElectronToMini4.InputDirectoryName = cms.string("MediumElectronToIso")
-process.DataMediumElectronToMini4.OutputFileName = cms.string("eff_data_mediummini4_"+trail+".root")
-process.DataMediumElectronToMini4.Categories = cms.PSet(passingMini4 = cms.vstring("passingMini4", "dummy[pass=1,fail=0]"))
-process.DataMediumElectronToMini4.Efficiencies = cms.PSet(
-    Mini4 = cms.PSet(
-        DataMediumMini4BinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMini4", "pass"),
-        ),
-    )
-
-process.DataMediumElectronToMulti = process.DataMediumElectronToMini.clone()
-process.DataMediumElectronToMulti.InputDirectoryName = cms.string("MediumElectronToIso")
-process.DataMediumElectronToMulti.OutputFileName = cms.string("eff_data_mediummulti_"+trail+".root")
-process.DataMediumElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
-process.DataMediumElectronToMulti.Efficiencies = cms.PSet(
-    Multi = cms.PSet(
-        DataMediumMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
-        ),
-    )
-
-process.DataMVAVLooseElectronToMini = process.DataMediumElectronToMini.clone()
+process.DataMVAVLooseElectronToMini = process.DataGsfElectronToVeto.clone()
 process.DataMVAVLooseElectronToMini.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.DataMVAVLooseElectronToMini.OutputFileName = cms.string("eff_data_mvavloosemini_"+trail+".root")
 process.DataMVAVLooseElectronToMini.Categories = cms.PSet(passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"))
@@ -640,7 +567,7 @@ process.DataMVAVLooseElectronToMini.Efficiencies = cms.PSet(
         ),
     )
 
-process.DataMVAVLooseElectronToMini4 = process.DataMediumElectronToMini.clone()
+process.DataMVAVLooseElectronToMini4 = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVAVLooseElectronToMini4.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.DataMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_data_mvavloosemini4_"+trail+".root")
 process.DataMVAVLooseElectronToMini4.Categories = cms.PSet(passingMini4 = cms.vstring("passingMini4", "dummy[pass=1,fail=0]"))
@@ -651,18 +578,7 @@ process.DataMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
         ),
     )
 
-process.DataMVAVLooseElectronToMulti = process.DataMediumElectronToMini.clone()
-process.DataMVAVLooseElectronToMulti.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.DataMVAVLooseElectronToMulti.OutputFileName = cms.string("eff_data_mvavloosemulti_"+trail+".root")
-process.DataMVAVLooseElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
-process.DataMVAVLooseElectronToMulti.Efficiencies = cms.PSet(
-    Multi = cms.PSet(
-        DataMVAVLooseMultiBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
-        ),
-    )
-
-process.DataMVAVLooseElectronToConvIHit1 = process.DataMediumElectronToMini.clone()
+process.DataMVAVLooseElectronToConvIHit1 = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVAVLooseElectronToConvIHit1.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
 process.DataMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_data_mvavlooseconvihit1_"+trail+".root")
 process.DataMVAVLooseElectronToConvIHit1.Categories = cms.PSet(passingConvIHit1 = cms.vstring("passingConvIHit1", "dummy[pass=1,fail=0]"))
@@ -673,7 +589,7 @@ process.DataMVAVLooseElectronToConvIHit1.Efficiencies = cms.PSet(
         ),
     )
 
-process.DataMVATightElectronToConvIHit0Chg = process.DataMediumElectronToMini.clone()
+process.DataMVATightElectronToConvIHit0Chg = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVATightElectronToConvIHit0Chg.InputDirectoryName = cms.string("MVATightElectronToIso")
 process.DataMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_data_mvatightconvihit0chg_"+trail+".root")
 process.DataMVATightElectronToConvIHit0Chg.Categories = cms.PSet(passingConvIHit0Chg = cms.vstring("passingConvIHit0Chg", "dummy[pass=1,fail=0]"))
@@ -681,6 +597,28 @@ process.DataMVATightElectronToConvIHit0Chg.Efficiencies = cms.PSet(
     ConvIHit0Chg = cms.PSet(
         DataMVATightConvIHit0ChgBinningSpecification,
         EfficiencyCategoryAndState = cms.vstring("passingConvIHit0Chg", "pass"),
+        ),
+    )
+
+process.DataMVATightElectronToMulti = process.DataMVAVLooseElectronToMini.clone()
+process.DataMVATightElectronToMulti.InputDirectoryName = cms.string("MVATightElectronToIso")
+process.DataMVATightElectronToMulti.OutputFileName = cms.string("eff_data_mvatightmulti_"+trail+".root")
+process.DataMVATightElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
+process.DataMVATightElectronToMulti.Efficiencies = cms.PSet(
+    Multi = cms.PSet(
+        DataMVATightMultiBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIso", "pass"),
+        ),
+    )
+
+process.DataMVATightElectronToMultiEmu = process.DataMVAVLooseElectronToMini.clone()
+process.DataMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightElectronToIso")
+process.DataMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_data_mvatightmultiemu_"+trail+".root")
+process.DataMVATightElectronToMultiEmu.Categories = cms.PSet(passingMultiEmuIso = cms.vstring("passingMultiEmuIso", "dummy[pass=1,fail=0]"))
+process.DataMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
+    MultiEmu = cms.PSet(
+        DataMVATightMultiEmuBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingMultiEmuIso", "pass"),
         ),
     )
 
@@ -697,14 +635,12 @@ if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
-    process.seq += process.McMediumElectronToMini
-    process.seq += process.McMediumElectronToMini4
-    process.seq += process.McMediumElectronToMulti
     process.seq += process.McMVAVLooseElectronToMini
     process.seq += process.McMVAVLooseElectronToMini4
-    process.seq += process.McMVAVLooseElectronToMulti
     process.seq += process.McMVAVLooseElectronToConvIHit1
     process.seq += process.McMVATightElectronToConvIHit0Chg
+    process.seq += process.McMVATightElectronToMulti
+    process.seq += process.McMVATightElectronToMultiEmu
 
 if (not options.noData) and (not options.noID):
     process.seq += process.DataGsfElectronToVeto
@@ -717,13 +653,11 @@ if (not options.noData) and (not options.noID):
     process.seq += process.DataGsfElectronToTightID2D3D
 
 if (not options.noData) and (not options.noIso):
-    process.seq += process.DataMediumElectronToMini
-    process.seq += process.DataMediumElectronToMini4
-    process.seq += process.DataMediumElectronToMulti
     process.seq += process.DataMVAVLooseElectronToMini
     process.seq += process.DataMVAVLooseElectronToMini4
-    process.seq += process.DataMVAVLooseElectronToMulti
     process.seq += process.DataMVAVLooseElectronToConvIHit1
     process.seq += process.DataMVATightElectronToConvIHit0Chg
+    process.seq += process.DataMVATightElectronToMulti
+    process.seq += process.DataMVATightElectronToMultiEmu
 
 process.fit = cms.Path(process.seq)
