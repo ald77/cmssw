@@ -449,12 +449,12 @@ process.McMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightEl
 process.McMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_mc_mvatightmultiemu_"+trail+".root")
 process.McMVATightElectronToMultiEmu.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
-    passingMultiEmuIso = cms.vstring("passingMultiEmuIso", "dummy[pass=1,fail=0]"),
+    passingMultiIsoEmu = cms.vstring("passingMultiIsoEmu", "dummy[pass=1,fail=0]"),
     )
 process.McMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
     MCtruth_MultiEmu = cms.PSet(
         McMVATightMultiEmuBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiEmuIso", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIsoEmu", "pass"),
         ),
     )
 
@@ -614,11 +614,11 @@ process.DataMVATightElectronToMulti.Efficiencies = cms.PSet(
 process.DataMVATightElectronToMultiEmu = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightElectronToIso")
 process.DataMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_data_mvatightmultiemu_"+trail+".root")
-process.DataMVATightElectronToMultiEmu.Categories = cms.PSet(passingMultiEmuIso = cms.vstring("passingMultiEmuIso", "dummy[pass=1,fail=0]"))
+process.DataMVATightElectronToMultiEmu.Categories = cms.PSet(passingMultiIsoEmu = cms.vstring("passingMultiIsoEmu", "dummy[pass=1,fail=0]"))
 process.DataMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
     MultiEmu = cms.PSet(
         DataMVATightMultiEmuBinningSpecification,
-        EfficiencyCategoryAndState = cms.vstring("passingMultiEmuIso", "pass"),
+        EfficiencyCategoryAndState = cms.vstring("passingMultiIsoEmu", "pass"),
         ),
     )
 
