@@ -52,6 +52,8 @@ if __name__ == "__main__":
     parser.add_option("", "--var2Bins", default="0.0,1.0,1.4442,1.566,2.0,2.5", help="Binning to use in var2")
     parser.add_option("", "--failBkgPdf", default="\"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])\"", help="Background PDF for passing probes")
     parser.add_option("", "--passBkgPdf", default="\"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])\"", help="Background PDF for failing probes")
+    #parser.add_option("", "--failBkgPdf", default="\"RooExponential::backgroundFail(mass, expRateFail[-0.1,-10.,0.])\"", help="Background PDF for passing probes")
+    #parser.add_option("", "--passBkgPdf", default="\"RooExponential::backgroundPass(mass, expRatePass[-0.1,-10.,0.])\"", help="Background PDF for failing probes")
 
     (options, arg) = parser.parse_args()
      
