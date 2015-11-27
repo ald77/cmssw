@@ -250,7 +250,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     WeightVariable = cms.string("totWeight"),
     # defines all the real variables of the probes available in the input tree and intended for use in the efficiencies
     Variables = cms.PSet(
-        mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
+        mass = cms.vstring("Tag-Probe Mass", "70.0", "110.0", "GeV/c^{2}"),
         #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
         probe_sc_et = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
         probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 
@@ -465,7 +465,7 @@ process.DataGsfElectronToVeto.OutputFileName = cms.string("eff_data_veto.root")
 process.DataGsfElectronToVeto.doCutAndCount = cms.bool(False)
 delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
-    mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
+    mass = cms.vstring("Tag-Probe Mass", "70.0", "110.0", "GeV/c^{2}"),
     #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
     probe_sc_et = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
     probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 

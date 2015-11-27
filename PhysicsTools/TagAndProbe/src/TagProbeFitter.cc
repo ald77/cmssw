@@ -581,10 +581,10 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w){
   // calculate initial values
   double signalEfficiency = w->var("efficiency")->getVal();
   double signalFractionInPassing = w->var("signalFractionInPassing")->getVal();
-  double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
-  double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
-  double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
-  double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
+  double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>70&&mass<=110");
+  double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>70&&mass<=110");
+  double bkgPassing = 2.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>70&&mass<=110&&(mass<=80||mass>100)");
+  double bkgFailing = 2.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>70&&mass<=110&&(mass<=80||mass>100)");
   double sigPassing = totPassing - bkgPassing;
   double sigFailing = totFailinging - bkgFailing;
   if((sigPassing + sigFailing) > 0.){

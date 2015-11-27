@@ -35,11 +35,11 @@ def main(options):
             print "Doing templates for "+histNameSt,
             hp = histNameSt+"_Pass"
             hf = histNameSt+"_Fail"
-            histos[hp] = ROOT.TH1D(hp, hp, 120, 60, 120)
-            histos[hf] = ROOT.TH1D(hf, hf, 120, 60, 120)
+            histos[hp] = ROOT.TH1D(hp, hp, 80, 70, 110)
+            histos[hf] = ROOT.TH1D(hf, hf, 80, 70, 110)
             
             #binning = options.tagTauVarName+" > 0.2 && "+options.probeTauVarName+" > 0.2 && mcTrue == 1 && pair_mass60to120 && "+options.etVarName +">"+str(pts[binVar1])+" && "+options.etVarName +"<"+str(pts[binVar1+1])+" && "+options.etaVarName +">"+str(etas[binVar2])+" && "+options.etaVarName +"<"+str(etas[binVar2+1])            
-            binning = "mcTrue == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
+            binning = "mcTrue == 1 && pair_mass60to120 && mass>70 && mass<=110 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
             cuts = "(" + binning + " && "+options.idprobe+"==1"+")*"+options.weightVarName
             fChain.Draw("mass>>"+histos[hp].GetName(), cuts, "goff")
             cuts = "(" + binning + " && "+options.idprobe+"==0"+")*"+options.weightVarName
