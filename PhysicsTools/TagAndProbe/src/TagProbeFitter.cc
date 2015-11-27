@@ -493,9 +493,21 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, string pdfName, RooRealVar
 
   efficiency.setVal(e->getVal());
   Double_t errLo = e->getErrorLo(), errHi = e->getErrorHi();
-  if (errLo == 0 && e->getVal() < 0.5) errLo = e->getMin()-e->getVal();
-  if (errHi == 0 && e->getVal() > 0.5) errHi = e->getMax()-e->getVal();
-  efficiency.setAsymError(errLo, errHi);
+  
+  if (errLo == 0 or errHi == 0) {
+    float numSignal = ((RooRealVar*) res->floatParsFinal().find("numSignalAll"))->getVal();
+    float pass = numSignal*e->getVal();
+    float fail = numSignal*(1-e->getVal());
+    
+    // Use Clopper-Pearson           
+    double alpha = (1.0 - .68540158589942957)/2;
+    double lo = (pass == 0) ? 0.0 : ROOT::Math::beta_quantile(   alpha, pass,   fail+1 );
+    double hi = (fail == 0) ? 1.0 : ROOT::Math::beta_quantile( 1-alpha, pass+1, fail   );
+    
+    efficiency.setAsymError(lo-e->getVal(), hi-e->getVal());
+  } else {
+    efficiency.setAsymError(errLo, errHi);
+  }
   
   if (totPassing * totFailing == 0) {
     RooRealVar* nS = (RooRealVar*) res->floatParsFinal().find("numSignalAll");
