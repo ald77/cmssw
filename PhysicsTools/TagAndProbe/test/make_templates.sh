@@ -154,9 +154,11 @@ wait
 
 echo "Merging config files"
 
-echo -e "import FWCore.ParameterSet.Config as cms\\n\\nall_pdfs = cms.PSet(" > ../python/commonFit.py
+echo -e "import FWCore.ParameterSet.Config as cms\\n" > ../python/commonFit.py
 
 #All eta
+echo -e "alleta = cms.PSet(" >> ../python/commonFit.py
+
 head --lines=-2 ../python/commonFit_Veto_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Loose_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Medium_alleta.py | tail --lines=+4  >> ../python/commonFit.py
@@ -174,7 +176,11 @@ head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_alleta.py | tail --line
 head --lines=-2 ../python/commonFit_MVATightMulti_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVATightMultiEmu_alleta.py | tail --lines=+4  >> ../python/commonFit.py
 
+echo -e ")"\\n >> ../python/commonFit.py
+
 #Barrel
+echo -e "barrel = cms.PSet(" >> ../python/commonFit.py
+
 head --lines=-2 ../python/commonFit_Veto_barrel.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Loose_barrel.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Medium_barrel.py | tail --lines=+4  >> ../python/commonFit.py
@@ -192,7 +198,11 @@ head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_barrel.py | tail --line
 head --lines=-2 ../python/commonFit_MVATightMulti_barrel.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVATightMultiEmu_barrel.py | tail --lines=+4  >> ../python/commonFit.py
 
+echo -e ")\\n" >> ../python/commonFit.py
+
 #Crack
+echo -e "crack = cms.PSet(" >> ../python/commonFit.py
+
 head --lines=-2 ../python/commonFit_Veto_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Loose_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Medium_crack.py | tail --lines=+4  >> ../python/commonFit.py
@@ -210,7 +220,11 @@ head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_crack.py | tail --lines
 head --lines=-2 ../python/commonFit_MVATightMulti_crack.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVATightMultiEmu_crack.py | tail --lines=+4  >> ../python/commonFit.py
 
+echo -e ")\\n" >> ../python/commonFit.py
+
 #Endcap
+echo -e "endcap = cms.PSet(" >> ../python/commonFit.py
+
 head --lines=-2 ../python/commonFit_Veto_endcap.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Loose_endcap.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_Medium_endcap.py | tail --lines=+4  >> ../python/commonFit.py
@@ -228,6 +242,15 @@ head --lines=-2 ../python/commonFit_MVATightConvIHit0Chg_endcap.py | tail --line
 head --lines=-2 ../python/commonFit_MVATightMulti_endcap.py | tail --lines=+4  >> ../python/commonFit.py
 head --lines=-2 ../python/commonFit_MVATightMultiEmu_endcap.py | tail --lines=+4  >> ../python/commonFit.py
 
-echo -e "\\n)" >> ../python/commonFit.py
+echo -e ")\\n" >> ../python/commonFit.py
 
+#Merge
+echo -e "all_pdfs = cms.PSet(" >> ../python/commonFit.py
+echo -e "  alleta," >> ../python/commonFit.py
+echo -e "  barrel," >> ../python/commonFit.py
+echo -e "  crack," >> ../python/commonFit.py
+echo -e "  endcap," >> ../python/commonFit.py
+echo -e ")" >> ../python/commonFit.py
+
+#Cleanup
 rm -f ../python/commonFit_*_*.py
