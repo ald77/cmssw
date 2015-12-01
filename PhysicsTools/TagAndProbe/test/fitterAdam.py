@@ -5,41 +5,36 @@ import PhysicsTools.TagAndProbe.commonFit as common
 def BinSpec(name):
     return cms.vstring(
         "ERROR_TEMPLATE_NOT_FOUND_ERROR",
-        "*probe_sc_abseta_bin0*probe_Ele_pt_bin0*",name+"_barrel_10p0To20p0_0p0To1p442",
-        "*probe_sc_abseta_bin0*probe_Ele_pt_bin1*",name+"_barrel_20p0To30p0_0p0To1p442",
-        "*probe_sc_abseta_bin0*probe_Ele_pt_bin2*",name+"_barrel_30p0To40p0_0p0To1p442",
-        "*probe_sc_abseta_bin0*probe_Ele_pt_bin3*",name+"_barrel_40p0To50p0_0p0To1p442",
-        "*probe_sc_abseta_bin0*probe_Ele_pt_bin4*",name+"_barrel_50p0To200p0_0p0To1p442",
-        "*probe_sc_abseta_bin1*probe_Ele_pt_bin0*",name+"_barrel_10p0To20p0_0p0To1p442",
-        "*probe_sc_abseta_bin1*probe_Ele_pt_bin1*",name+"_barrel_20p0To30p0_0p0To1p442",
-        "*probe_sc_abseta_bin1*probe_Ele_pt_bin2*",name+"_barrel_30p0To40p0_0p0To1p442",
-        "*probe_sc_abseta_bin1*probe_Ele_pt_bin3*",name+"_barrel_40p0To50p0_0p0To1p442",
-        "*probe_sc_abseta_bin1*probe_Ele_pt_bin4*",name+"_barrel_50p0To200p0_0p0To1p442",
-        "*probe_sc_abseta_bin2*probe_Ele_pt_bin0*",name+"_crack_10p0To20p0_1p442To1p566",
-        "*probe_sc_abseta_bin2*probe_Ele_pt_bin1*",name+"_crack_20p0To30p0_1p442To1p566",
-        "*probe_sc_abseta_bin2*probe_Ele_pt_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
-        "*probe_sc_abseta_bin2*probe_Ele_pt_bin3*",name+"_crack_40p0To50p0_1p442To1p566",
-        "*probe_sc_abseta_bin2*probe_Ele_pt_bin4*",name+"_crack_50p0To200p0_1p442To1p566",
-        "*probe_sc_abseta_bin3*probe_Ele_pt_bin0*",name+"_endcap_10p0To20p0_1p566To2p5",
-        "*probe_sc_abseta_bin3*probe_Ele_pt_bin1*",name+"_endcap_20p0To30p0_1p566To2p5",
-        "*probe_sc_abseta_bin3*probe_Ele_pt_bin2*",name+"_endcap_30p0To40p0_1p566To2p5",
-        "*probe_sc_abseta_bin3*probe_Ele_pt_bin3*",name+"_endcap_40p0To50p0_1p566To2p5",
-        "*probe_sc_abseta_bin3*probe_Ele_pt_bin4*",name+"_endcap_50p0To200p0_1p566To2p5",
-        "*probe_sc_abseta_bin4*probe_Ele_pt_bin0*",name+"_endcap_10p0To20p0_1p566To2p5",
-        "*probe_sc_abseta_bin4*probe_Ele_pt_bin1*",name+"_endcap_20p0To30p0_1p566To2p5",
-        "*probe_sc_abseta_bin4*probe_Ele_pt_bin2*",name+"_endcap_30p0To40p0_1p566To2p5",
-        "*probe_sc_abseta_bin4*probe_Ele_pt_bin3*",name+"_endcap_40p0To50p0_1p566To2p5",
-        "*probe_sc_abseta_bin4*probe_Ele_pt_bin4*",name+"_endcap_50p0To200p0_1p566To2p5",
-        "*probe_ele_RelAct_bin*probe_Ele_pt_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
-        "*probe_ele_RelAct_bin*probe_Ele_pt_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
-        "*probe_ele_RelAct_bin*probe_Ele_pt_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
-        "*probe_ele_RelAct_bin*probe_Ele_pt_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
-        "*probe_ele_RelAct_bin*probe_Ele_pt_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
-        "*event_nPV_bin*probe_Ele_pt_bin0*",name+"_alleta_10p0To20p0_0p0To2p5",
-        "*event_nPV_bin*probe_Ele_pt_bin1*",name+"_alleta_20p0To30p0_0p0To2p5",
-        "*event_nPV_bin*probe_Ele_pt_bin2*",name+"_alleta_30p0To40p0_0p0To2p5",
-        "*event_nPV_bin*probe_Ele_pt_bin3*",name+"_alleta_40p0To50p0_0p0To2p5",
-        "*event_nPV_bin*probe_Ele_pt_bin4*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin0*",name+"_barrel_10p0To20p0_0p0To1p442",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin0*",name+"_barrel_20p0To30p0_0p0To1p442",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin0*",name+"_barrel_30p0To40p0_0p0To1p442",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin0*",name+"_barrel_40p0To50p0_0p0To1p442",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin0*",name+"_barrel_50p0To200p0_0p0To1p442",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin1*",name+"_barrel_10p0To20p0_0p0To1p442",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin1*",name+"_barrel_20p0To30p0_0p0To1p442",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin1*",name+"_barrel_30p0To40p0_0p0To1p442",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin1*",name+"_barrel_40p0To50p0_0p0To1p442",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin1*",name+"_barrel_50p0To200p0_0p0To1p442",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin2*",name+"_crack_10p0To20p0_1p442To1p566",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin2*",name+"_crack_20p0To30p0_1p442To1p566",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin2*",name+"_crack_40p0To50p0_1p442To1p566",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin2*",name+"_crack_50p0To200p0_1p442To1p566",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin3*",name+"_endcap_10p0To20p0_1p566To2p5",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin3*",name+"_endcap_20p0To30p0_1p566To2p5",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin3*",name+"_endcap_30p0To40p0_1p566To2p5",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin3*",name+"_endcap_40p0To50p0_1p566To2p5",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin3*",name+"_endcap_50p0To200p0_1p566To2p5",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin4*",name+"_endcap_10p0To20p0_1p566To2p5",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin4*",name+"_endcap_20p0To30p0_1p566To2p5",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin4*",name+"_endcap_30p0To40p0_1p566To2p5",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin4*",name+"_endcap_40p0To50p0_1p566To2p5",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin4*",name+"_endcap_50p0To200p0_1p566To2p5",
+        "*probe_Ele_pt_bin0*probe_ele_RelAct_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_Ele_pt_bin1*probe_ele_RelAct_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_Ele_pt_bin2*probe_ele_RelAct_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_Ele_pt_bin3*probe_ele_RelAct_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_Ele_pt_bin4*probe_ele_RelAct_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
         "*probe_Ele_pt_bin0*event_nPV_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
         "*probe_Ele_pt_bin1*event_nPV_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
         "*probe_Ele_pt_bin2*event_nPV_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
@@ -625,39 +620,41 @@ process.DataMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
 process.seq = cms.Sequence()
 
 if (not options.noMC) and (not options.noID):
-    process.seq += process.McGsfElectronToVeto
-    process.seq += process.McGsfElectronToLoose
-    process.seq += process.McGsfElectronToMedium
+    #process.seq += process.McGsfElectronToVeto
+    #process.seq += process.McGsfElectronToLoose
+    #process.seq += process.McGsfElectronToMedium
     process.seq += process.McGsfElectronToTight
-    process.seq += process.McGsfElectronToLoose2D
-    process.seq += process.McGsfElectronToFOID2D
-    process.seq += process.McGsfElectronToTight2D3D
-    process.seq += process.McGsfElectronToTightID2D3D
+    #process.seq += process.McGsfElectronToLoose2D
+    #process.seq += process.McGsfElectronToFOID2D
+    #process.seq += process.McGsfElectronToTight2D3D
+    #process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
-    process.seq += process.McMVAVLooseElectronToMini
-    process.seq += process.McMVAVLooseElectronToMini4
-    process.seq += process.McMVAVLooseElectronToConvIHit1
-    process.seq += process.McMVATightElectronToConvIHit0Chg
-    process.seq += process.McMVATightElectronToMulti
-    process.seq += process.McMVATightElectronToMultiEmu
+    pass
+    #process.seq += process.McMVAVLooseElectronToMini
+    #process.seq += process.McMVAVLooseElectronToMini4
+    #process.seq += process.McMVAVLooseElectronToConvIHit1
+    #process.seq += process.McMVATightElectronToConvIHit0Chg
+    #process.seq += process.McMVATightElectronToMulti
+    #process.seq += process.McMVATightElectronToMultiEmu
 
 if (not options.noData) and (not options.noID):
-    process.seq += process.DataGsfElectronToVeto
-    process.seq += process.DataGsfElectronToLoose
-    process.seq += process.DataGsfElectronToMedium
+    #process.seq += process.DataGsfElectronToVeto
+    #process.seq += process.DataGsfElectronToLoose
+    #process.seq += process.DataGsfElectronToMedium
     process.seq += process.DataGsfElectronToTight
-    process.seq += process.DataGsfElectronToLoose2D
-    process.seq += process.DataGsfElectronToFOID2D
-    process.seq += process.DataGsfElectronToTight2D3D
-    process.seq += process.DataGsfElectronToTightID2D3D
+    #process.seq += process.DataGsfElectronToLoose2D
+    #process.seq += process.DataGsfElectronToFOID2D
+    #process.seq += process.DataGsfElectronToTight2D3D
+    #process.seq += process.DataGsfElectronToTightID2D3D
 
 if (not options.noData) and (not options.noIso):
-    process.seq += process.DataMVAVLooseElectronToMini
-    process.seq += process.DataMVAVLooseElectronToMini4
-    process.seq += process.DataMVAVLooseElectronToConvIHit1
-    process.seq += process.DataMVATightElectronToConvIHit0Chg
-    process.seq += process.DataMVATightElectronToMulti
-    process.seq += process.DataMVATightElectronToMultiEmu
+    pass
+    #process.seq += process.DataMVAVLooseElectronToMini
+    #process.seq += process.DataMVAVLooseElectronToMini4
+    #process.seq += process.DataMVAVLooseElectronToConvIHit1
+    #process.seq += process.DataMVATightElectronToConvIHit0Chg
+    #process.seq += process.DataMVATightElectronToMulti
+    #process.seq += process.DataMVATightElectronToMultiEmu
 
 process.fit = cms.Path(process.seq)
