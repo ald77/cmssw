@@ -247,8 +247,8 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     Variables = cms.PSet(
         mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
         #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
-        probe_Ele_pt = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
-        probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 
+        probe_Ele_pt = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
+        probe_sc_abseta = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
         probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
         totWeight = cms.vstring("totWeight", "0", "100000000", ""), 
         Ele_dRTau = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
@@ -462,8 +462,8 @@ delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
     #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
-    probe_Ele_pt = cms.vstring("Probe E_{T}", "10", "200", "GeV/c"),
-    probe_sc_abseta = cms.vstring("Probe #eta", "0", "2.5", ""), 
+    probe_Ele_pt = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
+    probe_sc_abseta = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
     probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
     )
 process.DataGsfElectronToVeto.Categories = cms.PSet(passingVeto = cms.vstring("passingVeto", "dummy[pass=1,fail=0]"))
