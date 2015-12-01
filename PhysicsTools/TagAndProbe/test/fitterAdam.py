@@ -620,41 +620,41 @@ process.DataMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
 process.seq = cms.Sequence()
 
 if (not options.noMC) and (not options.noID):
-    #process.seq += process.McGsfElectronToVeto
-    #process.seq += process.McGsfElectronToLoose
-    #process.seq += process.McGsfElectronToMedium
+    process.seq += process.McGsfElectronToVeto
+    process.seq += process.McGsfElectronToLoose
+    process.seq += process.McGsfElectronToMedium
     process.seq += process.McGsfElectronToTight
-    #process.seq += process.McGsfElectronToLoose2D
-    #process.seq += process.McGsfElectronToFOID2D
-    #process.seq += process.McGsfElectronToTight2D3D
-    #process.seq += process.McGsfElectronToTightID2D3D
+    process.seq += process.McGsfElectronToLoose2D
+    process.seq += process.McGsfElectronToFOID2D
+    process.seq += process.McGsfElectronToTight2D3D
+    process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
     pass
-    #process.seq += process.McMVAVLooseElectronToMini
-    #process.seq += process.McMVAVLooseElectronToMini4
-    #process.seq += process.McMVAVLooseElectronToConvIHit1
-    #process.seq += process.McMVATightElectronToConvIHit0Chg
-    #process.seq += process.McMVATightElectronToMulti
-    #process.seq += process.McMVATightElectronToMultiEmu
+    process.seq += process.McMVAVLooseElectronToMini
+    process.seq += process.McMVAVLooseElectronToMini4
+    process.seq += process.McMVAVLooseElectronToConvIHit1
+    process.seq += process.McMVATightElectronToConvIHit0Chg
+    process.seq += process.McMVATightElectronToMulti
+    process.seq += process.McMVATightElectronToMultiEmu
 
 if (not options.noData) and (not options.noID):
-    #process.seq += process.DataGsfElectronToVeto
-    #process.seq += process.DataGsfElectronToLoose
-    #process.seq += process.DataGsfElectronToMedium
+    process.seq += process.DataGsfElectronToVeto
+    process.seq += process.DataGsfElectronToLoose
+    process.seq += process.DataGsfElectronToMedium
     process.seq += process.DataGsfElectronToTight
-    #process.seq += process.DataGsfElectronToLoose2D
-    #process.seq += process.DataGsfElectronToFOID2D
-    #process.seq += process.DataGsfElectronToTight2D3D
-    #process.seq += process.DataGsfElectronToTightID2D3D
+    process.seq += process.DataGsfElectronToLoose2D
+    process.seq += process.DataGsfElectronToFOID2D
+    process.seq += process.DataGsfElectronToTight2D3D
+    process.seq += process.DataGsfElectronToTightID2D3D
 
 if (not options.noData) and (not options.noIso):
     pass
-    #process.seq += process.DataMVAVLooseElectronToMini
-    #process.seq += process.DataMVAVLooseElectronToMini4
-    #process.seq += process.DataMVAVLooseElectronToConvIHit1
-    #process.seq += process.DataMVATightElectronToConvIHit0Chg
-    #process.seq += process.DataMVATightElectronToMulti
-    #process.seq += process.DataMVATightElectronToMultiEmu
+    process.seq += process.DataMVAVLooseElectronToMini
+    process.seq += process.DataMVAVLooseElectronToMini4
+    process.seq += process.DataMVAVLooseElectronToConvIHit1
+    process.seq += process.DataMVATightElectronToConvIHit0Chg
+    process.seq += process.DataMVATightElectronToMulti
+    process.seq += process.DataMVATightElectronToMultiEmu
 
 process.fit = cms.Path(process.seq)
