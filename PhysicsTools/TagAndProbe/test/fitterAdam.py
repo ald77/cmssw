@@ -249,7 +249,8 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
         #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
         probe_Ele_pt = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
         probe_sc_abseta = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
-        probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
+        probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
+        #tag_Ele_pt = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"),
         totWeight = cms.vstring("totWeight", "0", "100000000", ""), 
         Ele_dRTau = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
         probe_dRTau = cms.vstring("probe_dRTau", "0.2", "100000", ""),
@@ -464,6 +465,7 @@ process.DataGsfElectronToVeto.Variables = cms.PSet(
     #event_nPV = cms.vstring("Event N_{PV}", "0", "1000000", ""),
     probe_Ele_pt = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
     probe_sc_abseta = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
+    #tag_Ele_pt = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"),
     probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""), 
     )
 process.DataGsfElectronToVeto.Categories = cms.PSet(passingVeto = cms.vstring("passingVeto", "dummy[pass=1,fail=0]"))
@@ -630,7 +632,6 @@ if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
-    pass
     process.seq += process.McMVAVLooseElectronToMini
     process.seq += process.McMVAVLooseElectronToMini4
     process.seq += process.McMVAVLooseElectronToConvIHit1
@@ -649,7 +650,6 @@ if (not options.noData) and (not options.noID):
     process.seq += process.DataGsfElectronToTightID2D3D
 
 if (not options.noData) and (not options.noIso):
-    pass
     process.seq += process.DataMVAVLooseElectronToMini
     process.seq += process.DataMVAVLooseElectronToMini4
     process.seq += process.DataMVAVLooseElectronToConvIHit1
