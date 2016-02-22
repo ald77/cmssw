@@ -24,6 +24,8 @@ def main(options):
             psetName = psetName + " = cms.vstring(\n"
             outputFile.write(psetName)
 
+            #outputFile.write("\"RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000])\",\n")
+            #outputFile.write("\"RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])\",\n")
             #outputFile.write("\"RooCBShape::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])\",\n")
             #outputFile.write("\"RooCBShape::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])\",\n")
             outputFile.write("\"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])\",\n")
@@ -31,6 +33,14 @@ def main(options):
             histNameSt = "hMass_"+str(var1s[binVar1])+"To"+str(var1s[binVar1+1])+"_"+str(var2s[binVar2])+"To"+str(var2s[binVar2+1])
             outputFile.write("\"ZGeneratorLineShape::signalPhyPass(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Pass\\\")\",\n"),
             outputFile.write("\"ZGeneratorLineShape::signalPhyFail(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Fail\\\")\",\n"),
+            #outputFile.write("\"ZGeneratorLineShape::signalPhyPass(mass,\\\""+"../data/ZeeGenLevel.root"+"\\\", \\\"Mass\\\")\",\n"),
+            #outputFile.write("\"ZGeneratorLineShape::signalPhyFail(mass,\\\""+"../data/ZeeGenLevel.root"+"\\\", \\\"Mass\\\)\",\n"),
+            #outputFile.write("\"RooBreitWigner::signalPassBW(mass, mZpass[91.1876,80.,100.],sigmaZpass[2.4952,0.001,10.])\",\n")
+            #outputFile.write("\"RooBreitWigner::signalFailBW(mass, mZfail[91.1876,80.,100.],sigmaZfail[2.4952,0.001,10.])\",\n")
+            #outputFile.write("\"RooExponential::signalPassExp(mass, expRatePass[-0.1,-10.,0.])\",\n")
+            #outputFile.write("\"RooExponential::signalFailExp(mass, expRateFail[-0.1,-10.,0.])\",\n")
+            #outputFile.write("\"SUM::signalPhyPass(cPass[0.9,0.,1.]*signalPassBW, signalPassExp)\",\n")
+            #outputFile.write("\"SUM::signalPhyFail(cFail[0.9,0.,1.]*signalFailBW, signalFailExp)\",\n")
             outputFile.write(options.passBkgPdf+",\n")
             outputFile.write(options.failBkgPdf+",\n")
             outputFile.write("\"FCONV::signalPass(mass, signalPhyPass, signalResPass)\",\n")
