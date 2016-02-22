@@ -42,6 +42,46 @@ def BinSpec(name):
         "*probe_Ele_pt_bin4*event_nPV_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
         )
 
+def BinSpec2(name):
+    return cms.vstring(
+        "ERROR_TEMPLATE_NOT_FOUND_ERROR",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin0*",name+"_barrel_10p0To20p0_0p0To0p8",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin0*",name+"_barrel_20p0To30p0_0p0To0p8",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin0*",name+"_barrel_30p0To40p0_0p0To0p8",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin0*",name+"_barrel_40p0To50p0_0p0To0p8",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin0*",name+"_barrel_50p0To200p0_0p0To0p8",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin1*",name+"_barrel_10p0To20p0_0p8To1p442",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin1*",name+"_barrel_20p0To30p0_0p8To1p442",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin1*",name+"_barrel_30p0To40p0_0p8To1p442",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin1*",name+"_barrel_40p0To50p0_0p8To1p442",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin1*",name+"_barrel_50p0To200p0_0p8To1p442",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin2*",name+"_crack_10p0To20p0_1p442To1p566",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin2*",name+"_crack_20p0To30p0_1p442To1p566",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin2*",name+"_crack_40p0To50p0_1p442To1p566",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin2*",name+"_crack_50p0To200p0_1p442To1p566",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin3*",name+"_endcap_10p0To20p0_1p566To2p0",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin3*",name+"_endcap_20p0To30p0_1p566To2p0",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin3*",name+"_endcap_30p0To40p0_1p566To2p0",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin3*",name+"_endcap_40p0To50p0_1p566To2p0",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin3*",name+"_endcap_50p0To200p0_1p566To2p0",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin4*",name+"_endcap_10p0To20p0_2p0To2p5",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin4*",name+"_endcap_20p0To30p0_2p0To2p5",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin4*",name+"_endcap_30p0To40p0_2p0To2p5",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin4*",name+"_endcap_40p0To50p0_2p0To2p5",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin4*",name+"_endcap_50p0To200p0_2p0To2p5",
+        "*probe_Ele_pt_bin0*probe_ele_RelAct_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_Ele_pt_bin1*probe_ele_RelAct_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_Ele_pt_bin2*probe_ele_RelAct_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_Ele_pt_bin3*probe_ele_RelAct_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_Ele_pt_bin4*probe_ele_RelAct_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
+        "*probe_Ele_pt_bin0*event_nPV_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
+        "*probe_Ele_pt_bin1*event_nPV_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
+        "*probe_Ele_pt_bin2*event_nPV_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
+        "*probe_Ele_pt_bin3*event_nPV_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
+        "*probe_Ele_pt_bin4*event_nPV_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
+        )
+
 options = VarParsing('analysis')
 
 options.register(
@@ -231,7 +271,7 @@ DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficienc
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-    InputFileNames = cms.vstring("current/TnPTree_mc_norm.root"),
+    InputFileNames = cms.vstring("current/TnPTree_powheg_mini_norm.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto.root"),
