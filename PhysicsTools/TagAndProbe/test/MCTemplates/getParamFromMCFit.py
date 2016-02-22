@@ -10,7 +10,7 @@ def main(options):
     directory.cd()
     keys = directory.GetListOfKeys()
     for k in keys:
-        if ("pdfSignalPlusBackground" in k.GetName()):
+        if ("__" in k.GetName()):
             print k.GetName()
             directory = f.Get(options.directory+"/"+k.GetName())
             directory.cd()
