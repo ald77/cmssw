@@ -40,7 +40,7 @@ args = parser.parse_args()
 flist = (f for f in os.listdir(args.nominal) if f in os.listdir(args.altSig) and f in os.listdir(args.altBkg) and f in os.listdir(args.altMC) and f in os.listdir(args.altTag) and "_data_" in f and "_act.root" not in f)
 
 for f in flist:
-    print f
+    print f.replace("eff_data_","").replace(".root","")
     fmc = f.replace("_data_","_mc_")
 
     fdat = ROOT.TFile(args.nominal+"/"+f)
@@ -49,6 +49,8 @@ for f in flist:
     fbkg = ROOT.TFile(args.altBkg+"/"+f)
     famc = ROOT.TFile(args.altMC+"/"+fmc)
     ftag = ROOT.TFile(args.altTag+"/"+f)
+
+    fout = open(f.replace("_data_","_all_").replace(".root",".txt"), "w")
 
     hdat = Histo(fdat, True)
     hnmc = Histo(fnmc, False)
@@ -63,6 +65,10 @@ for f in flist:
         for iy in xrange(1, hdat.GetNbinsY()+1):
             ylo = hdat.GetYaxis().GetBinLowEdge(iy)
             yhi = hdat.GetYaxis().GetBinUpEdge(iy)
-            print "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-            print "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-        
+            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            print line1
+            print line2
+            fout.write(line1+"\n")
+            fout.write(line2+"\n")
+    fout.close()
