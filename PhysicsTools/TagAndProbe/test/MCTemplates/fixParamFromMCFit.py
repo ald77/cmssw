@@ -73,6 +73,18 @@ def GetFitName(filename, keyname):
 def Fix(name, params):
     return name+"["+str(params.at(params.index(name)).getVal())+"]"
     
+def Float(name, params):
+    mid = params.at(params.index(name)).getVal()
+    elo = abs(params.at(params.index(name)).getAsymErrorLo())
+    if elo <= 0:
+        elo = abs(params.at(params.index(name)).getError())
+    ehi = abs(params.at(params.index(name)).getAsymErrorHi())
+    if ehi <= 0:
+        ehi = abs(params.at(params.index(name)).getError())
+    top = params.at(params.index(name)).getMax()
+    bot = params.at(params.index(name)).getMin()
+    return name+"["+str(mid)+","+str(max(mid-3.*elo,bot))+","+str(min(mid+3.*ehi,top))+"]"
+    
 def main(options):
     with open("../python/commonFit.py", "w") as out:
         out.write("import FWCore.ParameterSet.Config as cms\n")
@@ -107,10 +119,10 @@ def main(options):
                     continue
                 print filename+" "+GetDirName(filename)+" "+key.GetName()+" "+GetFitName(filename, key.GetName())
                 out.write(GetFitName(filename, key.GetName())+" = cms.vstring(\n")
-                out.write("\"RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000])\",\n")
-                out.write("\"RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])\",\n")
-                out.write("\"RooBreitWigner::signalPassBWZ(mass, mZpass[91.1876,80.,100.],sigmaZpass[2.4952,0.001,10.])\",\n")
-                out.write("\"RooBreitWigner::signalFailBWZ(mass, mZfail[91.1876,80.,100.],sigmaZfail[2.4952,0.001,10.])\",\n")
+                out.write("\"RooDoubleCBFast::signalResPass(mass,"+Float("meanP",params)+","+Float("sigmaP",params)+","+Float("alphaP1",params)+","+Float("nP1",params)+","+Float("alphaP2",params)+","+Float("nP2",params)+")\",\n")
+                out.write("\"RooDoubleCBFast::signalResFail(mass,"+Float("meanF",params)+","+Float("sigmaF",params)+","+Float("alphaF1",params)+","+Float("nF1",params)+","+Float("alphaF2",params)+","+Float("nF2",params)+")\",\n")
+                out.write("\"RooBreitWigner::signalPassBWZ(mass, "+Float("mZpass",params)+","+Float("sigmaZpass",params)+")\",\n")
+                out.write("\"RooBreitWigner::signalFailBWZ(mass, "+Float("mZfail",params)+","+Float("sigmaZfail",params)+")\",\n")
                 out.write("\"RooBreitWigner::signalPassBWtail(mass, "+Fix("mtailpass",params)+","+Fix("sigmatailpass",params)+")\",\n")
                 out.write("\"RooBreitWigner::signalFailBWtail(mass, "+Fix("mtailfail",params)+","+Fix("sigmatailfail",params)+")\",\n")
                 out.write("\"RooGaussian::signalPassGaus(mass, "+Fix("meanVP",params)+","+Fix("sigmaVP",params)+")\",\n")
@@ -121,9 +133,9 @@ def main(options):
                 out.write("\"FCONV::signalVoigtFail(mass, signalFailBWtail, signalFailGaus)\",\n")
                 out.write("\"SUM::signalPass("+Fix("cPass",params)+"*signalZPass,signalVoigtPass)\",\n")
                 out.write("\"SUM::signalFail("+Fix("cFail",params)+"*signalZFail,signalVoigtFail)\",\n")
-                out.write("\"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])\",\n")
-                out.write("\"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])\",\n")
-                out.write("\"efficiency[0.5,0,1]\",\n")
+                out.write("\"RooCMSShape::backgroundPass(mass, "+Float("alphaPass",params)+", "+Float("betaPass",params)+", "+Float("gammaPass",params)+", peakPass[90.0])\",\n")
+                out.write("\"RooCMSShape::backgroundFail(mass, "+Float("alphaFail",params)+", "+Float("betaFail",params)+", "+Float("gammaFail",params)+", peakFail[90.0])\",\n")
+                out.write("\"efficiency["+str(params.at(params.index("efficiency")).getVal())+",0.,1.]\",\n")
                 out.write("\"signalFractionInPassing[1.0]\"\n")
                 out.write("),\n")
                 out.write("\n")
