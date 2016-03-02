@@ -65,8 +65,8 @@ for f in flist:
         for iy in xrange(1, hdat.GetNbinsY()+1):
             ylo = hdat.GetYaxis().GetBinLowEdge(iy)
             yhi = hdat.GetYaxis().GetBinUpEdge(iy)
-            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hsig.GetBinContent(ix,iy), hbkg.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
             print line1
             print line2
             fout.write(line1+"\n")
