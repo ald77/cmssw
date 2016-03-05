@@ -12,7 +12,7 @@ import efficiencyUtils as effUtil
 tdrstyle.setTDRStyle()
 
 
-CMS_lumi.lumi_13TeV = "2.6 fb^{-1}"
+CMS_lumi.lumi_13TeV = "2.2 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
