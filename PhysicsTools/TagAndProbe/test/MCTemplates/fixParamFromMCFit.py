@@ -73,7 +73,7 @@ def GetFitName(filename, keyname):
 def Fix(name, params):
     return name+"["+str(params.at(params.index(name)).getVal())+"]"
     
-def Float(name, params):
+def Constrain(name, params):
     mid = params.at(params.index(name)).getVal()
     elo = abs(params.at(params.index(name)).getAsymErrorLo())
     if elo <= 0:
@@ -83,7 +83,13 @@ def Float(name, params):
         ehi = abs(params.at(params.index(name)).getError())
     top = params.at(params.index(name)).getMax()
     bot = params.at(params.index(name)).getMin()
-    return name+"["+str(mid)+","+str(max(mid-3.*elo,bot))+","+str(min(mid+3.*ehi,top))+"]"
+    return name+"["+str(mid)+","+str(max(mid-10.*elo,bot))+","+str(min(mid+10.*ehi,top))+"]"
+    
+def Float(name, params):
+    mid = params.at(params.index(name)).getVal()
+    elo = params.at(params.index(name)).getMin()
+    ehi = params.at(params.index(name)).getMax()
+    return name+"["+str(mid)+","+str(elo)+","+str(ehi)+"]"
     
 def main(options):
     with open("../python/commonFit.py", "w") as out:
@@ -119,8 +125,8 @@ def main(options):
                     continue
                 print filename+" "+GetDirName(filename)+" "+key.GetName()+" "+GetFitName(filename, key.GetName())
                 out.write(GetFitName(filename, key.GetName())+" = cms.vstring(\n")
-                out.write("\"RooDoubleCBFast::signalResPass(mass,"+Float("meanP",params)+","+Float("sigmaP",params)+","+Float("alphaP1",params)+","+Float("nP1",params)+","+Float("alphaP2",params)+","+Float("nP2",params)+")\",\n")
-                out.write("\"RooDoubleCBFast::signalResFail(mass,"+Float("meanF",params)+","+Float("sigmaF",params)+","+Float("alphaF1",params)+","+Float("nF1",params)+","+Float("alphaF2",params)+","+Float("nF2",params)+")\",\n")
+                out.write("\"RooDoubleCBFast::signalResPass(mass,"+Float("meanP",params)+","+Float("sigmaP",params)+","+Constrain("alphaP1",params)+","+Constrain("nP1",params)+","+Constrain("alphaP2",params)+","+Constrain("nP2",params)+")\",\n")
+                out.write("\"RooDoubleCBFast::signalResFail(mass,"+Float("meanF",params)+","+Float("sigmaF",params)+","+Constrain("alphaF1",params)+","+Constrain("nF1",params)+","+Constrain("alphaF2",params)+","+Constrain("nF2",params)+")\",\n")
                 out.write("\"RooBreitWigner::signalPassBWZ(mass, "+Float("mZpass",params)+","+Float("sigmaZpass",params)+")\",\n")
                 out.write("\"RooBreitWigner::signalFailBWZ(mass, "+Float("mZfail",params)+","+Float("sigmaZfail",params)+")\",\n")
                 out.write("\"RooBreitWigner::signalPassBWtail(mass, "+Fix("mtailpass",params)+","+Fix("sigmatailpass",params)+")\",\n")
